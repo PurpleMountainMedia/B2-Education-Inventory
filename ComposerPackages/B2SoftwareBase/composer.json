@@ -1,0 +1,23 @@
+{
+    "name": "b2systems/b2software-base",
+    "description": "The base for b2 software, providing authentication with the B2 auth service",
+    "authors": [
+        {
+            "name": "Christian Braybrooke",
+            "email": "christian@b2systems.com"
+        }
+    ],
+    "autoload": {
+      "psr-4": {
+        "B2Systems\\B2SoftwareBase\\": "src/"
+      }
+    },
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "B2Systems\\B2SoftwareBase\\ServiceProvider"
+            ]
+        }
+    }
+}
