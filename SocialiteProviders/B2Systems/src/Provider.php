@@ -43,7 +43,6 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         try {
-
             $response = $this->getHttpClient()->get($this->getInstanceUri().'/api/user', [
                 'headers' => [
                     'Authorization' => 'Bearer '.$token,
@@ -51,7 +50,7 @@ class Provider extends AbstractProvider implements ProviderInterface
                 ],
             ]);
 
-            return json_decode($response->getBody(), true);
+            return json_decode($response->getBody(), true)['data'];
 
         } catch (RequestException $e) {
             // Unauthenticated

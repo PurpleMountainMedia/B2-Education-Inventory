@@ -26,13 +26,16 @@
     "repositories": {
         "b2systems/b2software-base": {
             "type": "path",
-            "url": "/Users/christianbraybrooke/local_sites/ei.b2/ComposerPackages/B2SoftwareBase",
+            "url": "/Users/christianbraybrooke/local_sites/ei.b2systems/ComposerPackages/B2SoftwareBase",
             "options": {
               "symlink": true
             }
         }
     },
     "autoload": {
+        "files": [
+            "app/helpers.php"
+        ],
         "classmap": [
             "database/seeds",
             "database/factories"

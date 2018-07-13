@@ -1,3 +1,14 @@
+$primary: #86af49;
+$accent: darken($primary, 7%);
+
+// Layout
+$left_nav_width: 250px;
+
+$go_mobile: 900px;
+$mobile_nav_height: 60px;
+
+// Font Weight
+$bold: 600;
 
 // Body
 $body-bg: #f5f8fa;
@@ -6,3 +17,7 @@ $body-bg: #f5f8fa;
 $font-family-sans-serif: "Raleway", sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
+
+
+// Element
+$--color-primary: $primary;

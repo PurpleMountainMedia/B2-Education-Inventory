@@ -16,6 +16,8 @@ Route::get('/', 'WebController@home')->name('home');
 
 
 Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
+Route::get('items', 'ItemsController@index')->name('items.index');
+Route::get('items/create/table', 'ItemsController@createTable')->name('items.create.table');
 
 Route::get('login', 'Auth\LoginController@login')->name('login');
 Route::get('login/b2/callback', 'Auth\LoginController@callback')->name('b2.callback');

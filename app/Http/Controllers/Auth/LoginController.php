@@ -65,6 +65,6 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        return redirect(env('AUTH_URL') + '/logout');
+        return redirect(env('AUTH_URL') . '/logout');
     }
 }
