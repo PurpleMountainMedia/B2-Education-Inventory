@@ -22,7 +22,10 @@ function getTypeName($type, $plural = false, $caps = false, $lang = 'en')
         $name = 'building';
         break;
       case 'item-type':
-        $name = 'Itemtype';
+        $name = 'itemtype';
+        break;
+      case 'report':
+        $name = 'report';
         break;
       default:
         $name = null;
@@ -33,4 +36,19 @@ function getTypeName($type, $plural = false, $caps = false, $lang = 'en')
         $name = $caps ? ucfirst($name) : $name;
         return $plural ? str_plural($name) : $name;
     }
+}
+
+/**
+ * Determine what is in the include section of the request.
+ *
+ * @param string $key
+ * @return bool
+ */
+function requestIncludes($key)
+{
+    $include = request()->include;
+    if (!is_array($include)) {
+        $include = explode(',', str_replace(' ', '', $include));
+    }
+    return in_array($key, $include);
 }

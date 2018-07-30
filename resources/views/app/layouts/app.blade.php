@@ -18,6 +18,7 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <link href="{{ mix('css/theme.css') }}" rel="stylesheet">
     <link href="{{ mix('css/reset.css') }}" rel="stylesheet">
+
   </head>
   <body>
 
@@ -39,8 +40,11 @@
               room_name: '@roomName',
               rooms_name: '@roomsName',
               building_name: '@buildingName',
-              buildings_name: '@buildingsName'
+              buildings_name: '@buildingsName',
+              site_url: '{{ config('app.url') }}',
+              api_prefix: 'api',
           };
+          window.eiSchool = @json(session('school'))
       </script>
 
       <!-- Scripts -->

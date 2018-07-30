@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
+use App\Item;
+use App\Observers\ItemObserver;
+use B2Systems\B2\B2;
+use Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,6 +18,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        Item::observe(ItemObserver::class);
+
         Blade::directive('itemName', function ($upper) {
             return getTypeName('item', false, $upper);
         });
@@ -45,6 +52,14 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('buildingsName', function ($upper) {
             return getTypeName('building', true, $upper);
         });
+
+        Blade::directive('reportName', function ($upper) {
+            return getTypeName('report', false, $upper);
+        });
+
+        Blade::directive('reportsName', function ($upper) {
+            return getTypeName('report', true, $upper);
+        });
     }
 
     /**
@@ -54,6 +69,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(B2::class, function ($app) {
+            return new B2(
+                Auth::user()->token
+            );
+        });
     }
 }

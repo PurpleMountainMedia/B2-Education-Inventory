@@ -4,8 +4,9 @@
         <!-- Open Modal Button  -->
         <slot name="button" :openModal="openModal">
             <el-button @click="openModal"
-                       size="small"
+                       :size="mergedButton.size"
                        :icon="mergedButton.icon"
+                       :class="mergedButton.class"
                        type="primary">{{ mergedButton.text }}</el-button>
         </slot>
 
@@ -76,7 +77,8 @@ export default {
         return {
             defaultButton: {
                 text: this.__('Add'),
-                icon: 'el-icon-circle-plus'
+                icon: 'el-icon-circle-plus',
+                size: 'small'
             },
             defaultModal: {
                 title: this.__('Add'),

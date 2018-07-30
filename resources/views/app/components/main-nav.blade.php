@@ -3,20 +3,20 @@
         <main-menu>
             <template slot="links" slot-scope="props">
                 <ul :class="props.showNav ? 'main_menu_nav' : 'main_menu_nav --hide'">
-                    <li class="main_nav_link --active">
-                        <a href="#"><i class="fal fa-tachometer-alt"></i> <span>Dashboard</span></a>
+                    <li class="main_nav_link @if(Request::url() === route('dashboard.index'))--active @endif">
+                        <a href="{{ route('dashboard.index') }}"><i class="fal fa-tachometer-alt"></i> <span>Dashboard</span></a>
                     </li>
-                    <li class="main_nav_link">
-                        <a href="#"><i class="fal fa-building"></i> <span>Buildings</span></a>
+                    <li class="main_nav_link @if(Request::url() === route('buildings.index'))--active @endif">
+                        <a href="{{ route('buildings.index') }}"><i class="fal fa-building"></i> <span>Buildings</span></a>
                     </li>
-                    <li class="main_nav_link">
-                        <a href="#"><i class="fal fa-door-open"></i> <span>Rooms</span></a>
+                    <li class="main_nav_link @if(Request::url() === route('rooms.index'))--active @endif">
+                        <a href="{{ route('rooms.index') }}"><i class="fal fa-door-open"></i> <span>Rooms</span></a>
                     </li>
-                    <li class="main_nav_link">
+                    <li class="main_nav_link @if(Request::url() === route('items.index'))--active @endif">
                         <a href="{{ route('items.index') }}"><i class="fal fa-laptop"></i> <span>Items</span></a>
                     </li>
-                    <li class="main_nav_link">
-                        <a href="#"><i class="fal fa-chart-pie"></i> <span>Reports</span></a>
+                    <li class="main_nav_link @if(Request::url() === route('reports.index'))--active @endif">
+                        <a href="{{ route('reports.index') }}"><i class="fal fa-chart-pie"></i> <span>Reports</span></a>
                     </li>
                 </ul>
             </template>

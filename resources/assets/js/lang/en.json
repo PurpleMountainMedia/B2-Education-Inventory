@@ -8,5 +8,10 @@
     "is_required": "is required.",
     "Information": "Information",
     "Add Row": "Add Row",
-    "Row": "Row"
+    "Row": "Row",
+    "Search": "Search",
+    "Type": "Type",
+    "Actions": "Actions",
+    "Delete": "Delete",
+    "View": "View"
 }

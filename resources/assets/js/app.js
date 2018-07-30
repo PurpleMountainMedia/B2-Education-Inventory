@@ -17,20 +17,21 @@ Vue.mixin({
     },
 
     computed: {
-        eiDefaults()
-        {
-            return window.eiDefaults;
+        eiDefaults() {
+          return window.eiDefaults;
+        },
+
+        eiSchool() {
+          return window.eiSchool;
         }
     },
 
     methods: {
-        __(key)
-        {
+        __(key) {
             return en[key] ? en[key] : key;
         },
 
-        ucFirst(str)
-        {
+        ucFirst(str) {
             var lower = String(str)
             lower = lower.toLowerCase()
             return lower.replace(/(^| )(\w)/g, function(x) {
@@ -49,5 +50,12 @@ const app = new Vue({
         MainMenu: () => import(/* webpackChunkName: "main-menu" */'components/MainMenu'),
         AddNewModal: () => import(/* webpackChunkName: "add-new-modal" */'components/AddNewModal'),
         ItemsCreateTable: () => import(/* webpackChunkName: "items-create-table" */'components/ItemsCreateTable'),
+        DataTable: () => import(/* webpackChunkName: "data-table" */'components/DataTable'),
+        SchoolSelecter: () => import(/* webpackChunkName: "school-selecter" */'components/SchoolSelecter'),
+        ListBuildings: () => import(/* webpackChunkName: "list-buildings" */'components/buildings/ListBuildings'),
     },
+
+    mounted () {
+
+    }
 })

@@ -14,10 +14,28 @@
 
 Route::get('/', 'WebController@home')->name('home');
 
+Route::middleware('needs_school')->group(function () {
+    // Dash
+    Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
 
-Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
-Route::get('items', 'ItemsController@index')->name('items.index');
-Route::get('items/create/table', 'ItemsController@createTable')->name('items.create.table');
+    // Buildings
+    Route::get('buildings', 'BuildingsController@index')->name('buildings.index');
+    Route::get('buildings/{building}', 'BuildingsController@index')->name('web.buildings.show');
+
+    // Rooms
+    Route::get('rooms', 'RoomsController@index')->name('rooms.index');
+
+    // Items
+    Route::get('items', 'ItemsController@index')->name('items.index');
+    Route::get('items/create/table', 'ItemsController@createTable')->name('items.create.table');
+
+    // Reports
+    Route::get('reports', 'ReportsController@index')->name('reports.index');
+
+    // School Session
+    Route::post('session', 'SessionController@change')->name('session');
+    Route::get('session', 'SessionController@choose')->name('choose-school');
+});
 
 Route::get('login', 'Auth\LoginController@login')->name('login');
 Route::get('login/b2/callback', 'Auth\LoginController@callback')->name('b2.callback');
