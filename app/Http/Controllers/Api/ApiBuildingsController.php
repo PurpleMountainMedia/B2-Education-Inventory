@@ -68,6 +68,6 @@ class ApiBuildingsController extends Controller
      */
     public function destroy(Building $building)
     {
-        //
+        $building->delete();
     }
 }

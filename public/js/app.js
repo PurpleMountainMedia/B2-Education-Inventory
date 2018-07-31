@@ -1,4 +1,4 @@
-webpackJsonp([7],{
+webpackJsonp([8],{
 
 /***/ "./node_modules/after/index.js":
 /***/ (function(module, exports) {
@@ -9665,7 +9665,7 @@ var app = new _vue2.default({
 
     components: {
         MainMenu: function MainMenu() {
-            return __webpack_require__.e/* import() */(5).then(__webpack_require__.bind(null, "./resources/assets/js/components/MainMenu.vue"));
+            return __webpack_require__.e/* import() */(6).then(__webpack_require__.bind(null, "./resources/assets/js/components/MainMenu.vue"));
         },
         AddNewModal: function AddNewModal() {
             return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, "./resources/assets/js/components/AddNewModal.vue"));
@@ -9677,10 +9677,13 @@ var app = new _vue2.default({
             return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/components/DataTable.vue"));
         },
         SchoolSelecter: function SchoolSelecter() {
-            return __webpack_require__.e/* import() */(4).then(__webpack_require__.bind(null, "./resources/assets/js/components/SchoolSelecter.vue"));
+            return __webpack_require__.e/* import() */(5).then(__webpack_require__.bind(null, "./resources/assets/js/components/SchoolSelecter.vue"));
         },
         ListBuildings: function ListBuildings() {
-            return __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, "./resources/assets/js/components/buildings/ListBuildings.vue"));
+            return __webpack_require__.e/* import() */(4).then(__webpack_require__.bind(null, "./resources/assets/js/components/buildings/ListBuildings.vue"));
+        },
+        ListRooms: function ListRooms() {
+            return __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, "./resources/assets/js/components/rooms/ListRooms.vue"));
         }
     },
 
@@ -9730,7 +9733,7 @@ window.Echo = new _laravelEcho2.default({
 /***/ "./resources/assets/js/lang/en.json":
 /***/ (function(module, exports) {
 
-module.exports = {"Cancel":"Cancel","Add":"Add","Add New":"Add New","Name":"Name","name":"name","name_required":"Name is required.","is_required":"is required.","Information":"Information","Add Row":"Add Row","Row":"Row","Search":"Search","Type":"Type","Actions":"Actions","Delete":"Delete","View":"View"}
+module.exports = {"Cancel":"Cancel","Add":"Add","Add New":"Add New","Name":"Name","name":"name","name_required":"Name is required.","is_required":"is required.","Information":"Information","Add Row":"Add Row","Row":"Row","Search":"Search","Type":"Type","Actions":"Actions","Delete":"Delete","View":"View","Edit":"Edit","List":"List"}
 
 /***/ }),
 

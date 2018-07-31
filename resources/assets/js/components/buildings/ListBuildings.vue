@@ -1,6 +1,7 @@
 <template lang="html">
   <div :loading="loading">
     <data-table :url="buildingsUrl"
+                type-name="building"
                 :request-params="{schoolId: schoolId}"
                 :options="tableOptions"
                 :request-includes="['buildings.extra']">
@@ -37,6 +38,26 @@ export default {
             prop: 'type',
             label: this.__('Type')
           }
+        ],
+        actionLinks: [
+          {
+            urlCallback: function (row) {
+              return `/buildings/${row.id}/edit`
+            },
+            textCallback: function (row) {
+              return `${this.__('Edit')} ${this.ucFirst(this.eiDefaults['building_name'])}`
+            }.bind(this),
+            icon: 'fal fa-edit'
+          },
+          {
+            urlCallback: function (row) {
+              return `/buildings/${row.id}/rooms`
+            },
+            textCallback: function (row) {
+              return `${this.__('List')} ${this.ucFirst(this.eiDefaults['rooms_name'])}`
+            }.bind(this),
+            icon: 'fal fa-door-open'
+          },
         ]
       }
     }
@@ -45,6 +66,10 @@ export default {
   computed: {
     buildingsUrl () {
       return `buildings`
+    },
+
+    buildingName () {
+      return 'building'
     }
   }
 }

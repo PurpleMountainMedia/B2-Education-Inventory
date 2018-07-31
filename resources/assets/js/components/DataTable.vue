@@ -1,6 +1,5 @@
 <template lang="html">
   <div v-loading="loading">
-
     <el-row align="middle">
       <el-col :sm="12">
           <el-input :placeholder="__('Search')"
@@ -28,9 +27,13 @@
       <el-table-column :label="__('Actions')">
         <template slot-scope="scope">
           <slot name="actionButtons" :row="scope.row" :delete="deleteData">
-            <el-button size="mini"
-                       class="action_btn view_btn">{{ __('View') }}
-            </el-button>
+            <a v-for="(btn, btnKey) in mergedOptions.actionLinks"
+               :key="btnKey"
+               :href="btn.urlCallback(scope.row)">
+              <el-button :size="btn.size ? btn.size : 'mini'"
+                         class="action_btn view_btn">{{ btn.textCallback(scope.row) }} <i v-if="btn.icon" :class="btn.icon"></i>
+              </el-button>
+            </a>
             <el-button size="mini"
                        type="danger"
                        class="action_btn delete_btn"
@@ -39,19 +42,31 @@
           </slot>
         </template>
       </el-table-column>
+
+      <div slot="empty">
+        <h1>Sorry, No Data</h1>
+      </div>
     </el-table>
   </div>
 </template>
 
 <script>
 import api from 'utils/api'
+import url from 'utils/url'
 var findIndex = require('lodash.findindex');
 var throttle = require('lodash.throttle');
+import vueUrlParameters from 'vue-url-parameters'
 
 export default {
     name: 'DataTable',
 
+    mixins: [vueUrlParameters],
+
     props: {
+      typeName: {
+        type: String,
+        required: true
+      },
       options: {
         type: Object,
         required: false,
@@ -88,6 +103,7 @@ export default {
         loading: false,
         data: [],
         mergedOptions: {},
+        urlFilters: {},
         defaultOptions: {
           columns: [
             {
@@ -98,6 +114,14 @@ export default {
               prop: 'name',
               label: this.__('Name')
             }
+          ],
+          actionLinks: [
+            {
+              urlCallback: function () {
+                return '/'
+              },
+              textCallback: function () { return this.__('View') },
+            }
           ]
         },
         paginationMeta: {
@@ -107,18 +131,27 @@ export default {
           ascending: 0,
           currentPage: 1,
         },
-        search: '',
+        search: null,
       }
     },
 
     mounted () {
       Object.assign(this.mergedOptions,this.defaultOptions,this.options);
+
+      var filters = this.getFiltersFromUrl({})
+      filters = url.unserialize(filters)
+
+      this.search = filters[`${this.typeName}_search`]
+
       this.getData();
     },
 
     watch: {
       search: function (value) {
         this.getData();
+
+        this.urlFilters[`${this.typeName}_search`] = value
+        window.location.hash = url.serialize(this.urlFilters)
       }
     },
 
@@ -175,7 +208,7 @@ export default {
 
                 this.$set(this.data, index, e.item)
             });
-      }
+      },
     }
 }
 </script>

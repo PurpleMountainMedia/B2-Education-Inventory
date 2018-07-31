@@ -14,9 +14,24 @@ var _api = __webpack_require__("./resources/assets/js/utils/api.js");
 
 var _api2 = _interopRequireDefault(_api);
 
+var _url = __webpack_require__("./resources/assets/js/utils/url.js");
+
+var _url2 = _interopRequireDefault(_url);
+
+var _vueUrlParameters = __webpack_require__("./node_modules/vue-url-parameters/dist/index.js");
+
+var _vueUrlParameters2 = _interopRequireDefault(_vueUrlParameters);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var findIndex = __webpack_require__("./node_modules/lodash.findindex/index.js"); //
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -62,12 +77,18 @@ var findIndex = __webpack_require__("./node_modules/lodash.findindex/index.js");
 //
 //
 
+var findIndex = __webpack_require__("./node_modules/lodash.findindex/index.js");
 var throttle = __webpack_require__("./node_modules/lodash.throttle/index.js");
-
 exports.default = {
   name: 'DataTable',
 
+  mixins: [_vueUrlParameters2.default],
+
   props: {
+    typeName: {
+      type: String,
+      required: true
+    },
     options: {
       type: Object,
       required: false,
@@ -112,6 +133,7 @@ exports.default = {
       loading: false,
       data: [],
       mergedOptions: {},
+      urlFilters: {},
       defaultOptions: {
         columns: [{
           prop: 'id',
@@ -119,6 +141,14 @@ exports.default = {
         }, {
           prop: 'name',
           label: this.__('Name')
+        }],
+        actionLinks: [{
+          urlCallback: function urlCallback() {
+            return '/';
+          },
+          textCallback: function textCallback() {
+            return this.__('View');
+          }
         }]
       },
       paginationMeta: {
@@ -128,11 +158,17 @@ exports.default = {
         ascending: 0,
         currentPage: 1
       },
-      search: ''
+      search: null
     };
   },
   mounted: function mounted() {
     Object.assign(this.mergedOptions, this.defaultOptions, this.options);
+
+    var filters = this.getFiltersFromUrl({});
+    filters = _url2.default.unserialize(filters);
+
+    this.search = filters[this.typeName + '_search'];
+
     this.getData();
   },
 
@@ -140,6 +176,9 @@ exports.default = {
   watch: {
     search: function search(value) {
       this.getData();
+
+      this.urlFilters[this.typeName + '_search'] = value;
+      window.location.hash = _url2.default.serialize(this.urlFilters);
     }
   },
 
@@ -4463,14 +4502,36 @@ var render = function() {
                     _vm._t(
                       "actionButtons",
                       [
-                        _c(
-                          "el-button",
-                          {
-                            staticClass: "action_btn view_btn",
-                            attrs: { size: "mini" }
-                          },
-                          [_vm._v(_vm._s(_vm.__("View")) + "\n          ")]
-                        ),
+                        _vm._l(_vm.mergedOptions.actionLinks, function(
+                          btn,
+                          btnKey
+                        ) {
+                          return _c(
+                            "a",
+                            {
+                              key: btnKey,
+                              attrs: { href: btn.urlCallback(scope.row) }
+                            },
+                            [
+                              _c(
+                                "el-button",
+                                {
+                                  staticClass: "action_btn view_btn",
+                                  attrs: { size: btn.size ? btn.size : "mini" }
+                                },
+                                [
+                                  _vm._v(
+                                    _vm._s(btn.textCallback(scope.row)) + " "
+                                  ),
+                                  btn.icon
+                                    ? _c("i", { class: btn.icon })
+                                    : _vm._e()
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        }),
                         _vm._v(" "),
                         _c(
                           "el-button",
@@ -4492,7 +4553,11 @@ var render = function() {
                 }
               }
             ])
-          })
+          }),
+          _vm._v(" "),
+          _c("div", { attrs: { slot: "empty" }, slot: "empty" }, [
+            _c("h1", [_vm._v("Sorry, No Data")])
+          ])
         ],
         2
       )
@@ -4802,6 +4867,190 @@ module.exports = function listToStyles (parentId, list) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-url-parameters/dist/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+module.exports = {
+  methods: {
+    /**
+     * Retrieves parameters from url and sets correct filters
+     */
+    getFiltersFromUrl: function getFiltersFromUrl(data) {
+      var _this = this;
+
+      var convertTypes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      var urlString = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+      var url = urlString || window.location.hash;
+
+      // Return data if url length is not more then 1
+      if (url.length <= 1) {
+        return data;
+      }
+
+      // Remove # as we do not need it in the string
+      if (url[0] === '#') {
+        url = url.substring(1);
+      }
+
+      var params = url.split('&');
+
+      // Loop through each parameter
+      params.forEach(function (param) {
+        var paramBits = param.split('=');
+        var paramKey = paramBits[0];
+        var paramValue = [];
+        var shouldBeArray = false;
+
+        // The string has no '=', making it invalid
+        if (paramBits.length === 1) {
+          return;
+        }
+
+        // Check if key contains bracket, which means that the value should be an array
+        // If the key contains braket, we remove the brackets from the name
+        if (paramKey.indexOf('[]') !== -1) {
+          paramKey = paramKey.substring(0, paramKey.length - 2);
+          shouldBeArray = true;
+        }
+
+        if (shouldBeArray) {
+          // Each value in the array should be separated by comma
+          var arrayValues = paramBits[1].split(',');
+
+          arrayValues.forEach(function (value) {
+            if (convertTypes) {
+              value = _this.convertStringValueToCorrectType(value);
+            }
+
+            paramValue.push(value);
+          });
+        } else {
+          if (convertTypes) {
+            paramValue = _this.convertStringValueToCorrectType(paramBits[1]);
+          } else {
+            paramValue = decodeURI(paramBits[1]);
+          }
+        }
+
+        data[paramKey] = paramValue;
+      });
+
+      return data;
+    },
+
+    convertStringValueToCorrectType: function convertStringValueToCorrectType(value) {
+      var returnValue = null;
+
+      /**
+       * Some values contains hyphens (a date or a range)
+       * If a string contains 2 hyphens, it will be treated like a date (2017-08-01). If the string contains
+       * only 1 hyphen, it will be treated like a range (50-250). This means that a regular string might not
+       * returned the way you expect.
+       */
+      var values = value.split('-');
+
+      if (values.length === 3) {
+        // This is a date (2017-3-25) as we have 2 dashes which gives 3 values
+        returnValue = decodeURI(paramValue);
+      } else if (values.length === 2) {
+        // If length of values is greater than 1 we assume it's a range with integer values
+        returnValue = {};
+        returnValue.min = parseFloat(values[0]);
+        returnValue.max = parseFloat(values[1]);
+      } else if (values.length === 1) {
+        if (isNaN(values[0])) {
+          // If the value is NaN (Not a Number), it must be a string
+          var stringValue = decodeURI(values[0]);
+
+          // Convert to boolean if string is 'true' or 'false'
+          if (stringValue === 'true' || stringValue === 'false') {
+            returnValue = JSON.parse(stringValue);
+          } else {
+            returnValue = stringValue;
+          }
+        } else {
+          // It is a number
+          returnValue = parseFloat(values[0]);
+        }
+      } else {
+        // More then 3 hyphens, this must be a regular string
+        returnValue = value;
+      }
+
+      return returnValue;
+    },
+
+
+    /**
+     * Adds parameters to url
+     */
+    updateUrlHash: function updateUrlHash(data) {
+      window.location.hash = this.calculateUrlHash(data);
+    },
+
+    calculateUrlHash: function calculateUrlHash(data) {
+      var urlHash = '';
+
+      for (var key in data) {
+        var value = data[key];
+
+        if (value !== null && value !== '' && !Array.isArray(value) || Array.isArray(value) && value.length > 0) {
+          if (urlHash.length > 1) {
+            urlHash += '&';
+          }
+
+          if (Array.isArray(value)) {
+            urlHash += key + '[]=';
+
+            value.forEach(function (objectOrElement) {
+              if ((typeof objectOrElement === 'undefined' ? 'undefined' : _typeof(objectOrElement)) === 'object') {
+                for (var property in objectOrElement) {
+                  var propertyValue = objectOrElement[property];
+
+                  urlHash += propertyValue;
+
+                  if (property === 'min') {
+                    urlHash += '-';
+                  }
+                }
+              } else {
+                urlHash += objectOrElement;
+              }
+
+              urlHash += ',';
+            });
+
+            urlHash = urlHash.substring(0, urlHash.length - 1);
+          } else {
+            urlHash += key + '=';
+
+            if (typeof value === 'string') {
+              value = encodeURI(value);
+            }
+
+            urlHash += value;
+          }
+        }
+      }
+
+      // Prevent scroll to top if urlHash is empty
+      if (urlHash.length === 0) {
+        urlHash = "#!";
+      }
+
+      return urlHash;
+    }
+  }
+};
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/DataTable.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4997,6 +5246,84 @@ exports.default = {
             code: error.status
         };
     }
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/utils/url.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+exports.default = {
+
+  /**
+   * Serialize and object or string, ready to be placed in the url hash.
+   *
+   * @param mixed obj
+   * @param string prefix
+   * @return string
+   */
+  serialize: function serialize(obj, prefix) {
+    var str = [],
+        p;
+    for (p in obj) {
+      if (obj.hasOwnProperty(p)) {
+        var k = prefix ? prefix + "[" + p + "]" : p,
+            v = obj[p];
+        str.push(v !== null && (typeof v === "undefined" ? "undefined" : _typeof(v)) === "object" ? this.serialize(v, k) : encodeURIComponent(k) + "=" + encodeURIComponent(v));
+      }
+    }
+    return str.join("&");
+  },
+
+
+  /**
+   * Unserialize the url, ready to be used.
+   *
+   * @param mixed obj
+   * @return string
+   */
+  unserialize: function unserialize(obj) {
+    var newObj = {},
+        p;
+
+    for (p in obj) {
+      var pathDots = decodeURIComponent(p).replace(/\[(\w+)\]/g, '.$1');
+      this.buildObjectFromString(pathDots, obj[p], newObj);
+    }
+    return newObj;
+  },
+
+
+  /**
+   * Rebuild an object from a dot annoted string.
+   *
+   * @param string path
+   * @param mixed value
+   * @param object root
+   * @return object
+   */
+  buildObjectFromString: function buildObjectFromString(path, value, root) {
+    var segments = path.split('.'),
+        cursor = root || window,
+        segment,
+        i;
+
+    for (i = 0; i < segments.length - 1; ++i) {
+      segment = segments[i];
+      cursor = cursor[segment] = cursor[segment] || {};
+    }
+
+    return cursor[segments[i]] = value;
+  }
 };
 
 /***/ })

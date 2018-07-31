@@ -53,6 +53,7 @@ const app = new Vue({
         DataTable: () => import(/* webpackChunkName: "data-table" */'components/DataTable'),
         SchoolSelecter: () => import(/* webpackChunkName: "school-selecter" */'components/SchoolSelecter'),
         ListBuildings: () => import(/* webpackChunkName: "list-buildings" */'components/buildings/ListBuildings'),
+        ListRooms: () => import(/* webpackChunkName: "list-rooms" */'components/rooms/ListRooms'),
     },
 
     mounted () {
