@@ -15,5 +15,8 @@
     "Delete": "Delete",
     "View": "View",
     "Edit": "Edit",
-    "List": "List"
+    "List": "List",
+    "Add Filter": "Add Filter",
+    "Delete Filter": "Delete Filter",
+    "Filter By": "Filter By"
 }

@@ -1,16 +1,18 @@
 {
-    "/js/chunks/data-table.js": "/js/chunks/data-table.js?id=dd5937f8f0c26c6f6266",
+    "/js/chunks/data-table.js": "/js/chunks/data-table.js?id=4b4451e69c74268a1fa4",
     "/js/chunks/items-create-table.js": "/js/chunks/items-create-table.js?id=243157f17d1a8abb86e5",
-    "/js/chunks/add-new-modal.js": "/js/chunks/add-new-modal.js?id=db676c95a813cbc3bfca",
+    "/js/chunks/add-new-modal.js": "/js/chunks/add-new-modal.js?id=e6db77273da2d7fe9a1b",
     "/js/chunks/list-rooms.js": "/js/chunks/list-rooms.js?id=ed7b282418208a6246e1",
     "/js/chunks/list-buildings.js": "/js/chunks/list-buildings.js?id=9f37ea8a9a05d77aae5e",
     "/js/chunks/school-selecter.js": "/js/chunks/school-selecter.js?id=cc852884805709663852",
     "/js/chunks/main-menu.js": "/js/chunks/main-menu.js?id=11a05c0937bf0f800b31",
     "/js/vendor.js": "/js/vendor.js?id=76208996b414715646a1",
-    "/js/app.js": "/js/app.js?id=fe52dd222c01e4320d5b",
+    "/js/app.js": "/js/app.js?id=ed77ffe8aae31d991e41",
     "/css/app.css": "/css/app.css?id=aaf438f9b42acba3568b",
     "/css/theme.css": "/css/theme.css?id=9e4aff8c834dccde849b",
-    "/js/chunks/b2-errors.js": "/js/chunks/b2-errors.js?id=a30dfef87f2ea066851a",
-    "/js/manifest.js": "/js/manifest.js?id=ecf59d4340b954f55b17",
+    "/js/chunks/filters-list.js": "/js/chunks/filters-list.js?id=58d07f15aae8cd6e268a",
+    "/js/chunks/filter-component.js": "/js/chunks/filter-component.js?id=165f2539d06aa3888fba",
+    "/js/chunks/b2-errors.js": "/js/chunks/b2-errors.js?id=aa5595f886f7ee18aec2",
+    "/js/manifest.js": "/js/manifest.js?id=0f11ae22bd4e303c7993",
     "/css/reset.css": "/css/reset.css?id=8c6eee6b2107ef25dc48"
 }

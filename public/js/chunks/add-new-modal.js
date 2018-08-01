@@ -70,7 +70,7 @@ exports.default = {
 
     components: {
         B2Errors: function B2Errors() {
-            return __webpack_require__.e/* import() */(9).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
+            return __webpack_require__.e/* import() */(11).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
         }
     },
 

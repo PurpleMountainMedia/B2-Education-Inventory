@@ -76,6 +76,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
 
 var findIndex = __webpack_require__("./node_modules/lodash.findindex/index.js");
 var throttle = __webpack_require__("./node_modules/lodash.throttle/index.js");
@@ -83,6 +87,12 @@ exports.default = {
   name: 'DataTable',
 
   mixins: [_vueUrlParameters2.default],
+
+  components: {
+    FiltersList: function FiltersList() {
+      return __webpack_require__.e/* import() */(9).then(__webpack_require__.bind(null, "./resources/assets/js/components/FiltersList.vue"));
+    }
+  },
 
   props: {
     typeName: {
@@ -4475,6 +4485,8 @@ var render = function() {
         ],
         1
       ),
+      _vm._v(" "),
+      _c("el-row", [_c("filters-list")], 1),
       _vm._v(" "),
       _c(
         "el-table",

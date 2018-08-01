@@ -15,6 +15,10 @@
       </el-col>
     </el-row>
 
+    <el-row>
+      <filters-list />
+    </el-row>
+
     <el-table :data="data" class="mt-sm">
       <el-table-column v-for="(column, key) in mergedOptions.columns"
                        :key="key"
@@ -61,6 +65,10 @@ export default {
     name: 'DataTable',
 
     mixins: [vueUrlParameters],
+
+    components: {
+      FiltersList: () => import(/* webpackChunkName: "filters-list" */'components/FiltersList'),
+    },
 
     props: {
       typeName: {
