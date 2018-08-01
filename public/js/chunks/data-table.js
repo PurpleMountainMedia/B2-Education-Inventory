@@ -18,12 +18,17 @@ var _url = __webpack_require__("./resources/assets/js/utils/url.js");
 
 var _url2 = _interopRequireDefault(_url);
 
+var _filters = __webpack_require__("./resources/assets/js/utils/filters.js");
+
+var _filters2 = _interopRequireDefault(_filters);
+
 var _vueUrlParameters = __webpack_require__("./node_modules/vue-url-parameters/dist/index.js");
 
 var _vueUrlParameters2 = _interopRequireDefault(_vueUrlParameters);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var findIndex = __webpack_require__("./node_modules/lodash.findindex/index.js"); //
 //
 //
 //
@@ -81,7 +86,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 
-var findIndex = __webpack_require__("./node_modules/lodash.findindex/index.js");
 var throttle = __webpack_require__("./node_modules/lodash.throttle/index.js");
 exports.default = {
   name: 'DataTable',
@@ -90,7 +94,10 @@ exports.default = {
 
   components: {
     FiltersList: function FiltersList() {
-      return __webpack_require__.e/* import() */(9).then(__webpack_require__.bind(null, "./resources/assets/js/components/FiltersList.vue"));
+      return __webpack_require__.e/* import() */(13).then(__webpack_require__.bind(null, "./resources/assets/js/components/FiltersList.vue"));
+    },
+    B2Errors: function B2Errors() {
+      return __webpack_require__.e/* import() */(9).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
     }
   },
 
@@ -168,7 +175,9 @@ exports.default = {
         ascending: 0,
         currentPage: 1
       },
-      search: null
+      search: null,
+      filters: [],
+      errors: {}
     };
   },
   mounted: function mounted() {
@@ -189,6 +198,17 @@ exports.default = {
 
       this.urlFilters[this.typeName + '_search'] = value;
       window.location.hash = _url2.default.serialize(this.urlFilters);
+    },
+
+    filters: {
+      handler: function handler(newValue) {
+        var has_values = true;
+        newValue.forEach(function (filter) {
+          _filters2.default.hasValue(newValue) ? '' : has_values = false;
+        });
+        has_values ? this.getData() : '';
+      },
+      deep: true
     }
   },
 
@@ -204,7 +224,8 @@ exports.default = {
         ascending: this.paginationMeta.ascending,
         orderBy: this.paginationMeta.orderBy,
         page: this.paginationMeta.currentPage,
-        search: this.search
+        search: this.search,
+        filters: this.filters
       });
 
       _api2.default.get({
@@ -221,6 +242,7 @@ exports.default = {
         _this.listen();
       }).catch(function (errors) {
         _this.loading = false;
+        _this.errors = errors;
       });
     }, 1000),
 
@@ -4423,6 +4445,8 @@ var render = function() {
       ]
     },
     [
+      _c("b2-errors", { attrs: { errors: _vm.errors } }),
+      _vm._v(" "),
       _c(
         "el-row",
         { attrs: { align: "middle" } },
@@ -4486,7 +4510,11 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("el-row", [_c("filters-list")], 1),
+      _c(
+        "el-row",
+        [_c("filters-list", { attrs: { filters: _vm.filters } })],
+        1
+      ),
       _vm._v(" "),
       _c(
         "el-table",
@@ -5258,6 +5286,29 @@ exports.default = {
             code: error.status
         };
     }
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/utils/filters.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  hasValue: function hasValue(filter) {
+    if (filter.type !== 'number') {
+      var value = filter.value ? filter.value : '';
+      return value.length == 0 ? false : true;
+    } else {
+      var value = parseInt(filter.value);
+      return value >= 0 ? true : false;
+    }
+  }
 };
 
 /***/ }),

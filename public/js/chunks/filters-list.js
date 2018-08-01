@@ -1,4 +1,4 @@
-webpackJsonp([9],{
+webpackJsonp([13],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/FiltersList.vue":
 /***/ (function(module, exports, __webpack_require__) {
@@ -9,63 +9,100 @@ webpackJsonp([9],{
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+var _filters = __webpack_require__("./resources/assets/js/utils/filters.js");
+
+var _filters2 = _interopRequireDefault(_filters);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
   name: 'FiltersList',
 
   components: {
     FilterComponent: function FilterComponent() {
-      return __webpack_require__.e/* import() */(10).then(__webpack_require__.bind(null, "./resources/assets/js/components/FilterComponent.vue"));
+      return __webpack_require__.e/* import() */(14).then(__webpack_require__.bind(null, "./resources/assets/js/components/FilterComponent.vue"));
+    }
+  },
+
+  props: {
+    filters: {
+      type: Array,
+      required: false,
+      default: function _default() {
+        return [];
+      }
+
     }
   },
 
   data: function data() {
     return {
-      filters: [],
+      // filters: [],
       options: [{
-        name: "ID"
+        name: "ID",
+        value: "id",
+        type: "string"
       }, {
-        name: "Name"
-      }]
+        name: "Name",
+        value: "name",
+        type: "string"
+      }, {
+        name: "Type",
+        value: "type",
+        type: "string"
+      }, {
+        name: "Created At",
+        value: "created_at",
+        type: "date"
+      }, {
+        name: "Updated At",
+        value: "updated_at",
+        type: "date"
+      }, {
+        name: "Number of Rooms",
+        value: "room_count",
+        type: "number"
+      }, {
+        name: "Created By",
+        value: "created_by",
+        type: "user"
+      }],
+      filterBySearch: ''
     };
   },
 
 
+  computed: {
+    canAddNew: function canAddNew() {
+      var can = true;
+      this.filters.forEach(function (filter) {
+        _filters2.default.hasValue(filter) ? '' : can = false;
+      });
+      return can;
+    },
+    filteredOptions: function filteredOptions() {
+      var _this = this;
+
+      return this.filterBySearch ? this.options.filter(function (o) {
+        return o.name.toUpperCase().includes(_this.filterBySearch.toUpperCase());
+      }) : this.options;
+    }
+  },
+
   methods: {
+    afterWindowEnters: function afterWindowEnters() {
+      this.filterBySearch = '';
+      this.$refs.searchInput.focus();
+    },
     addFilter: function addFilter(option, popoverRef) {
       this.filters.push({
-        name: option.name,
-        operator: 'is',
+        attribute: option.value,
+        operator: '',
+        _attributeName: option.name,
+        _operatorName: '',
         value: '',
-        type: 'string'
+        type: option.type
       });
 
       this.$refs[popoverRef].doClose();
@@ -74,7 +111,41 @@ exports.default = {
       this.filters.splice(this.filters.indexOf(filter), 1);
     }
   }
-};
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /***/ }),
 
@@ -86,7 +157,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.filter_list_btn {\n  display: block;\n  width: 100%;\n  float: left;\n  position: relative;\n  margin: 2px 0px !important;\n}\n", ""]);
+exports.push([module.i, "\n.filter_list_btn {\n  display: block;\n  width: 100%;\n  float: left;\n  position: relative;\n  margin: 2px 0px !important;\n}\n.add_filter_window {\n  max-height: 200px;\n  overflow: scroll;\n}\n", ""]);
 
 // exports
 
@@ -118,9 +189,11 @@ var render = function() {
           attrs: {
             placement: "bottom",
             title: _vm.__("Add Filter"),
-            width: "200",
-            trigger: "click"
-          }
+            width: "250",
+            trigger: "click",
+            "popper-class": "add_filter_window"
+          },
+          on: { "after-enter": _vm.afterWindowEnters }
         },
         [
           _c(
@@ -129,7 +202,8 @@ var render = function() {
               attrs: {
                 slot: "reference",
                 type: "text",
-                icon: "el-icon-circle-plus"
+                disabled: !_vm.canAddNew,
+                icon: "el-icon-circle-plus el-icon-right"
               },
               slot: "reference"
             },
@@ -138,23 +212,43 @@ var render = function() {
           _vm._v(" "),
           _c("p", [_c("small", [_vm._v(_vm._s(_vm.__("Filter By")))])]),
           _vm._v(" "),
-          _vm._l(_vm.options, function(option, key) {
-            return _c(
-              "el-button",
-              {
-                key: key,
-                staticClass: "filter_list_btn",
-                on: {
-                  click: function($event) {
-                    _vm.addFilter(option, "addFilterWindow")
-                  }
-                }
+          _c("el-input", {
+            ref: "searchInput",
+            staticClass: "mb-sm",
+            attrs: {
+              size: "mini",
+              placeholder: _vm.__("Search for attribute")
+            },
+            model: {
+              value: _vm.filterBySearch,
+              callback: function($$v) {
+                _vm.filterBySearch = $$v
               },
-              [_vm._v(_vm._s(option.name) + "\n    ")]
-            )
-          })
+              expression: "filterBySearch"
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "filter_list" },
+            _vm._l(_vm.filteredOptions, function(option, key) {
+              return _c(
+                "el-button",
+                {
+                  key: key,
+                  staticClass: "filter_list_btn",
+                  on: {
+                    click: function($event) {
+                      _vm.addFilter(option, "addFilterWindow")
+                    }
+                  }
+                },
+                [_vm._v(_vm._s(option.name) + "\n      ")]
+              )
+            })
+          )
         ],
-        2
+        1
       )
     ],
     2

@@ -44,10 +44,10 @@
         },
         {
             "name": "b2systems/b2software-base",
-            "version": "9999999-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
-                "url": "/Users/christianbraybrooke/local_sites/ei.b2systems/ComposerPackages/B2SoftwareBase",
+                "url": "/Users/christianbraybrooke/local_sites/ei.b2/ComposerPackages/B2SoftwareBase",
                 "reference": "8fc4632a0e5189b4625da3a2c3c4bdef81a3e3fa",
                 "shasum": null
             },
@@ -2814,16 +2814,16 @@
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v2.5.0",
+            "version": "v2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "6ae3e2e6494bb5e58c2decadafc3de7f1453f70a"
+                "reference": "8abb4f9aa89ddea9d52112c65bbe8d0125e2fa8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/6ae3e2e6494bb5e58c2decadafc3de7f1453f70a",
-                "reference": "6ae3e2e6494bb5e58c2decadafc3de7f1453f70a",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/8abb4f9aa89ddea9d52112c65bbe8d0125e2fa8e",
+                "reference": "8abb4f9aa89ddea9d52112c65bbe8d0125e2fa8e",
                 "shasum": ""
             },
             "require": {
@@ -2860,7 +2860,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2018-07-01T10:25:50+00:00"
+            "time": "2018-07-29T20:33:41+00:00"
         },
         {
             "name": "webpatser/laravel-uuid",

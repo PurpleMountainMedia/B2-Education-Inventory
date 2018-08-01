@@ -91,6 +91,6 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getInstanceUri()
     {
-        return env('AUTH_URL');
+        return config('services.b2systems.instance_uri');
     }
 }
