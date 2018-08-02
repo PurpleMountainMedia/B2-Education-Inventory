@@ -2,6 +2,7 @@
   <div class="mt-sm">
     <filter-component v-for="(filter, key) in filters"
                       :filter="filter"
+                      v-if="filter"
                       :key="key"
                       :on-remove-filter="removeFilter"/>
     <el-popover placement="bottom"
@@ -53,7 +54,6 @@ export default {
 
   data () {
     return {
-      // filters: [],
       options: [
         {
           name: "ID",
@@ -82,8 +82,8 @@ export default {
         },
         {
           name: "Number of Rooms",
-          value: "room_count",
-          type: "number"
+          value: "rooms_count",
+          type: "relational_count"
         },
         {
           name: "Created By",
@@ -122,7 +122,9 @@ export default {
         _attributeName: option.name,
         _operatorName: '',
         value: '',
-        type: option.type
+        type: option.type,
+        serverFormat: option.type === 'date' ? 'd/m/Y' : '',
+        clientFormat: option.type === 'date' ? 'dd/MM/yyyy' : ''
       })
 
       this.$refs[popoverRef].doClose()

@@ -5475,3 +5475,10 @@ button {
   }
 }
 
+.el-select.school_selecter_select {
+  margin: auto;
+  display: block;
+  width: 260px;
+  margin-top: 300px;
+}
+

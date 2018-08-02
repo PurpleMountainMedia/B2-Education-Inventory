@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Traits;
+use Carbon\Carbon;
 
 trait ResponsableTrait
 {
@@ -55,9 +56,86 @@ trait ResponsableTrait
 
         $query = $this->responsableExtendQuery($query, $request);
 
-        return $query->select("{$this->getTable()}.*")
-                     ->orderBy($orderBy, $direction)
+        return $query->orderBy($orderBy, $direction)
                      ->paginate($limit);
+    }
+
+    public function scopeFilterable($query)
+    {
+        $request = request();
+        $filters = ($request->filters && is_array($request->filters)) ? $request->filters : [];
+
+        foreach ($filters ?? [] as $key => $filter) {
+            $filter = json_decode($filter);
+            $operator = camel_case($filter->operator);
+            $capsOperator = ucFirst($operator);
+            $methodName = "filter{$capsOperator}";
+            $scopeMethodName = "scopeFilter{$capsOperator}";
+            $isDate = $filter->type === 'date';
+
+            if ($isDate && $filter->serverFormat) {
+                $filter->value = Carbon::createFromFormat($filter->serverFormat, $filter->value)->toDateString();
+            }
+
+            if (array_key_exists($filter->attribute, $this->responsableFilterNameAlias())) {
+                $filter->attribute = $this->responsableFilterNameAlias()[$filter->attribute];
+            }
+
+            if (array_key_exists("{$filter->attribute}.{$filter->operator}", $this->responsableFilterScopeAlias())) {
+                $methodName = $this->responsableFilterScopeAlias()["{$filter->attribute}.{$filter->operator}"];
+                $capsMethodName = ucFirst($methodName);
+                $scopeMethodName = "scope{$capsMethodName}";
+            }
+
+            if (method_exists($this, $scopeMethodName)) {
+                $query->$methodName($filter, $isDate);
+            }
+        }
+        return $query;
+    }
+
+    public function scopeFilterEquals($query, $filter, $isDate)
+    {
+        $method = $isDate ? 'whereDate' : 'where';
+        return $filter->value ? $query->$method($filter->attribute, '=', $filter->value) : $query;
+    }
+
+    public function scopeFilterNotEquals($query, $filter, $isDate)
+    {
+        $method = $isDate ? 'whereDate' : 'where';
+        return $filter->value ? $query->$method($filter->attribute, '!=', $filter->value) : $query;
+    }
+
+    public function scopeFilterStartsWith($query, $filter)
+    {
+        return $filter->value ? $query->where($filter->attribute, 'LIKE', $filter->value . '%') : $query;
+    }
+
+    public function scopeFilterEndsWith($query, $filter)
+    {
+        return $filter->value ? $query->where($filter->attribute, 'LIKE', '%' . $filter->value) : $query;
+    }
+
+    public function scopeFilterIncludes($query, $filter)
+    {
+        return $filter->value ? $query->where($filter->attribute, 'LIKE', '%' . $filter->value . '%') : $query;
+    }
+
+    public function scopeFilterNotIncludes($query, $filter)
+    {
+        return $filter->value ? $query->where($filter->attribute, 'NOT LIKE', '%' . $filter->value . '%') : $query;
+    }
+
+    public function scopeFilterLessThan($query, $filter, $isDate)
+    {
+        $method = $isDate ? 'whereDate' : 'where';
+        return $filter->value ? $query->$method($filter->attribute, '<', $filter->value) : $query;
+    }
+
+    public function scopeFilterGreaterThan($query, $filter, $isDate)
+    {
+        $method = $isDate ? 'whereDate' : 'where';
+        return $filter->value ? $query->$method($filter->attribute, '>', $filter->value) : $query;
     }
 
     /**
@@ -127,9 +205,27 @@ trait ResponsableTrait
      */
     private function responsableOrderByAlias()
     {
-        return [
-          'name' => 'name',
-        ];
+        return [];
+    }
+
+    /**
+     * Which collumns to use for filter.
+     *
+     * @return array
+     */
+    private function responsableFilterNameAlias()
+    {
+        return [];
+    }
+
+    /**
+     * Which scopes to use for filter.
+     *
+     * @return array
+     */
+    private function responsableFilterScopeAlias()
+    {
+        return [];
     }
 
     /**

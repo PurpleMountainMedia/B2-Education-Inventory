@@ -4,10 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\LinkableTrait;
+use App\Traits\ResponsableTrait;
 
 class Building extends Model
 {
-    use SoftDeletes, LinkableTrait;
+    use SoftDeletes, LinkableTrait, ResponsableTrait;
 
     /**
     * The attributes that should be mutated into dates.
@@ -22,6 +23,21 @@ class Building extends Model
     * @var array
     */
     protected $fillable = ['name', 'school_id', 'created_by', 'type', 'meta'];
+
+    /**
+     * Which scopes to use for filter.
+     *
+     * @return array
+     */
+    private function responsableFilterScopeAlias()
+    {
+        return [
+            'rooms_count.equals' => 'filterRoomsCountEquals',
+            'rooms_count.not_equals' => 'filterRoomsCountNotEquals',
+            'rooms_count.greater_than' => 'filterRoomsCountGreaterThan',
+            'rooms_count.less_than' => 'filterRoomsCountLessThan',
+        ];
+    }
 
     /**
     * Scope buildings by a school ID.
@@ -53,5 +69,32 @@ class Building extends Model
     public function items()
     {
         return $this->hasManyThrough('App\Item', 'App\Room');
+    }
+
+    /**
+    * The items inside the rooms in this building.
+    *
+    * @param \Illuminate\Database\Eloquent\Builder $query
+    * @param JSON $filter
+    * @return \Illuminate\Database\Eloquent\Builder
+    */
+    public function scopeFilterRoomsCountEquals($query, $filter)
+    {
+        return $query->has('rooms', '=', $filter->value)->with('rooms');
+    }
+
+    public function scopeFilterRoomsCountNotEquals($query, $filter)
+    {
+        return $query->has('rooms', '!=', $filter->value)->with('rooms');
+    }
+
+    public function scopeFilterRoomsCountGreaterThan($query, $filter)
+    {
+        return $query->has('rooms', '>', $filter->value)->with('rooms');
+    }
+
+    public function scopeFilterRoomsCountLessThan($query, $filter)
+    {
+        return $query->has('rooms', '<', $filter->value)->with('rooms');
     }
 }

@@ -38,7 +38,6 @@ exports.default = {
 
   data: function data() {
     return {
-      // filters: [],
       options: [{
         name: "ID",
         value: "id",
@@ -61,8 +60,8 @@ exports.default = {
         type: "date"
       }, {
         name: "Number of Rooms",
-        value: "room_count",
-        type: "number"
+        value: "rooms_count",
+        type: "relational_count"
       }, {
         name: "Created By",
         value: "created_by",
@@ -102,7 +101,9 @@ exports.default = {
         _attributeName: option.name,
         _operatorName: '',
         value: '',
-        type: option.type
+        type: option.type,
+        serverFormat: option.type === 'date' ? 'd/m/Y' : '',
+        clientFormat: option.type === 'date' ? 'dd/MM/yyyy' : ''
       });
 
       this.$refs[popoverRef].doClose();
@@ -112,6 +113,7 @@ exports.default = {
     }
   }
 }; //
+//
 //
 //
 //
@@ -176,10 +178,12 @@ var render = function() {
     { staticClass: "mt-sm" },
     [
       _vm._l(_vm.filters, function(filter, key) {
-        return _c("filter-component", {
-          key: key,
-          attrs: { filter: filter, "on-remove-filter": _vm.removeFilter }
-        })
+        return filter
+          ? _c("filter-component", {
+              key: key,
+              attrs: { filter: filter, "on-remove-filter": _vm.removeFilter }
+            })
+          : _vm._e()
       }),
       _vm._v(" "),
       _c(

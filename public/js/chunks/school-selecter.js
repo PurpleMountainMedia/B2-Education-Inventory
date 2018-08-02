@@ -45,6 +45,20 @@ exports.default = {
     csrfToken: {
       type: String,
       required: true
+    },
+    selecterSize: {
+      type: String,
+      required: false,
+      default: function _default() {
+        return 'small';
+      }
+    },
+    selecterClass: {
+      type: String,
+      required: false,
+      default: function _default() {
+        return 'school_selecter_select';
+      }
     }
   },
 
@@ -76,7 +90,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -304,7 +318,13 @@ var render = function() {
         _c(
           "el-select",
           {
-            attrs: { filterable: "", name: "school[name]", "value-key": "id" },
+            class: _vm.selecterClass,
+            attrs: {
+              filterable: "",
+              name: "school[name]",
+              "value-key": "id",
+              size: _vm.selecterSize
+            },
             on: { change: _vm.handleChange },
             model: {
               value: _vm.school,

@@ -114,14 +114,17 @@ exports.default = {
   },
   mounted: function mounted() {
     this.$refs['createFilterWindow'].doShow();
-    this.filter._operatorName = this[this.filter.type + 'Options'][0]._operatorName;
-    this.filter.operator = this[this.filter.type + 'Options'][0].operator;
+    this.filter._operatorName = this[this.filterType + 'Options'][0]._operatorName;
+    this.filter.operator = this[this.filterType + 'Options'][0].operator;
   },
 
 
   computed: {
     filterOptions: function filterOptions() {
-      return this[this.filter.type + 'Options'];
+      return this[this.filterType + 'Options'];
+    },
+    filterType: function filterType() {
+      return _filters2.default.filterType(this.filter);
     },
     hasValue: function hasValue() {
       return _filters2.default.hasValue(this.filter);
@@ -135,8 +138,6 @@ exports.default = {
     }
   }
 }; //
-//
-//
 //
 //
 //
@@ -273,20 +274,15 @@ var render = function() {
               _vm._v(" "),
               _vm.filter.operator === option.operator
                 ? [
-                    _c(
-                      "keep-alive",
-                      [
-                        _c(_vm.ucFirst(option.type) + "Filter", {
-                          tag: "component",
-                          attrs: {
-                            "on-value-update": function(val) {
-                              return (_vm.filter.value = val)
-                            }
-                          }
-                        })
-                      ],
-                      1
-                    )
+                    _c(_vm.ucFirst(option.type) + "Filter", {
+                      tag: "component",
+                      attrs: {
+                        value: _vm.filter.value,
+                        "on-value-update": function(val) {
+                          return (_vm.filter.value = val)
+                        }
+                      }
+                    })
                   ]
                 : _vm._e()
             ],

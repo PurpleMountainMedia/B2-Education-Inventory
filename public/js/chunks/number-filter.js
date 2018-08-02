@@ -20,7 +20,7 @@ exports.default = {
   props: {
     value: {
       required: false,
-      type: String,
+      type: [String, Number],
       default: function _default() {
         return '';
       }

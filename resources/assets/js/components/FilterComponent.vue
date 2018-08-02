@@ -17,9 +17,7 @@
         <el-radio v-model="filter.operator" @change="() => { filter._operatorName = option._operatorName  }" :label="option.operator">{{ option._operatorName }}</el-radio>
 
         <template v-if="filter.operator === option.operator">
-          <keep-alive>
-            <component v-bind:is="ucFirst(option.type) + 'Filter'" :on-value-update="(val) => filter.value = val"></component>
-          </keep-alive>
+          <component :value="filter.value" v-bind:is="ucFirst(option.type) + 'Filter'" :on-value-update="(val) => filter.value = val"></component>
         </template>
 
       </div>
@@ -94,22 +92,22 @@ export default {
         {
           _operatorName: 'on',
           operator: 'equals',
-          type: 'date'
+          type: 'date',
         },
         {
           _operatorName: 'is not on',
           operator: 'not_equals',
-          type: 'date'
+          type: 'date',
         },
         {
           _operatorName: 'before',
           operator: 'less_than',
-          type: 'date'
+          type: 'date',
         },
         {
           _operatorName: 'after',
           operator: 'greater_than',
-          type: 'date'
+          type: 'date',
         },
       ],
       numberOptions: [
@@ -145,13 +143,17 @@ export default {
 
   mounted () {
     this.$refs['createFilterWindow'].doShow()
-    this.filter._operatorName = this[this.filter.type + 'Options'][0]._operatorName
-    this.filter.operator = this[this.filter.type + 'Options'][0].operator
+    this.filter._operatorName = this[this.filterType + 'Options'][0]._operatorName
+    this.filter.operator = this[this.filterType + 'Options'][0].operator
   },
 
   computed: {
     filterOptions () {
-      return this[this.filter.type + 'Options']
+      return this[this.filterType + 'Options']
+    },
+
+    filterType () {
+      return filters.filterType(this.filter)
     },
 
     hasValue () {

@@ -85,6 +85,7 @@ var findIndex = __webpack_require__("./node_modules/lodash.findindex/index.js");
 //
 //
 //
+//
 
 var throttle = __webpack_require__("./node_modules/lodash.throttle/index.js");
 exports.default = {
@@ -116,7 +117,16 @@ exports.default = {
     requestWith: {
       type: [String, Array],
       required: false,
-      default: function _default() {}
+      default: function _default() {
+        return [];
+      }
+    },
+    requestWithCount: {
+      type: [String, Array],
+      required: false,
+      default: function _default() {
+        return [];
+      }
     },
     requestIncludes: {
       type: [String, Array],
@@ -194,7 +204,7 @@ exports.default = {
 
   watch: {
     search: function search(value) {
-      this.getData();
+      value ? this.getData() : null;
 
       this.urlFilters[this.typeName + '_search'] = value;
       window.location.hash = _url2.default.serialize(this.urlFilters);
@@ -204,9 +214,9 @@ exports.default = {
       handler: function handler(newValue) {
         var has_values = true;
         newValue.forEach(function (filter) {
-          _filters2.default.hasValue(newValue) ? '' : has_values = false;
+          _filters2.default.hasValue(filter) ? '' : has_values = false;
         });
-        has_values ? this.getData() : '';
+        has_values ? this.getData() : null;
       },
       deep: true
     }
@@ -219,6 +229,7 @@ exports.default = {
       this.loading = true;
       var params = Object.assign(this.requestParams, {
         with: this.requestWith,
+        withCount: this.requestWithCount,
         include: this.requestIncludes,
         limit: this.paginationMeta.perPage,
         ascending: this.paginationMeta.ascending,
@@ -239,6 +250,7 @@ exports.default = {
           perPage: parseInt(data.meta.per_page),
           currentPage: data.meta.current_page
         };
+        _this.errors = {};
         _this.listen();
       }).catch(function (errors) {
         _this.loading = false;
@@ -4458,7 +4470,10 @@ var render = function() {
               _c(
                 "el-input",
                 {
-                  attrs: { placeholder: _vm.__("Search") },
+                  attrs: {
+                    placeholder: _vm.__("Search"),
+                    disabled: _vm.filters.length >= 1
+                  },
                   model: {
                     value: _vm.search,
                     callback: function($$v) {
@@ -5301,13 +5316,25 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   hasValue: function hasValue(filter) {
-    if (filter.type !== 'number') {
+    console.log(this.filterType(filter.type));
+    if (this.filterType(filter.type) !== 'number') {
       var value = filter.value ? filter.value : '';
       return value.length == 0 ? false : true;
     } else {
       var value = parseInt(filter.value);
       return value >= 0 ? true : false;
     }
+  },
+  filterType: function filterType(filter) {
+    var type = null;
+    switch (filter.type) {
+      case 'relational_count':
+        type = 'number';
+        break;
+      default:
+        type = filter.type;
+    }
+    return type;
   }
 };
 

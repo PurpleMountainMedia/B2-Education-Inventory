@@ -4,7 +4,8 @@
     <el-row align="middle">
       <el-col :sm="12">
           <el-input :placeholder="__('Search')"
-                    v-model="search">
+                    v-model="search"
+                    :disabled="filters.length >= 1">
                     <i slot="prefix" class="el-input__icon el-icon-search"></i>
           </el-input>
       </el-col>
@@ -86,7 +87,12 @@ export default {
       requestWith: {
         type: [String, Array],
         required: false,
-        default: () => {}
+        default: () => { return []}
+      },
+      requestWithCount: {
+        type: [String, Array],
+        required: false,
+        default: () => { return []}
       },
       requestIncludes: {
         type: [String, Array],
@@ -161,7 +167,7 @@ export default {
 
     watch: {
       search: function (value) {
-        this.getData();
+        value ? this.getData() : null;
 
         this.urlFilters[`${this.typeName}_search`] = value
         window.location.hash = url.serialize(this.urlFilters)
@@ -171,9 +177,9 @@ export default {
           handler: function(newValue) {
             var has_values = true
             newValue.forEach((filter) => {
-              filters.hasValue(newValue) ? '' : has_values = false
+              filters.hasValue(filter) ? '' : has_values = false
             })
-            has_values ? this.getData() : ''
+            has_values ? this.getData() : null
           },
           deep: true
       }
@@ -184,6 +190,7 @@ export default {
         this.loading = true;
         const params = Object.assign(this.requestParams, {
             with: this.requestWith,
+            withCount: this.requestWithCount,
             include: this.requestIncludes,
             limit: this.paginationMeta.perPage,
             ascending: this.paginationMeta.ascending,
@@ -205,6 +212,7 @@ export default {
             perPage: parseInt(data.meta.per_page),
             currentPage: data.meta.current_page
           }
+          this.errors = {}
           this.listen()
         })
         .catch(errors => {
