@@ -2,7 +2,7 @@
     <!-- Errors -->
     <el-alert v-show="showErrors"
               :title="errors.message"
-              class="form_error mt-5"
+              class="form_error mt-sm mb-sm"
               type="error"
               show-icon>
         <template>
@@ -16,7 +16,7 @@
 <script>
 export default {
     name: 'B2Errors',
-    
+
     props: {
         errors: {
             type: Object,

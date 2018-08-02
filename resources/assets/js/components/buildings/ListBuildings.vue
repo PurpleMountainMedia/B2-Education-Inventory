@@ -4,7 +4,8 @@
                 type-name="building"
                 :request-params="{schoolId: schoolId}"
                 :options="tableOptions"
-                :request-includes="['buildings.extra']">
+                :request-includes="['buildings.extra']"
+                :request-with-count="['rooms']">
 
     </data-table>
   </div>
@@ -37,6 +38,10 @@ export default {
           {
             prop: 'type',
             label: this.__('Type')
+          },
+          {
+            prop: 'rooms_count',
+            label: this.__('Number of Rooms')
           }
         ],
         actionLinks: [

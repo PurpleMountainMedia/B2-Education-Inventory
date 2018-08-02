@@ -1,9 +1,11 @@
 <template lang="html">
   <div v-loading="loading">
+    <b2-errors :errors="errors" />
     <el-row align="middle">
       <el-col :sm="12">
           <el-input :placeholder="__('Search')"
-                    v-model="search">
+                    v-model="search"
+                    :disabled="filters.length >= 1">
                     <i slot="prefix" class="el-input__icon el-icon-search"></i>
           </el-input>
       </el-col>
@@ -16,7 +18,7 @@
     </el-row>
 
     <el-row>
-      <filters-list />
+      <filters-list :filters="filters" />
     </el-row>
 
     <el-table :data="data" class="mt-sm">
@@ -57,6 +59,7 @@
 <script>
 import api from 'utils/api'
 import url from 'utils/url'
+import filters from 'utils/filters'
 var findIndex = require('lodash.findindex');
 var throttle = require('lodash.throttle');
 import vueUrlParameters from 'vue-url-parameters'
@@ -68,6 +71,7 @@ export default {
 
     components: {
       FiltersList: () => import(/* webpackChunkName: "filters-list" */'components/FiltersList'),
+      B2Errors: () => import(/* webpackChunkName: "b2-errors" */'components/B2Errors'),
     },
 
     props: {
@@ -83,7 +87,12 @@ export default {
       requestWith: {
         type: [String, Array],
         required: false,
-        default: () => {}
+        default: () => { return []}
+      },
+      requestWithCount: {
+        type: [String, Array],
+        required: false,
+        default: () => { return []}
       },
       requestIncludes: {
         type: [String, Array],
@@ -140,6 +149,8 @@ export default {
           currentPage: 1,
         },
         search: null,
+        filters: [],
+        errors: {}
       }
     },
 
@@ -156,10 +167,21 @@ export default {
 
     watch: {
       search: function (value) {
-        this.getData();
+        value ? this.getData() : null;
 
         this.urlFilters[`${this.typeName}_search`] = value
         window.location.hash = url.serialize(this.urlFilters)
+      },
+
+      filters: {
+          handler: function(newValue) {
+            var has_values = true
+            newValue.forEach((filter) => {
+              filters.hasValue(filter) ? '' : has_values = false
+            })
+            has_values ? this.getData() : null
+          },
+          deep: true
       }
     },
 
@@ -168,12 +190,14 @@ export default {
         this.loading = true;
         const params = Object.assign(this.requestParams, {
             with: this.requestWith,
+            withCount: this.requestWithCount,
             include: this.requestIncludes,
             limit: this.paginationMeta.perPage,
             ascending: this.paginationMeta.ascending,
             orderBy: this.paginationMeta.orderBy,
             page: this.paginationMeta.currentPage,
-            search: this.search
+            search: this.search,
+            filters: this.filters
         });
 
         api.get({
@@ -188,10 +212,12 @@ export default {
             perPage: parseInt(data.meta.per_page),
             currentPage: data.meta.current_page
           }
+          this.errors = {}
           this.listen()
         })
         .catch(errors => {
           this.loading = false;
+          this.errors = errors;
         })
       }, 1000),
 

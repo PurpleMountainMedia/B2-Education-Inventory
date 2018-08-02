@@ -9733,7 +9733,7 @@ window.Echo = new _laravelEcho2.default({
 /***/ "./resources/assets/js/lang/en.json":
 /***/ (function(module, exports) {
 
-module.exports = {"Cancel":"Cancel","Add":"Add","Add New":"Add New","Name":"Name","name":"name","name_required":"Name is required.","is_required":"is required.","Information":"Information","Add Row":"Add Row","Row":"Row","Search":"Search","Type":"Type","Actions":"Actions","Delete":"Delete","View":"View","Edit":"Edit","List":"List","Add Filter":"Add Filter","Delete Filter":"Delete Filter","Filter By":"Filter By"}
+module.exports = {"Cancel":"Cancel","Add":"Add","Add New":"Add New","Name":"Name","name":"name","name_required":"Name is required.","is_required":"is required.","Information":"Information","Add Row":"Add Row","Row":"Row","Search":"Search","Type":"Type","Actions":"Actions","Delete":"Delete","View":"View","Edit":"Edit","List":"List","Add Filter":"Add Filter","Delete Filter":"Delete Filter","Filter By":"Filter By","Search for attribute":"Search for attribute"}
 
 /***/ }),
 

@@ -23,6 +23,8 @@ class Building extends JsonResource
 
             'rooms' => new RoomCollection($this->whenLoaded('rooms')),
 
+            'rooms_count' => $this->when($this->rooms_count !== null, $this->rooms_count),
+
             'links' => $this->links,
         ];
     }

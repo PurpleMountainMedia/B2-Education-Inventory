@@ -21,6 +21,7 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
 
 exports.default = {
   name: 'ListBuildings',
@@ -48,6 +49,9 @@ exports.default = {
         }, {
           prop: 'type',
           label: this.__('Type')
+        }, {
+          prop: 'rooms_count',
+          label: this.__('Number of Rooms')
         }],
         actionLinks: [{
           urlCallback: function urlCallback(row) {
@@ -91,7 +95,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -308,7 +312,8 @@ var render = function() {
           "type-name": "building",
           "request-params": { schoolId: _vm.schoolId },
           options: _vm.tableOptions,
-          "request-includes": ["buildings.extra"]
+          "request-includes": ["buildings.extra"],
+          "request-with-count": ["rooms"]
         }
       })
     ],

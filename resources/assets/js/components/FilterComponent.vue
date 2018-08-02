@@ -1,10 +1,10 @@
 <template lang="html">
   <el-popover placement="bottom"
-              width="200"
+              width="250"
               ref="createFilterWindow"
               trigger="click"
               popper-class="filter_list_window">
-    <el-button slot="reference" class="filter_btn">{{ filter.name }} <small>{{ filter.operator }}</small> {{ filter.value }}
+    <el-button slot="reference" class="filter_btn" :type="hasValue ? '' : 'danger'" plain>{{ filter._attributeName }} <small>{{ filter._operatorName }}</small> <strong>{{ filter.value }}</strong>
       <span @click="removeFilter" class="btn_close">
         <el-tooltip class="item" effect="dark" :content="__('Delete Filter')" placement="top-start">
           <i class="fal fa-times-circle"></i>
@@ -12,9 +12,15 @@
       </span>
     </el-button>
 
-    <div class="filter_options_list_item mt-sm" v-for="(option, key) in filterOptions" :key="key">
-      <el-radio v-model="filter.operator" :label="option.name">{{ option.name }}</el-radio>
-      <el-input v-if="filter.operator === option.name" :ref="currentFilterInputRef" v-model="filter.value"></el-input>
+    <div class="filter_options_list">
+      <div class="filter_options_list_item mt-sm" v-for="(option, key) in filterOptions" :key="key">
+        <el-radio v-model="filter.operator" @change="() => { filter._operatorName = option._operatorName  }" :label="option.operator">{{ option._operatorName }}</el-radio>
+
+        <template v-if="filter.operator === option.operator">
+          <component :value="filter.value" v-bind:is="ucFirst(option.type) + 'Filter'" :on-value-update="(val) => filter.value = val"></component>
+        </template>
+
+      </div>
     </div>
 
     <div class="filter_options_done_btn_wrap">
@@ -24,6 +30,7 @@
 </template>
 
 <script>
+import filters from 'utils/filters'
 export default {
   name: 'FilterComponent',
 
@@ -41,60 +48,116 @@ export default {
     }
   },
 
+  components: {
+    InputFilter: () => import(/* webpackChunkName: "input-filter" */'components/filters/types/InputFilter'),
+    DateFilter: () => import(/* webpackChunkName: "date-filter" */'components/filters/types/DateFilter'),
+    NumberFilter: () => import(/* webpackChunkName: "number-filter" */'components/filters/types/NumberFilter'),
+  },
+
   data () {
     return {
-      chosenFilterType: null,
+      stringOptions: [
+        {
+          _operatorName: 'is',
+          operator: 'equals',
+          type: 'input'
+        },
+        {
+          _operatorName: 'is not',
+          operator: 'not_equals',
+          type: 'input'
+        },
+        {
+          _operatorName: 'starts with',
+          operator: 'starts_with',
+          type: 'input'
+        },
+        {
+          _operatorName: 'ends with',
+          operator: 'ends_with',
+          type: 'input'
+        },
+        {
+          _operatorName: 'contains',
+          operator: 'includes',
+          type: 'input'
+        },
+        {
+          _operatorName: 'does not contain',
+          operator: 'not_includes',
+          type: 'input'
+        },
+      ],
+      dateOptions: [
+        {
+          _operatorName: 'on',
+          operator: 'equals',
+          type: 'date',
+        },
+        {
+          _operatorName: 'is not on',
+          operator: 'not_equals',
+          type: 'date',
+        },
+        {
+          _operatorName: 'before',
+          operator: 'less_than',
+          type: 'date',
+        },
+        {
+          _operatorName: 'after',
+          operator: 'greater_than',
+          type: 'date',
+        },
+      ],
+      numberOptions: [
+        {
+          _operatorName: 'is',
+          operator: 'equals',
+          type: 'number'
+        },
+        {
+          _operatorName: 'is not',
+          operator: 'not_equals',
+          type: 'number'
+        },
+        {
+          _operatorName: 'greater than',
+          operator: 'greater_than',
+          type: 'number'
+        },
+        {
+          _operatorName: 'less than',
+          operator: 'less_than',
+          type: 'number'
+        },
+      ],
+      userOptions: [
+        {
+          _operatorName: 'is',
+          type: 'input'
+        },
+      ]
     }
   },
 
   mounted () {
     this.$refs['createFilterWindow'].doShow()
-    this.$nextTick(function () {
-      this.$refs[this.currentFilterInputRef][0].focus()
-    })
-  },
-
-  watch: {
-    'filter.operator': function (val) {
-      this.filter.value = ''
-      this.$nextTick(function () {
-        this.$refs[this.currentFilterInputRef][0].focus()
-      })
-    }
+    this.filter._operatorName = this[this.filterType + 'Options'][0]._operatorName
+    this.filter.operator = this[this.filterType + 'Options'][0].operator
   },
 
   computed: {
     filterOptions () {
-      return [
-        {
-          name: 'is',
-          type: 'input'
-        },
-        {
-          name: 'is not',
-          type: 'input'
-        },
-        {
-          name: 'starts with',
-          type: 'input'
-        },
-        {
-          name: 'ends with',
-          type: 'input'
-        },
-        {
-          name: 'contains',
-          type: 'input'
-        },
-        {
-          name: 'does not contain',
-          type: 'input'
-        },
-      ]
+      return this[this.filterType + 'Options']
     },
 
-    currentFilterInputRef () {
-      return this.camelize(this.filter.value) + 'FilterInput'
+    filterType () {
+      return filters.filterType(this.filter)
+    },
+
+    hasValue () {
+      return filters.hasValue(this.filter)
     }
   },
 
@@ -103,22 +166,18 @@ export default {
       this.onRemoveFilter(this.filter)
       this.$emit('remove-filter', this.filter)
     },
-
-    camelize(str) {
-      return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
-        if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
-        return index == 0 ? match.toLowerCase() : match.toUpperCase();
-      });
-    }
   }
 }
 </script>
 
 <style lang="scss">
 .filter_list_window {
-  max-height: 200px;
-  overflow: hidden;
-  padding-bottom: 40px;
+    padding: 10px 0px 40px 0px;
+}
+.filter_options_list {
+    max-height: 180px;
+    overflow: scroll;
+    padding: 0 20px 0 20px;
 }
 span.btn_close {
     margin-left: 6px;

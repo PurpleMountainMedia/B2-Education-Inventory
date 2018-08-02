@@ -22,8 +22,12 @@ class ApiBuildingsController extends Controller
         ]);
 
         return BuildingResource::collection(
-            Building::inSchool($request->schoolId)->with($request->with ?: []
-        )->basicResponse());
+            Building::inSchool($request->schoolId)
+                    ->withCount($request->withCount ?: [])
+                    ->with($request->with ?: [])
+                    ->filterable()
+                    ->basicResponse()
+        );
     }
 
     /**

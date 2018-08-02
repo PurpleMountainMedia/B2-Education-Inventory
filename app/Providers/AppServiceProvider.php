@@ -8,6 +8,7 @@ use App\Item;
 use App\Observers\ItemObserver;
 use B2Systems\B2\B2;
 use Auth;
+use Socialite;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -59,6 +60,11 @@ class AppServiceProvider extends ServiceProvider
 
         Blade::directive('reportsName', function ($upper) {
             return getTypeName('report', true, $upper);
+        });
+
+        Socialite::extend('b2systems', function ($app) {
+            $config = $app['config']['services.b2systems'];
+            return Socialite::buildProvider('SocialiteProviders\B2Systems\Provider', $config);
         });
     }
 
