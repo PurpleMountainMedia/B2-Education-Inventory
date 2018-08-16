@@ -32,7 +32,7 @@ class B2
      */
     public $timeout = 30;
 
-    public $baseUrl = 'http://b2systems.test/api/';
+    public $baseUrl = 'https://www.b2systems.co.uk/api/';
 
     /**
      * Create a new B2 instance.
