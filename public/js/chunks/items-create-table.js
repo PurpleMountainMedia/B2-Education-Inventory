@@ -326,7 +326,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.table_input_cell input {\n    border-radius: 0;\n}\n.table_no_padding {\n    padding: 0!important;\n}\n.table_no_padding .cell {\n    padding: 0!important;\n}\n.table_no_padding .cell .el-form-item {\n    margin-bottom: 0px;\n    margin-top: -1px;\n}\n", ""]);
+exports.push([module.i, "\n.table_input_cell input {\n    border-radius: 0;\n}\n.table_no_padding {\n    padding: 0!important;\n}\n.table_no_padding .cell {\n    padding: 0!important;\n}\n.table_no_padding .cell .el-form-item {\n    margin-bottom: 0px;\n    margin-top: -1px;\n}\nth.table_no_padding {\n    padding: 6px 5px!important;\n    background: #f3f3f3;\n}\n.table_no_padding .el-input__inner {\n    padding: 0px 5px;\n}\n", ""]);
 
 // exports
 
@@ -2535,7 +2535,7 @@ var render = function() {
                   "class-name": "table_no_padding",
                   label: _vm.__("Purchase Date"),
                   prop: "purchase_date",
-                  width: "90"
+                  width: "100"
                 },
                 scopedSlots: _vm._u([
                   {
@@ -2563,7 +2563,7 @@ var render = function() {
                   "class-name": "table_no_padding",
                   label: _vm.__("Purchase Price"),
                   prop: "purchase_price",
-                  width: "90"
+                  width: "100"
                 },
                 scopedSlots: _vm._u([
                   {
@@ -2619,7 +2619,7 @@ var render = function() {
                   "class-name": "table_no_padding",
                   label: _vm.__("Quantity"),
                   prop: "qty",
-                  width: "50"
+                  width: "60"
                 },
                 scopedSlots: _vm._u([
                   {
@@ -2646,7 +2646,7 @@ var render = function() {
                   "class-name": "table_no_padding",
                   label: _vm.__("Actions"),
                   prop: "actions",
-                  width: "50"
+                  width: "60"
                 },
                 scopedSlots: _vm._u([
                   {

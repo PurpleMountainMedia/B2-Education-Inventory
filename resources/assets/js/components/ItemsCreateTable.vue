@@ -81,7 +81,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column class-name="table_no_padding" :label="__('Purchase Date')" prop="purchase_date" width="90">
+                <el-table-column class-name="table_no_padding" :label="__('Purchase Date')" prop="purchase_date" width="100">
                     <template slot-scope="scope">
                         <create-table-cell :rows="rows"
                                            :scope="scope"
@@ -92,7 +92,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column class-name="table_no_padding" :label="__('Purchase Price')" prop="purchase_price" width="90">
+                <el-table-column class-name="table_no_padding" :label="__('Purchase Price')" prop="purchase_price" width="100">
                     <template slot-scope="scope">
                         <create-table-cell :rows="rows"
                                            :scope="scope"
@@ -114,7 +114,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column class-name="table_no_padding" :label="__('Quantity')" prop="qty" width="50">
+                <el-table-column class-name="table_no_padding" :label="__('Quantity')" prop="qty" width="60">
                     <template slot-scope="scope">
                         <create-table-cell :rows="rows"
                                            :scope="scope"
@@ -124,7 +124,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column class-name="table_no_padding" :label="__('Actions')" prop="actions" width="50">
+                <el-table-column class-name="table_no_padding" :label="__('Actions')" prop="actions" width="60">
                     <template slot-scope="scope">
                         <el-button @click="deleteRow(scope.$index)" type="danger">X</el-button>
                     </template>
@@ -218,5 +218,12 @@ export default {
     .table_no_padding .cell .el-form-item {
         margin-bottom: 0px;
         margin-top: -1px;
+    }
+    th.table_no_padding {
+        padding: 6px 5px!important;
+        background: #f3f3f3;
+    }
+    .table_no_padding .el-input__inner {
+        padding: 0px 5px;
     }
 </style>

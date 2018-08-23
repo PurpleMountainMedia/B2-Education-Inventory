@@ -62,10 +62,10 @@ class AppServiceProvider extends ServiceProvider
             return getTypeName('report', true, $upper);
         });
 
-        Socialite::extend('b2systems', function ($app) {
-            $config = $app['config']['services.b2systems'];
-            return Socialite::buildProvider('SocialiteProviders\B2Systems\Provider', $config);
-        });
+        // Socialite::extend('b2systems', function ($app) {
+        //     $config = $app['config']['services.b2systems'];
+        //     return Socialite::buildProvider('SocialiteProviders\B2Systems\Provider', $config);
+        // });
     }
 
     /**
