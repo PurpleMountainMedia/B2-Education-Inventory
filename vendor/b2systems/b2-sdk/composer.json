@@ -1,0 +1,19 @@
+{
+    "name": "b2systems/b2-sdk",
+    "description": "PHP SDK for B2 Systems",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christian Braybrooke",
+            "email": "chris@purplemountmedia.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "B2Systems\\B2\\": "src/"
+        }
+    }
+}
