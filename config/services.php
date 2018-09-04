@@ -39,7 +39,8 @@ return [
         'client_id' => env('B2SYSTEMS_KEY'),
         'client_secret' => env('B2SYSTEMS_SECRET'),
         'redirect' => env('B2SYSTEMS_REDIRECT_URI'),
-        'instance_uri' => env('B2SYSTEMS_INSTANCE_URI')
+        'instance_uri' => env('B2SYSTEMS_INSTANCE_URI'),
+        'api_uri' => env('B2SYSTEMS_INSTANCE_URI') . '/api/'
     ],
 
 ];

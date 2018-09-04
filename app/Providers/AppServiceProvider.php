@@ -77,7 +77,9 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(B2::class, function ($app) {
             return new B2(
-                Auth::user()->token
+                Auth::user()->token,
+                null,
+                config('services.b2systems.api_uri')
             );
         });
     }
