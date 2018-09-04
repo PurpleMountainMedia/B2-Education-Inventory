@@ -9,7 +9,7 @@
     "type": "project",
     "require": {
         "php": "^7.1.3",
-        "b2systems/b2-sdk": "^0.0.1",
+        "b2systems/b2-sdk": "^0.0.2",
         "b2systems/b2software-base": "@dev",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.6.*",
