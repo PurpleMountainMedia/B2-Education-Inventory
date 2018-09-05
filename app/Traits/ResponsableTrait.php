@@ -6,6 +6,8 @@ use Carbon\Carbon;
 trait ResponsableTrait
 {
 
+    protected $self = '';
+
     /**
      * Format the query and return a standardised basic response.
      *
@@ -62,6 +64,7 @@ trait ResponsableTrait
 
     public function scopeFilterable($query)
     {
+        $this->self = str_plural(strtolower(str_replace("App\\", "", static::class))) ?? '';
         $request = request();
         $filters = ($request->filters && is_array($request->filters)) ? $request->filters : [];
 
@@ -97,45 +100,45 @@ trait ResponsableTrait
     public function scopeFilterEquals($query, $filter, $isDate)
     {
         $method = $isDate ? 'whereDate' : 'where';
-        return $filter->value ? $query->$method($filter->attribute, '=', $filter->value) : $query;
+        return $filter->value ? $query->$method("{$this->self}.{$filter->attribute}", '=', $filter->value) : $query;
     }
 
     public function scopeFilterNotEquals($query, $filter, $isDate)
     {
         $method = $isDate ? 'whereDate' : 'where';
-        return $filter->value ? $query->$method($filter->attribute, '!=', $filter->value) : $query;
+        return $filter->value ? $query->$method("{$this->self}.{$filter->attribute}", '!=', $filter->value) : $query;
     }
 
     public function scopeFilterStartsWith($query, $filter)
     {
-        return $filter->value ? $query->where($filter->attribute, 'LIKE', $filter->value . '%') : $query;
+        return $filter->value ? $query->where("{$this->self}.{$filter->attribute}", 'LIKE', $filter->value . '%') : $query;
     }
 
     public function scopeFilterEndsWith($query, $filter)
     {
-        return $filter->value ? $query->where($filter->attribute, 'LIKE', '%' . $filter->value) : $query;
+        return $filter->value ? $query->where("{$this->self}.{$filter->attribute}", 'LIKE', '%' . $filter->value) : $query;
     }
 
     public function scopeFilterIncludes($query, $filter)
     {
-        return $filter->value ? $query->where($filter->attribute, 'LIKE', '%' . $filter->value . '%') : $query;
+        return $filter->value ? $query->where("{$this->self}.{$filter->attribute}", 'LIKE', '%' . $filter->value . '%') : $query;
     }
 
     public function scopeFilterNotIncludes($query, $filter)
     {
-        return $filter->value ? $query->where($filter->attribute, 'NOT LIKE', '%' . $filter->value . '%') : $query;
+        return $filter->value ? $query->where("{$this->self}.{$filter->attribute}", 'NOT LIKE', '%' . $filter->value . '%') : $query;
     }
 
     public function scopeFilterLessThan($query, $filter, $isDate)
     {
         $method = $isDate ? 'whereDate' : 'where';
-        return $filter->value ? $query->$method($filter->attribute, '<', $filter->value) : $query;
+        return $filter->value ? $query->$method("{$this->self}.{$filter->attribute}", '<', $filter->value) : $query;
     }
 
     public function scopeFilterGreaterThan($query, $filter, $isDate)
     {
         $method = $isDate ? 'whereDate' : 'where';
-        return $filter->value ? $query->$method($filter->attribute, '>', $filter->value) : $query;
+        return $filter->value ? $query->$method("{$this->self}.{$filter->attribute}", '>', $filter->value) : $query;
     }
 
     /**

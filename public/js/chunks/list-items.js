@@ -21,6 +21,7 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
 
 exports.default = {
   name: 'ListItems',
@@ -34,16 +35,24 @@ exports.default = {
 
   data: function data() {
     return {
-      loading: false,
-      tableOptions: {
-        columns: [{
-          prop: 'name',
-          label: this.__('Name')
-        }]
-      }
+      loading: false
     };
   },
 
+
+  computed: {
+    tableOptions: function tableOptions() {
+      return {
+        columns: [{
+          prop: 'name',
+          label: this.__('Name')
+        }, {
+          prop: 'room.name',
+          label: this.ucFirst(this.eiDefaults['room_name'])
+        }]
+      };
+    }
+  },
 
   components: {
     DataTable: function DataTable() {
@@ -62,7 +71,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -279,7 +288,8 @@ var render = function() {
           "type-name": "item",
           "request-params": { schoolId: _vm.schoolId },
           options: _vm.tableOptions,
-          "request-includes": ["items.extra"]
+          "request-includes": ["items.extra"],
+          "request-with": ["room"]
         }
       })
     ],

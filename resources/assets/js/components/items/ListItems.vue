@@ -4,7 +4,8 @@
                 type-name="item"
                 :request-params="{schoolId: schoolId}"
                 :options="tableOptions"
-                :request-includes="['items.extra']">
+                :request-includes="['items.extra']"
+                :request-with="['room']">
 
     </data-table>
   </div>
@@ -24,11 +25,20 @@ export default {
   data () {
     return {
       loading: false,
-      tableOptions: {
+    }
+  },
+
+  computed: {
+    tableOptions () {
+      return {
         columns: [
           {
             prop: 'name',
             label: this.__('Name')
+          },
+          {
+            prop: 'room.name',
+            label: this.ucFirst(this.eiDefaults['room_name'])
           },
         ]
       }
