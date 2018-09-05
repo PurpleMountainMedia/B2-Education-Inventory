@@ -1,134 +1,32 @@
 <template lang="html">
     <div v-loading="loading">
 
+        <el-alert type="warning" :closable="false" title="" class="mb-sm" v-if="selectedRows.length > 0">
+          <el-button @click="handelMultipleDelete" type="danger" size="mini">{{ __('Delete') }}</el-button>
+        </el-alert>
+
         <el-form :model="{rows: rows}">
-            <el-table :data="rows">
-                <el-table-column class-name="table_no_padding" :label="ucFirst(eiDefaults.building_name)" prop="building" width="100">
-                    <template slot-scope="scope">
-                        <create-table-cell type="autocomplete"
-                                           :rows="rows"
-                                           :scope="scope"
-                                           right-cell="room"
-                                           :on-handle-input-key="handleInputKey"
-                                           :ref="`${scope.column.property}_cell_${scope.$index}`"/>
-                    </template>
-                </el-table-column>
+            <el-table :data="rows" @selection-change="handleSelectionChange">
 
-                <el-table-column class-name="table_no_padding" :label="ucFirst(eiDefaults.room_name)" prop="room" width="100">
-                    <template slot-scope="scope">
-                        <create-table-cell type="autocomplete"
-                                           :rows="rows"
-                                           :scope="scope"
-                                           left-cell="building"
-                                           right-cell="item_type"
-                                           :on-handle-input-key="handleInputKey"
-                                           :ref="`${scope.column.property}_cell_${scope.$index}`"/>
-                    </template>
-                </el-table-column>
 
-                <el-table-column class-name="table_no_padding" :label="ucFirst(eiDefaults.item_type_name)" prop="item_type" width="100">
-                    <template slot-scope="scope">
-                        <create-table-cell :rows="rows"
-                                           :scope="scope"
-                                           left-cell="room"
-                                           right-cell="name"
-                                           :on-handle-input-key="handleInputKey"
-                                           :ref="`${scope.column.property}_cell_${scope.$index}`"/>
-                    </template>
-                </el-table-column>
+              <el-table-column type="selection"
+                               class-name="table_no_padding selection_col"
+                               width="30">
+              </el-table-column>
 
-                <el-table-column class-name="table_no_padding" :label="__('Name')" prop="name" width="100">
-                    <template slot-scope="scope">
-                        <create-table-cell :rows="rows"
-                                           :scope="scope"
-                                           left-cell="item_type"
-                                           right-cell="description"
-                                           :on-handle-input-key="handleInputKey"
-                                           :ref="`${scope.column.property}_cell_${scope.$index}`"/>
-                    </template>
-                </el-table-column>
+              <el-table-column v-for="(col, key) in collumns" :key="key" class-name="table_no_padding" :label="col.label" :prop="col.prop" :width="col.width ? col.width : '100'">
+                  <template slot-scope="scope">
+                      <create-table-cell :type="col.type ? col.type : null"
+                                         :new-row="(type, to, from) => { addRow(); handleInputKey(type, to, from); }"
+                                         :rows="rows"
+                                         :scope="scope"
+                                         :left-cell="collumns[key-1] ? collumns[key-1].prop : null"
+                                         :right-cell="collumns[key+1] ? collumns[key+1].prop : null"
+                                         :on-handle-input-key="handleInputKey"
+                                         :ref="`${scope.column.property}_cell_${scope.$index}`"/>
+                  </template>
+              </el-table-column>
 
-                <el-table-column class-name="table_no_padding" :label="__('Description')" prop="description" width="150">
-                    <template slot-scope="scope">
-                        <create-table-cell :rows="rows"
-                                           :scope="scope"
-                                           left-cell="name"
-                                           right-cell="make"
-                                           :on-handle-input-key="handleInputKey"
-                                           :ref="`${scope.column.property}_cell_${scope.$index}`"/>
-                    </template>
-                </el-table-column>
-
-                <el-table-column class-name="table_no_padding" :label="__('Make')" prop="make" width="100">
-                    <template slot-scope="scope">
-                        <create-table-cell :rows="rows"
-                                           :scope="scope"
-                                           left-cell="description"
-                                           right-cell="serial"
-                                           :on-handle-input-key="handleInputKey"
-                                           :ref="`${scope.column.property}_cell_${scope.$index}`"/>
-                    </template>
-                </el-table-column>
-
-                <el-table-column class-name="table_no_padding" :label="__('Serial')" prop="serial" width="100">
-                    <template slot-scope="scope">
-                        <create-table-cell :rows="rows"
-                                           :scope="scope"
-                                           left-cell="make"
-                                           right-cell="purchase_date"
-                                           :on-handle-input-key="handleInputKey"
-                                           :ref="`${scope.column.property}_cell_${scope.$index}`"/>
-                    </template>
-                </el-table-column>
-
-                <el-table-column class-name="table_no_padding" :label="__('Purchase Date')" prop="purchase_date" width="90">
-                    <template slot-scope="scope">
-                        <create-table-cell :rows="rows"
-                                           :scope="scope"
-                                           left-cell="serial"
-                                           right-cell="purchase_price"
-                                           :on-handle-input-key="handleInputKey"
-                                           :ref="`${scope.column.property}_cell_${scope.$index}`"/>
-                    </template>
-                </el-table-column>
-
-                <el-table-column class-name="table_no_padding" :label="__('Purchase Price')" prop="purchase_price" width="90">
-                    <template slot-scope="scope">
-                        <create-table-cell :rows="rows"
-                                           :scope="scope"
-                                           left-cell="purchase_date"
-                                           right-cell="write_off"
-                                           :on-handle-input-key="handleInputKey"
-                                           :ref="`${scope.column.property}_cell_${scope.$index}`"/>
-                    </template>
-                </el-table-column>
-
-                <el-table-column class-name="table_no_padding" :label="__('Write Off')" prop="write_off" width="80">
-                    <template slot-scope="scope">
-                        <create-table-cell :rows="rows"
-                                           :scope="scope"
-                                           left-cell="purchase_price"
-                                           right-cell="qty"
-                                           :on-handle-input-key="handleInputKey"
-                                           :ref="`${scope.column.property}_cell_${scope.$index}`"/>
-                    </template>
-                </el-table-column>
-
-                <el-table-column class-name="table_no_padding" :label="__('Quantity')" prop="qty" width="50">
-                    <template slot-scope="scope">
-                        <create-table-cell :rows="rows"
-                                           :scope="scope"
-                                           left-cell="write_off"
-                                           :on-handle-input-key="handleInputKey"
-                                           :ref="`${scope.column.property}_cell_${scope.$index}`"/>
-                    </template>
-                </el-table-column>
-
-                <el-table-column class-name="table_no_padding" :label="__('Actions')" prop="actions" width="50">
-                    <template slot-scope="scope">
-                        <el-button @click="deleteRow(scope.$index)" type="danger">X</el-button>
-                    </template>
-                </el-table-column>
             </el-table>
         </el-form>
 
@@ -166,51 +64,122 @@ export default {
         return {
             loading: false,
             rows: [clone(row)],
-            test: ''
+            test: '',
+            selectedRows: []
         }
     },
 
+    computed: {
+      collumns () {
+        return [
+          {
+            label: this.ucFirst(this.eiDefaults.building_name),
+            prop: "building",
+            width: "100",
+            type: "autocomplete"
+          },
+          {
+            label: this.ucFirst(this.eiDefaults.room_name),
+            prop: "room",
+            width: "100",
+            type: "autocomplete"
+          },
+          {
+            label: this.ucFirst(this.eiDefaults.item_type_name),
+            prop: "itemType"
+          },
+          {
+            label: this.__('Name'),
+            prop: "name"
+          },
+          {
+            label: this.__('Description'),
+            prop: "description"
+          },
+          {
+            label: this.__('Make'),
+            prop: "make"
+          },
+          {
+            label: this.__('Serial'),
+            prop: 'serial'
+          },
+          {
+            label: this.__('Purchase Date'),
+            prop: 'purchaseDate'
+          },
+          {
+            label: this.__('Purchase Price'),
+            prop: 'purchasePrice'
+          },
+          {
+            label: this.__('Write Off'),
+            prop: 'writeOff'
+          },
+          {
+            label: this.__('Quantity'),
+            prop: 'qty'
+          }
+        ]
+      }
+    },
+
     methods: {
-        addRow()
-        {
-            this.rows.push(clone(row))
+        addRow () {
+          var newRow = clone(row)
+          var rowsLength = this.rows.length-1
+          var colsToDup = ['building', 'room', 'qty']
+
+          if (rowsLength >= 0) {
+            colsToDup.forEach(row => {
+              newRow[row] = this.rows[rowsLength][row]
+            })
+          }
+
+          this.rows.push(newRow)
         },
 
-        getBuildings(queryString, cb)
-        {
-
+        handleSelectionChange (val) {
+          this.selectedRows = val;
         },
 
-        handleInputKey(type, to)
+        handelMultipleDelete () {
+          this.selectedRows.forEach(row => {
+            this.rows.splice(this.rows.indexOf(row), 1)
+          })
+        },
+
+        handleInputKey (type, to, from)
         {
-            if (to) {
-                var ref = this.$refs[to];
-                if (ref) {
-                    ref.focus();
-                }
+          this.$nextTick(() => {
+            if (from) {
+              var fromRef = this.$refs[from][0]
+              if (fromRef) {
+                fromRef.blur()
+              }
             }
+            if (to) {
+              var toRef = this.$refs[to][0];
+              if (toRef) {
+                toRef.focus()
+              }
+            }
+          })
         },
-
-        isMultipleItems(index)
-        {
-            return this.rows[index].qty > 1;
-        },
-
-        deleteRow(index)
-        {
-            this.rows.splice(index, 1);
-        }
     }
 
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
     .table_input_cell input {
         border-radius: 0;
     }
     .table_no_padding {
         padding: 0!important;
+    }
+    .table_no_padding.selection_col {
+        padding: 0px 7px!important;
     }
     .table_no_padding .cell {
         padding: 0!important;
@@ -218,5 +187,13 @@ export default {
     .table_no_padding .cell .el-form-item {
         margin-bottom: 0px;
         margin-top: -1px;
+    }
+    th.table_no_padding {
+        padding: 6px 6px!important;
+        background: #d6d6d6;
+        color: black;
+    }
+    .table_no_padding .el-input__inner {
+        padding: 6px;
     }
 </style>

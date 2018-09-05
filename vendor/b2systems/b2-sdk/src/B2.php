@@ -41,8 +41,9 @@ class B2
      * @param  \GuzzleHttp\Client $guzzle
      * @return void
      */
-    public function __construct($apiKey, HttpClient $guzzle = null)
+    public function __construct($apiKey, HttpClient $guzzle = null, $baseUrl = null)
     {
+        $this->baseUrl = $baseUrl ?: $this->baseUrl;
         $this->apiKey = $apiKey;
         $this->guzzle = $guzzle ?: new HttpClient([
             'base_uri' => $this->baseUrl,

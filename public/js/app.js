@@ -9723,10 +9723,10 @@ if (token) {
 
 window.io = __webpack_require__("./node_modules/socket.io-client/lib/index.js");
 
-window.Echo = new _laravelEcho2.default({
-    broadcaster: 'socket.io',
-    host: window.location.hostname + ':6001'
-});
+// window.Echo = new Echo({
+//     broadcaster: 'socket.io',
+//     host: window.location.hostname + ':6001'
+// });
 
 /***/ }),
 

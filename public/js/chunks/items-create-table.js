@@ -39,6 +39,8 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
 
 exports.default = {
     name: "CreateTableCell",
@@ -56,7 +58,14 @@ exports.default = {
             type: Function,
             required: false,
             default: function _default() {
-                return function (type, to) {};
+                return function (type, to, from) {};
+            }
+        },
+        newRow: {
+            type: Function,
+            required: false,
+            default: function _default() {
+                return function (type, to, from) {};
             }
         },
         type: {
@@ -97,7 +106,13 @@ exports.default = {
             //
         },
         focus: function focus() {
-            this.$refs[this.scope.column.property + "_cell_" + this.scope.$index].focus();
+            this.$refs[this.scope.column.property + '_cell_' + this.scope.$index].focus();
+        },
+        blur: function blur() {
+            var ref = this.$refs[this.scope.column.property + '_cell_' + this.scope.$index];
+            if (typeof ref.close == 'function') {
+                ref.close();
+            }
         }
     }
 };
@@ -111,7 +126,7 @@ exports.default = {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _CreateTableCell = __webpack_require__("./resources/assets/js/components/CreateTableCell.vue");
@@ -157,168 +172,135 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 var clone = __webpack_require__("./node_modules/lodash.clone/index.js");
 
 
 var row = {
-    building: '',
-    room: '',
-    item_type: '',
-    name: '',
-    description: '',
-    make: '',
-    serial: '',
-    purchase_date: '',
-    purchase_price: '',
-    write_off: '',
-    qty: 1
+  building: '',
+  room: '',
+  item_type: '',
+  name: '',
+  description: '',
+  make: '',
+  serial: '',
+  purchase_date: '',
+  purchase_price: '',
+  write_off: '',
+  qty: 1
 };
 
 exports.default = {
-    name: 'ItemsCreateTable',
+  name: 'ItemsCreateTable',
 
-    components: {
-        CreateTableCell: _CreateTableCell2.default
-    },
+  components: {
+    CreateTableCell: _CreateTableCell2.default
+  },
 
-    data: function data() {
-        return {
-            loading: false,
-            rows: [clone(row)],
-            test: ''
-        };
-    },
+  data: function data() {
+    return {
+      loading: false,
+      rows: [clone(row)],
+      test: '',
+      selectedRows: []
+    };
+  },
 
 
-    methods: {
-        addRow: function addRow() {
-            this.rows.push(clone(row));
-        },
-        getBuildings: function getBuildings(queryString, cb) {},
-        handleInputKey: function handleInputKey(type, to) {
-            if (to) {
-                var ref = this.$refs[to];
-                if (ref) {
-                    ref.focus();
-                }
-            }
-        },
-        isMultipleItems: function isMultipleItems(index) {
-            return this.rows[index].qty > 1;
-        },
-        deleteRow: function deleteRow(index) {
-            this.rows.splice(index, 1);
-        }
+  computed: {
+    collumns: function collumns() {
+      return [{
+        label: this.ucFirst(this.eiDefaults.building_name),
+        prop: "building",
+        width: "100",
+        type: "autocomplete"
+      }, {
+        label: this.ucFirst(this.eiDefaults.room_name),
+        prop: "room",
+        width: "100",
+        type: "autocomplete"
+      }, {
+        label: this.ucFirst(this.eiDefaults.item_type_name),
+        prop: "itemType"
+      }, {
+        label: this.__('Name'),
+        prop: "name"
+      }, {
+        label: this.__('Description'),
+        prop: "description"
+      }, {
+        label: this.__('Make'),
+        prop: "make"
+      }, {
+        label: this.__('Serial'),
+        prop: 'serial'
+      }, {
+        label: this.__('Purchase Date'),
+        prop: 'purchaseDate'
+      }, {
+        label: this.__('Purchase Price'),
+        prop: 'purchasePrice'
+      }, {
+        label: this.__('Write Off'),
+        prop: 'writeOff'
+      }, {
+        label: this.__('Quantity'),
+        prop: 'qty'
+      }];
     }
+  },
+
+  methods: {
+    addRow: function addRow() {
+      var _this = this;
+
+      var newRow = clone(row);
+      var rowsLength = this.rows.length - 1;
+      var colsToDup = ['building', 'room', 'qty'];
+
+      if (rowsLength >= 0) {
+        colsToDup.forEach(function (row) {
+          newRow[row] = _this.rows[rowsLength][row];
+        });
+      }
+
+      this.rows.push(newRow);
+    },
+    handleSelectionChange: function handleSelectionChange(val) {
+      this.selectedRows = val;
+    },
+    handelMultipleDelete: function handelMultipleDelete() {
+      var _this2 = this;
+
+      this.selectedRows.forEach(function (row) {
+        _this2.rows.splice(_this2.rows.indexOf(row), 1);
+      });
+    },
+    handleInputKey: function handleInputKey(type, to, from) {
+      var _this3 = this;
+
+      this.$nextTick(function () {
+        if (from) {
+          var fromRef = _this3.$refs[from][0];
+          if (fromRef) {
+            fromRef.blur();
+          }
+        }
+        if (to) {
+          var toRef = _this3.$refs[to][0];
+          if (toRef) {
+            toRef.focus();
+          }
+        }
+      });
+    }
+  }
 
 };
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-26d57cee\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/ItemsCreateTable.vue":
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-26d57cee\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/ItemsCreateTable.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
@@ -326,7 +308,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.table_input_cell input {\n    border-radius: 0;\n}\n.table_no_padding {\n    padding: 0!important;\n}\n.table_no_padding .cell {\n    padding: 0!important;\n}\n.table_no_padding .cell .el-form-item {\n    margin-bottom: 0px;\n    margin-top: -1px;\n}\n", ""]);
+exports.push([module.i, "\n.table_input_cell input {\n  border-radius: 0;\n}\n.table_no_padding {\n  padding: 0 !important;\n}\n.table_no_padding.selection_col {\n  padding: 0px 7px !important;\n}\n.table_no_padding .cell {\n  padding: 0 !important;\n}\n.table_no_padding .cell .el-form-item {\n  margin-bottom: 0px;\n  margin-top: -1px;\n}\nth.table_no_padding {\n  padding: 6px 6px !important;\n  background: #d6d6d6;\n  color: black;\n}\n.table_no_padding .el-input__inner {\n  padding: 6px;\n}\n", ""]);
 
 // exports
 
@@ -341,7 +323,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -2325,353 +2307,89 @@ var render = function() {
       ]
     },
     [
+      _vm.selectedRows.length > 0
+        ? _c(
+            "el-alert",
+            {
+              staticClass: "mb-sm",
+              attrs: { type: "warning", closable: false, title: "" }
+            },
+            [
+              _c(
+                "el-button",
+                {
+                  attrs: { type: "danger", size: "mini" },
+                  on: { click: _vm.handelMultipleDelete }
+                },
+                [_vm._v(_vm._s(_vm.__("Delete")))]
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
       _c(
         "el-form",
         { attrs: { model: { rows: _vm.rows } } },
         [
           _c(
             "el-table",
-            { attrs: { data: _vm.rows } },
+            {
+              attrs: { data: _vm.rows },
+              on: { "selection-change": _vm.handleSelectionChange }
+            },
             [
               _c("el-table-column", {
                 attrs: {
-                  "class-name": "table_no_padding",
-                  label: _vm.ucFirst(_vm.eiDefaults.building_name),
-                  prop: "building",
-                  width: "100"
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(scope) {
-                      return [
-                        _c("create-table-cell", {
-                          ref: scope.column.property + "_cell_" + scope.$index,
-                          attrs: {
-                            type: "autocomplete",
-                            rows: _vm.rows,
-                            scope: scope,
-                            "right-cell": "room",
-                            "on-handle-input-key": _vm.handleInputKey
-                          }
-                        })
-                      ]
-                    }
-                  }
-                ])
+                  type: "selection",
+                  "class-name": "table_no_padding selection_col",
+                  width: "30"
+                }
               }),
               _vm._v(" "),
-              _c("el-table-column", {
-                attrs: {
-                  "class-name": "table_no_padding",
-                  label: _vm.ucFirst(_vm.eiDefaults.room_name),
-                  prop: "room",
-                  width: "100"
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(scope) {
-                      return [
-                        _c("create-table-cell", {
-                          ref: scope.column.property + "_cell_" + scope.$index,
-                          attrs: {
-                            type: "autocomplete",
-                            rows: _vm.rows,
-                            scope: scope,
-                            "left-cell": "building",
-                            "right-cell": "item_type",
-                            "on-handle-input-key": _vm.handleInputKey
-                          }
-                        })
-                      ]
-                    }
-                  }
-                ])
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: {
-                  "class-name": "table_no_padding",
-                  label: _vm.ucFirst(_vm.eiDefaults.item_type_name),
-                  prop: "item_type",
-                  width: "100"
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(scope) {
-                      return [
-                        _c("create-table-cell", {
-                          ref: scope.column.property + "_cell_" + scope.$index,
-                          attrs: {
-                            rows: _vm.rows,
-                            scope: scope,
-                            "left-cell": "room",
-                            "right-cell": "name",
-                            "on-handle-input-key": _vm.handleInputKey
-                          }
-                        })
-                      ]
-                    }
-                  }
-                ])
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: {
-                  "class-name": "table_no_padding",
-                  label: _vm.__("Name"),
-                  prop: "name",
-                  width: "100"
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(scope) {
-                      return [
-                        _c("create-table-cell", {
-                          ref: scope.column.property + "_cell_" + scope.$index,
-                          attrs: {
-                            rows: _vm.rows,
-                            scope: scope,
-                            "left-cell": "item_type",
-                            "right-cell": "description",
-                            "on-handle-input-key": _vm.handleInputKey
-                          }
-                        })
-                      ]
-                    }
-                  }
-                ])
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: {
-                  "class-name": "table_no_padding",
-                  label: _vm.__("Description"),
-                  prop: "description",
-                  width: "150"
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(scope) {
-                      return [
-                        _c("create-table-cell", {
-                          ref: scope.column.property + "_cell_" + scope.$index,
-                          attrs: {
-                            rows: _vm.rows,
-                            scope: scope,
-                            "left-cell": "name",
-                            "right-cell": "make",
-                            "on-handle-input-key": _vm.handleInputKey
-                          }
-                        })
-                      ]
-                    }
-                  }
-                ])
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: {
-                  "class-name": "table_no_padding",
-                  label: _vm.__("Make"),
-                  prop: "make",
-                  width: "100"
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(scope) {
-                      return [
-                        _c("create-table-cell", {
-                          ref: scope.column.property + "_cell_" + scope.$index,
-                          attrs: {
-                            rows: _vm.rows,
-                            scope: scope,
-                            "left-cell": "description",
-                            "right-cell": "serial",
-                            "on-handle-input-key": _vm.handleInputKey
-                          }
-                        })
-                      ]
-                    }
-                  }
-                ])
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: {
-                  "class-name": "table_no_padding",
-                  label: _vm.__("Serial"),
-                  prop: "serial",
-                  width: "100"
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(scope) {
-                      return [
-                        _c("create-table-cell", {
-                          ref: scope.column.property + "_cell_" + scope.$index,
-                          attrs: {
-                            rows: _vm.rows,
-                            scope: scope,
-                            "left-cell": "make",
-                            "right-cell": "purchase_date",
-                            "on-handle-input-key": _vm.handleInputKey
-                          }
-                        })
-                      ]
-                    }
-                  }
-                ])
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: {
-                  "class-name": "table_no_padding",
-                  label: _vm.__("Purchase Date"),
-                  prop: "purchase_date",
-                  width: "90"
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(scope) {
-                      return [
-                        _c("create-table-cell", {
-                          ref: scope.column.property + "_cell_" + scope.$index,
-                          attrs: {
-                            rows: _vm.rows,
-                            scope: scope,
-                            "left-cell": "serial",
-                            "right-cell": "purchase_price",
-                            "on-handle-input-key": _vm.handleInputKey
-                          }
-                        })
-                      ]
-                    }
-                  }
-                ])
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: {
-                  "class-name": "table_no_padding",
-                  label: _vm.__("Purchase Price"),
-                  prop: "purchase_price",
-                  width: "90"
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(scope) {
-                      return [
-                        _c("create-table-cell", {
-                          ref: scope.column.property + "_cell_" + scope.$index,
-                          attrs: {
-                            rows: _vm.rows,
-                            scope: scope,
-                            "left-cell": "purchase_date",
-                            "right-cell": "write_off",
-                            "on-handle-input-key": _vm.handleInputKey
-                          }
-                        })
-                      ]
-                    }
-                  }
-                ])
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: {
-                  "class-name": "table_no_padding",
-                  label: _vm.__("Write Off"),
-                  prop: "write_off",
-                  width: "80"
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(scope) {
-                      return [
-                        _c("create-table-cell", {
-                          ref: scope.column.property + "_cell_" + scope.$index,
-                          attrs: {
-                            rows: _vm.rows,
-                            scope: scope,
-                            "left-cell": "purchase_price",
-                            "right-cell": "qty",
-                            "on-handle-input-key": _vm.handleInputKey
-                          }
-                        })
-                      ]
-                    }
-                  }
-                ])
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: {
-                  "class-name": "table_no_padding",
-                  label: _vm.__("Quantity"),
-                  prop: "qty",
-                  width: "50"
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(scope) {
-                      return [
-                        _c("create-table-cell", {
-                          ref: scope.column.property + "_cell_" + scope.$index,
-                          attrs: {
-                            rows: _vm.rows,
-                            scope: scope,
-                            "left-cell": "write_off",
-                            "on-handle-input-key": _vm.handleInputKey
-                          }
-                        })
-                      ]
-                    }
-                  }
-                ])
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: {
-                  "class-name": "table_no_padding",
-                  label: _vm.__("Actions"),
-                  prop: "actions",
-                  width: "50"
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(scope) {
-                      return [
-                        _c(
-                          "el-button",
-                          {
-                            attrs: { type: "danger" },
-                            on: {
-                              click: function($event) {
-                                _vm.deleteRow(scope.$index)
-                              }
+              _vm._l(_vm.collumns, function(col, key) {
+                return _c("el-table-column", {
+                  key: key,
+                  attrs: {
+                    "class-name": "table_no_padding",
+                    label: col.label,
+                    prop: col.prop,
+                    width: col.width ? col.width : "100"
+                  },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "default",
+                      fn: function(scope) {
+                        return [
+                          _c("create-table-cell", {
+                            ref:
+                              scope.column.property + "_cell_" + scope.$index,
+                            refInFor: true,
+                            attrs: {
+                              type: col.type ? col.type : null,
+                              "new-row": function(type, to, from) {
+                                _vm.addRow()
+                                _vm.handleInputKey(type, to, from)
+                              },
+                              rows: _vm.rows,
+                              scope: scope,
+                              "left-cell": _vm.collumns[key - 1]
+                                ? _vm.collumns[key - 1].prop
+                                : null,
+                              "right-cell": _vm.collumns[key + 1]
+                                ? _vm.collumns[key + 1].prop
+                                : null,
+                              "on-handle-input-key": _vm.handleInputKey
                             }
-                          },
-                          [_vm._v("X")]
-                        )
-                      ]
+                          })
+                        ]
+                      }
                     }
-                  }
-                ])
+                  ])
+                })
               })
             ],
-            1
+            2
           )
         ],
         1
@@ -2748,6 +2466,21 @@ var render = function() {
                     function($event) {
                       if (
                         !("button" in $event) &&
+                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                      ) {
+                        return null
+                      }
+                      _vm.newRow(
+                        "down",
+                        _vm.scope.column.property +
+                          "_cell_" +
+                          (_vm.scope.$index + 1),
+                        _vm.scope.column.property + "_cell_" + _vm.scope.$index
+                      )
+                    },
+                    function($event) {
+                      if (
+                        !("button" in $event) &&
                         _vm._k($event.keyCode, "down", 40, $event.key, [
                           "Down",
                           "ArrowDown"
@@ -2759,7 +2492,8 @@ var render = function() {
                         "down",
                         _vm.scope.column.property +
                           "_cell_" +
-                          (_vm.scope.$index + 1)
+                          (_vm.scope.$index + 1),
+                        _vm.scope.column.property + "_cell_" + _vm.scope.$index
                       )
                     },
                     function($event) {
@@ -2776,7 +2510,8 @@ var render = function() {
                         "up",
                         _vm.scope.column.property +
                           "_cell_" +
-                          (_vm.scope.$index - 1)
+                          (_vm.scope.$index - 1),
+                        _vm.scope.column.property + "_cell_" + _vm.scope.$index
                       )
                     },
                     function($event) {
@@ -2794,7 +2529,8 @@ var render = function() {
                       }
                       _vm.onHandleInputKey(
                         "right",
-                        _vm.rightCell + "_cell_" + _vm.scope.$index
+                        _vm.rightCell + "_cell_" + _vm.scope.$index,
+                        _vm.scope.column.property + "_cell_" + _vm.scope.$index
                       )
                     },
                     function($event) {
@@ -2812,7 +2548,8 @@ var render = function() {
                       }
                       _vm.onHandleInputKey(
                         "left",
-                        _vm.leftCell + "_cell_" + _vm.scope.$index
+                        _vm.leftCell + "_cell_" + _vm.scope.$index,
+                        _vm.scope.column.property + "_cell_" + _vm.scope.$index
                       )
                     }
                   ]
@@ -2838,6 +2575,21 @@ var render = function() {
                     function($event) {
                       if (
                         !("button" in $event) &&
+                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                      ) {
+                        return null
+                      }
+                      _vm.newRow(
+                        "down",
+                        _vm.scope.column.property +
+                          "_cell_" +
+                          (_vm.scope.$index + 1),
+                        _vm.scope.column.property + "_cell_" + _vm.scope.$index
+                      )
+                    },
+                    function($event) {
+                      if (
+                        !("button" in $event) &&
                         _vm._k($event.keyCode, "down", 40, $event.key, [
                           "Down",
                           "ArrowDown"
@@ -2849,7 +2601,8 @@ var render = function() {
                         "down",
                         _vm.scope.column.property +
                           "_cell_" +
-                          (_vm.scope.$index + 1)
+                          (_vm.scope.$index + 1),
+                        _vm.scope.column.property + "_cell_" + _vm.scope.$index
                       )
                     },
                     function($event) {
@@ -2866,7 +2619,8 @@ var render = function() {
                         "up",
                         _vm.scope.column.property +
                           "_cell_" +
-                          (_vm.scope.$index - 1)
+                          (_vm.scope.$index - 1),
+                        _vm.scope.column.property + "_cell_" + _vm.scope.$index
                       )
                     },
                     function($event) {
@@ -2884,7 +2638,8 @@ var render = function() {
                       }
                       _vm.onHandleInputKey(
                         "right",
-                        _vm.rightCell + "_cell_" + _vm.scope.$index
+                        _vm.rightCell + "_cell_" + _vm.scope.$index,
+                        _vm.scope.column.property + "_cell_" + _vm.scope.$index
                       )
                     },
                     function($event) {
@@ -2902,7 +2657,8 @@ var render = function() {
                       }
                       _vm.onHandleInputKey(
                         "left",
-                        _vm.leftCell + "_cell_" + _vm.scope.$index
+                        _vm.leftCell + "_cell_" + _vm.scope.$index,
+                        _vm.scope.column.property + "_cell_" + _vm.scope.$index
                       )
                     }
                   ]
@@ -2938,23 +2694,23 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-26d57cee\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/ItemsCreateTable.vue":
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-26d57cee\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/ItemsCreateTable.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-26d57cee\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/ItemsCreateTable.vue");
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-26d57cee\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/ItemsCreateTable.vue");
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("74ad94f2", content, false, {});
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("2945a6c3", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-26d57cee\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ItemsCreateTable.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-26d57cee\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ItemsCreateTable.vue");
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-26d57cee\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ItemsCreateTable.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-26d57cee\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ItemsCreateTable.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -3313,7 +3069,7 @@ module.exports = Component.exports
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-26d57cee\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/ItemsCreateTable.vue")
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-26d57cee\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/ItemsCreateTable.vue")
 }
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */

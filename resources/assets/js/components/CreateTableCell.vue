@@ -6,10 +6,11 @@
                       :prop="`rows.${scope.$index}.${scope.column.property}`">
             <el-autocomplete :autofocus="true"
                              v-if="type === 'autocomplete'"
-                             @keyup.down.native="onHandleInputKey('down', `${scope.column.property}_cell_${(scope.$index + 1)}`)"
-                             @keyup.up.native="onHandleInputKey('up', `${scope.column.property}_cell_${(scope.$index - 1)}`)"
-                             @keyup.right.native="onHandleInputKey('right', `${rightCell}_cell_${scope.$index}`)"
-                             @keyup.left.native="onHandleInputKey('left', `${leftCell}_cell_${scope.$index}`)"
+                             @keyup.enter.native="newRow('down', `${scope.column.property}_cell_${(scope.$index + 1)}`, `${scope.column.property}_cell_${scope.$index}`)"
+                             @keyup.down.native="onHandleInputKey('down', `${scope.column.property}_cell_${(scope.$index + 1)}`, `${scope.column.property}_cell_${scope.$index}`)"
+                             @keyup.up.native="onHandleInputKey('up', `${scope.column.property}_cell_${(scope.$index - 1)}`, `${scope.column.property}_cell_${scope.$index}`)"
+                             @keyup.right.native="onHandleInputKey('right', `${rightCell}_cell_${scope.$index}`, `${scope.column.property}_cell_${scope.$index}`)"
+                             @keyup.left.native="onHandleInputKey('left', `${leftCell}_cell_${scope.$index}`, `${scope.column.property}_cell_${scope.$index}`)"
                              :ref="`${scope.column.property}_cell_${scope.$index}`"
                              :fetch-suggestions="getBuildings"
                              class="table_input_cell"
@@ -18,10 +19,11 @@
              <el-input class="table_input_cell"
                        v-else
                        :autofocus="true"
-                       @keyup.down.native="onHandleInputKey('down', `${scope.column.property}_cell_${(scope.$index + 1)}`)"
-                       @keyup.up.native="onHandleInputKey('up', `${scope.column.property}_cell_${(scope.$index - 1)}`)"
-                       @keyup.right.native="onHandleInputKey('right', `${rightCell}_cell_${scope.$index}`)"
-                       @keyup.left.native="onHandleInputKey('left', `${leftCell}_cell_${scope.$index}`)"
+                       @keyup.enter.native="newRow('down', `${scope.column.property}_cell_${(scope.$index + 1)}`, `${scope.column.property}_cell_${scope.$index}`)"
+                       @keyup.down.native="onHandleInputKey('down', `${scope.column.property}_cell_${(scope.$index + 1)}`, `${scope.column.property}_cell_${scope.$index}`)"
+                       @keyup.up.native="onHandleInputKey('up', `${scope.column.property}_cell_${(scope.$index - 1)}`, `${scope.column.property}_cell_${scope.$index}`)"
+                       @keyup.right.native="onHandleInputKey('right', `${rightCell}_cell_${scope.$index}`, `${scope.column.property}_cell_${scope.$index}`)"
+                       @keyup.left.native="onHandleInputKey('left', `${leftCell}_cell_${scope.$index}`, `${scope.column.property}_cell_${scope.$index}`)"
                        v-model="rows[scope.$index][scope.column.property]"
                        :ref="`${scope.column.property}_cell_${scope.$index}`"></el-input>
         </el-form-item>
@@ -45,7 +47,14 @@ export default {
             type: Function,
             required: false,
             default: () => {
-                return function (type, to) {}
+                return function (type, to, from) {}
+            }
+        },
+        newRow: {
+            type: Function,
+            required: false,
+            default: () => {
+                return function (type, to, from) {}
             }
         },
         type: {
@@ -74,14 +83,19 @@ export default {
     },
 
     methods: {
-        getBuildings()
-        {
+        getBuildings () {
             //
         },
 
-        focus()
-        {
-            this.$refs[`${this.scope.column.property}_cell_${this.scope.$index}`].focus();
+        focus () {
+          this.$refs[`${this.scope.column.property}_cell_${this.scope.$index}`].focus();
+        },
+
+        blur () {
+          var ref = this.$refs[`${this.scope.column.property}_cell_${this.scope.$index}`]
+          if (typeof ref.close == 'function') {
+            ref.close()
+          }
         }
     }
 }
