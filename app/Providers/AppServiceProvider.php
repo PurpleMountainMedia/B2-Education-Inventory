@@ -62,10 +62,10 @@ class AppServiceProvider extends ServiceProvider
             return getTypeName('report', true, $upper);
         });
 
-        Socialite::extend('b2systems', function ($app) {
-            $config = $app['config']['services.b2systems'];
-            return Socialite::buildProvider('SocialiteProviders\B2Systems\Provider', $config);
-        });
+        // Socialite::extend('b2systems', function ($app) {
+        //     $config = $app['config']['services.b2systems'];
+        //     return Socialite::buildProvider('SocialiteProviders\B2Systems\Provider', $config);
+        // });
     }
 
     /**
@@ -79,7 +79,7 @@ class AppServiceProvider extends ServiceProvider
             return new B2(
                 Auth::user()->token,
                 null,
-                'http://www.b2systems.test/api/'
+                config('services.b2systems.api_uri')
             );
         });
     }

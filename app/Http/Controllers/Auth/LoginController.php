@@ -65,6 +65,6 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        return redirect(env('AUTH_URL') . '/logout');
+        return redirect(config('services.b2systems.instance_uri') . '/logout');
     }
 }
