@@ -1,6 +1,7 @@
 <template lang="html">
   <div :loading="loading">
     <data-table :url="roomsUrl"
+                type-name="room"
                 :request-params="{schoolId: schoolId}"
                 :options="tableOptions"
                 :request-includes="['rooms.extra']">

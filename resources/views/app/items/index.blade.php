@@ -11,7 +11,6 @@
     ])
     @endcomponent
 
-    <a href="{{ route('items.create.table') }}">
-        <el-button>Add</el-button>
-    </a>
+    <list-items school-id='{{ session('school')['id'] ?? '' }}'>
+    </list-items>
 @endsection

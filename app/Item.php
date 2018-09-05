@@ -3,10 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\ResponsableTrait;
 
 class Item extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, ResponsableTrait;
 
     /**
      * The attributes that should be mutated into dates.
@@ -62,5 +63,30 @@ class Item extends Model
     public function itemType()
     {
         return $this->belongsTo('App\ItemType');
+    }
+
+    /**
+     * Return the id of the school that this room is in.
+     *
+     * @return String
+     */
+    public function getSchoolIdAttribute()
+    {
+        return $this->room->school_id;
+    }
+
+    /**
+     * Scope items by a school ID.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $schoolId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeInSchool($query, $schoolId)
+    {
+        return $query->join('rooms', 'items.room_id', '=', 'rooms.id')
+                     ->leftJoin('buildings', 'rooms.building_id', '=', 'buildings.id')
+                     ->where('buildings.school_id', $schoolId)
+                     ->select('items.*');
     }
 }

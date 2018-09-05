@@ -1,6 +1,6 @@
 <template lang="html">
     <!-- Errors -->
-    <el-alert v-show="showErrors"
+    <el-alert v-if="showErrors"
               :title="errors.message"
               class="form_error mt-sm mb-sm"
               type="error"

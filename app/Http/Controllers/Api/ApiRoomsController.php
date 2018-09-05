@@ -18,8 +18,12 @@ class ApiRoomsController extends Controller
     public function index(Request $request)
     {
         return RoomResource::collection(
-            Room::with($request->with ?: []
-        )->responseAdapter());
+            Room::inSchool($request->schoolId)
+                ->withCount($request->withCount ?: [])
+                ->with($request->with ?: [])
+                ->filterable()
+                ->basicResponse()
+        );
     }
 
     /**

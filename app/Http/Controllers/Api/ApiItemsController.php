@@ -18,8 +18,12 @@ class ApiItemsController extends Controller
     public function index(Request $request)
     {
         return ItemResource::collection(
-            Item::with($request->with ?: []
-        )->responseAdapter());
+            Item::inSchool($request->schoolId)
+                ->withCount($request->withCount ?: [])
+                ->with($request->with ?: [])
+                ->filterable()
+                ->basicResponse()
+        );
     }
 
     /**

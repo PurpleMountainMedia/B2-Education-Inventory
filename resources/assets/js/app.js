@@ -55,6 +55,7 @@ const app = new Vue({
         SchoolSelecter: () => import(/* webpackChunkName: "school-selecter" */'components/SchoolSelecter'),
         ListBuildings: () => import(/* webpackChunkName: "list-buildings" */'components/buildings/ListBuildings'),
         ListRooms: () => import(/* webpackChunkName: "list-rooms" */'components/rooms/ListRooms'),
+        ListItems: () => import(/* webpackChunkName: "list-items" */'components/items/ListItems'),
     },
 
     mounted () {

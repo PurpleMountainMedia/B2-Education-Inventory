@@ -9,6 +9,7 @@ use App\Observers\ItemObserver;
 use B2Systems\B2\B2;
 use Auth;
 use Socialite;
+use Laravel\Passport\Passport;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Passport::withoutCookieSerialization();
 
         Item::observe(ItemObserver::class);
 

@@ -1,4 +1,4 @@
-webpackJsonp([9],{
+webpackJsonp([10],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/B2Errors.vue":
 /***/ (function(module, exports, __webpack_require__) {
@@ -72,33 +72,27 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "el-alert",
-    {
-      directives: [
+  return _vm.showErrors
+    ? _c(
+        "el-alert",
         {
-          name: "show",
-          rawName: "v-show",
-          value: _vm.showErrors,
-          expression: "showErrors"
-        }
-      ],
-      staticClass: "form_error mt-sm mb-sm",
-      attrs: { title: _vm.errors.message, type: "error", "show-icon": "" }
-    },
-    [
-      [
-        _vm._l(_vm.errors.errors, function(errors) {
-          return _vm._l(errors, function(message) {
-            return _c("p", { staticClass: "el-alert__description" }, [
-              _vm._v("- " + _vm._s(message))
-            ])
-          })
-        })
-      ]
-    ],
-    2
-  )
+          staticClass: "form_error mt-sm mb-sm",
+          attrs: { title: _vm.errors.message, type: "error", "show-icon": "" }
+        },
+        [
+          [
+            _vm._l(_vm.errors.errors, function(errors) {
+              return _vm._l(errors, function(message) {
+                return _c("p", { staticClass: "el-alert__description" }, [
+                  _vm._v("- " + _vm._s(message))
+                ])
+              })
+            })
+          ]
+        ],
+        2
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true

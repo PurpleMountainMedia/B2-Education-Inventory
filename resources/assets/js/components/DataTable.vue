@@ -1,6 +1,10 @@
 <template lang="html">
   <div v-loading="loading">
-    <b2-errors :errors="errors" />
+    <el-row align="middle">
+      <el-col>
+        <b2-errors :errors="errors" />
+      </el-col>
+    </el-row>
     <el-row align="middle">
       <el-col :sm="12">
           <el-input :placeholder="__('Search')"
@@ -137,7 +141,7 @@ export default {
               urlCallback: function () {
                 return '/'
               },
-              textCallback: function () { return this.__('View') },
+              textCallback: function () { return this.__('View') }.bind(this),
             }
           ]
         },
@@ -234,14 +238,16 @@ export default {
       },
 
       listen () {
-        Echo.private(`items.1`)
-            .listen('ItemUpdated', (e) => {
-                console.log(e.item)
+        if (typeof Echo != 'undefined') {
+          Echo.private(`items.1`)
+              .listen('ItemUpdated', (e) => {
+                  console.log(e.item)
 
-                var index = findIndex(this.data, ['id', e.item.id])
+                  var index = findIndex(this.data, ['id', e.item.id])
 
-                this.$set(this.data, index, e.item)
-            });
+                  this.$set(this.data, index, e.item)
+              });
+        }
       },
     }
 }
