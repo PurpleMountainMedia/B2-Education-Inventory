@@ -52,3 +52,52 @@ function requestIncludes($key)
     }
     return in_array($key, $include);
 }
+
+/**
+ * Return the human name for each method
+ *
+ * @param string $method The name of the method
+ * @return string
+ */
+function getMethodName($method)
+{
+    switch ($method) {
+        case 'POST':
+            return 'create';
+            break;
+
+        case 'GET':
+            return 'read';
+            break;
+
+        case 'PUT':
+            return 'update';
+            break;
+
+        case 'DELETE':
+            return 'delete';
+            break;
+
+        default:
+            return 'update';
+            break;
+    }
+}
+
+/**
+ * Return the name for each type of parent property.
+ *
+ * @param string $request The request
+ * @return string
+ */
+function getRequestParentProperty($request)
+{
+    $user = $request->user();
+    if ($request->building) {
+        return $user->hasAccessTo($request->building) ? $request->building->name : 'this building';
+    }
+    if ($request->room) {
+        return $user->hasAccessTo($request->room) ? $request->room->name : 'this room';
+    }
+    return 'this property';
+}

@@ -50,6 +50,7 @@ return array(
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
+    'App\\Report' => $baseDir . '/app/Report.php',
     'App\\Room' => $baseDir . '/app/Room.php',
     'App\\Traits\\B2UserTrait' => $baseDir . '/app/Traits/B2UserTrait.php',
     'App\\Traits\\HasUUID' => $baseDir . '/app/Traits/HasUUID.php',

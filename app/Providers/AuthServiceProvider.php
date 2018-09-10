@@ -7,6 +7,14 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Illuminate\Support\Facades\Auth;
 use App\Extensions\B2UserProvider;
 use Laravel\Passport\Passport;
+use App\Building;
+use App\Policies\BuildingPolicy;
+use App\Room;
+use App\Policies\RoomPolicy;
+use App\Item;
+use App\Policies\ItemPolicy;
+use App\Report;
+use App\Policies\ReportPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -16,7 +24,10 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
+        Building::class => BuildingPolicy::class,
+        Room::class => RoomPolicy::class,
+        Item::class => ItemPolicy::class,
+        Report::class => ReportPolicy::class,
     ];
 
     /**

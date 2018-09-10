@@ -19,6 +19,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::namespace('Api')->middleware('auth:api')->group(function () {
     Route::apiResource('buildings', 'ApiBuildingsController');
+    Route::get('buildings/{building}/rooms', 'ApiBuildingsController@rooms');
+
     Route::apiResource('rooms', 'ApiRoomsController');
     Route::apiResource('items', 'ApiItemsController');
 });

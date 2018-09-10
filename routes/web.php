@@ -16,25 +16,26 @@ Route::get('/', 'WebController@home')->name('home');
 
 Route::middleware('needs_school')->group(function () {
     // Dash
-    Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
+    Route::get('dashboard', 'DashboardController@index')->name('web.dashboard.index');
 
     // Buildings
-    Route::get('buildings', 'BuildingsController@index')->name('buildings.index');
-    Route::get('buildings/{building}', 'BuildingsController@index')->name('web.buildings.show');
+    Route::get('buildings', 'BuildingsController@index')->name('web.buildings.index');
+    Route::get('buildings/{building}', 'BuildingsController@show')->name('web.buildings.show');
 
     // Rooms
-    Route::get('rooms', 'RoomsController@index')->name('rooms.index');
+    Route::get('rooms', 'RoomsController@index')->name('web.rooms.index');
+    Route::get('rooms/{room}', 'RoomsController@show')->name('web.rooms.show');
 
     // Items
-    Route::get('items', 'ItemsController@index')->name('items.index');
-    Route::get('items/create/table', 'ItemsController@createTable')->name('items.create.table');
+    Route::get('items', 'ItemsController@index')->name('web.items.index');
+    Route::get('items/create/table', 'ItemsController@createTable')->name('web.items.create.table');
 
     // Reports
-    Route::get('reports', 'ReportsController@index')->name('reports.index');
+    Route::get('reports', 'ReportsController@index')->name('web.reports.index');
 
     // School Session
-    Route::post('session', 'SessionController@change')->name('session');
-    Route::get('session', 'SessionController@choose')->name('choose-school');
+    Route::post('session', 'SessionController@change')->name('web.session');
+    Route::get('session', 'SessionController@choose')->name('web.choose-school');
 });
 
 Route::get('login', 'Auth\LoginController@login')->name('login');

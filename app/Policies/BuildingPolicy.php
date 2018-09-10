@@ -11,6 +11,17 @@ class BuildingPolicy
     use HandlesAuthorization;
 
     /**
+     * Determine whether the user can list buildings.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function list(User $user)
+    {
+        return $user->can('read buildings');
+    }
+
+    /**
      * Determine whether the user can view the building.
      *
      * @param  \App\User  $user

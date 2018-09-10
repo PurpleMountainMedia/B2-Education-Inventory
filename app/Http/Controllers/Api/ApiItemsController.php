@@ -17,6 +17,12 @@ class ApiItemsController extends Controller
      */
     public function index(Request $request)
     {
+        $this->validate($request, [
+            'schoolId' => 'required'
+        ]);
+
+        $this->authorize('list', Item::class);
+
         return ItemResource::collection(
             Item::inSchool($request->schoolId)
                 ->withCount($request->withCount ?: [])

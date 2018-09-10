@@ -20,7 +20,7 @@ class SessionController extends Controller
     public function change(Request $request)
     {
         $request->session()->put('school', $request->school);
-        return $request->url() === route('choose-school') ? redirect(route('dashboard.index')) : redirect()->back();
+        return $request->url() === route('web.choose-school') ? redirect(route('web.dashboard.index')) : redirect()->back();
     }
 
     public function choose(Request $request)

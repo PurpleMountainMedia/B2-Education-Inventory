@@ -3,21 +3,37 @@
         <main-menu>
             <template slot="links" slot-scope="props">
                 <ul :class="props.showNav ? 'main_menu_nav' : 'main_menu_nav --hide'">
-                    <li class="main_nav_link @if(Request::url() === route('dashboard.index'))--active @endif">
-                        <a href="{{ route('dashboard.index') }}"><i class="fal fa-tachometer-alt"></i> <span>Dashboard</span></a>
+                    <li class="main_nav_link @if(Request::url() === route('web.dashboard.index'))--active @endif">
+                        <a href="{{ route('web.dashboard.index') }}"><i class="fal fa-tachometer-alt"></i> <span>Dashboard</span></a>
                     </li>
-                    <li class="main_nav_link @if(Request::url() === route('buildings.index'))--active @endif">
-                        <a href="{{ route('buildings.index') }}"><i class="fal fa-building"></i> <span>Buildings</span></a>
-                    </li>
-                    <li class="main_nav_link @if(Request::url() === route('rooms.index'))--active @endif">
-                        <a href="{{ route('rooms.index') }}"><i class="fal fa-door-open"></i> <span>Rooms</span></a>
-                    </li>
-                    <li class="main_nav_link @if(Request::url() === route('items.index'))--active @endif">
-                        <a href="{{ route('items.index') }}"><i class="fal fa-laptop"></i> <span>Items</span></a>
-                    </li>
-                    <li class="main_nav_link @if(Request::url() === route('reports.index'))--active @endif">
-                        <a href="{{ route('reports.index') }}"><i class="fal fa-chart-pie"></i> <span>Reports</span></a>
-                    </li>
+
+                    {{-- Buildings  --}}
+                    @can ('list', App\Building::class)
+                      <li class="main_nav_link @if(Request::url() === route('web.buildings.index'))--active @endif">
+                        <a href="{{ route('web.buildings.index') }}"><i class="fal fa-building"></i> <span>Buildings</span></a>
+                      </li>
+                    @endcan
+
+                    {{-- Rooms  --}}
+                    @can ('list', App\Room::class)
+                      <li class="main_nav_link @if(Request::url() === route('web.rooms.index'))--active @endif">
+                        <a href="{{ route('web.rooms.index') }}"><i class="fal fa-door-open"></i> <span>Rooms</span></a>
+                      </li>
+                    @endcan
+
+                    {{-- Items  --}}
+                    @can ('list', App\Item::class)
+                      <li class="main_nav_link @if(Request::url() === route('web.items.index'))--active @endif">
+                        <a href="{{ route('web.items.index') }}"><i class="fal fa-laptop"></i> <span>Items</span></a>
+                      </li>
+                    @endcan
+
+                    {{-- Reports  --}}
+                    @can ('list', App\Report::class)
+                      <li class="main_nav_link @if(Request::url() === route('web.reports.index'))--active @endif">
+                        <a href="{{ route('web.reports.index') }}"><i class="fal fa-chart-pie"></i> <span>Reports</span></a>
+                      </li>
+                    @endcan
                 </ul>
             </template>
 
@@ -33,13 +49,13 @@
                 <a class="account_link" href="#">{{ Auth::user()->name }}</a>
 
 
-                <a class="account_logout" href="{{ route('logout') }}"
+                <a class="account_logout" href="{{ route('web.logout') }}"
                    onclick="event.preventDefault();
                                  document.getElementById('logout-form').submit();">
                     <i class="far fa-power-off"></i> {{ __('Logout') }}
                 </a>
 
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                <form id="logout-form" action="{{ route('web.logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
             </div> --}}

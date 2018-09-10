@@ -7,7 +7,11 @@
     <el-row :gutter="20" class="mb">
         <el-col :md="{span: 15, offset: 4}" shadow="never">
             <el-card class="box-card bg-accent">
-                <h2 class="text-center text-white">@lang('dashboard.welcome_back'), {{ Auth::User()->name }}</h2>
+                <h2 class="text-center text-white">@lang('dashboard.welcome_back'),
+                  <el-tooltip class="item" effect="dark" content="ID: {{ Auth::user()->id }}" placement="top-start">
+                    <span>{{ Auth::User()->name }}</span>
+                  </el-tooltip>
+                </h2>
                 <p class="text-center text-white">@lang('dashboard.currently_editing') <strong>{{ session('school')['name'] ?? '' }}</strong></p>
             </el-card>
         </el-col>
@@ -26,7 +30,7 @@
 
     <school-selecter :data='@json(Auth::User()->organisationsWithSchools())'
                      csrf-token='{{ csrf_token() }}'
-                     form-url='{{ route('session') }}'>
+                     form-url='{{ route('web.session') }}'>
     </school-selecter>
 
     <el-row :gutter="20">

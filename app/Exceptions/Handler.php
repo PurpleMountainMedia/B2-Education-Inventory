@@ -46,6 +46,23 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
+
+            $method = getMethodName($request->method());
+            $parent_property = getRequestParentProperty($request);
+            $url_segments = $request->segments();
+            $property = end($url_segments);
+
+            return response([
+                'message' => "You do not have permission to {$method} the {$property} within {$parent_property}.",
+                'detail' => [
+                    'method' => $method,
+                    'property' => $property,
+                    'parent_property' => $parent_property
+                ]
+            ], 403);
+        }
+        
         return parent::render($request, $exception);
     }
 }

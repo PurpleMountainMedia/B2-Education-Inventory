@@ -3,14 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Building;
 
 class BuildingsController extends Controller
 {
-    public function __construct()
-    {
-
-    }
-
     /**
      * View all buildings
      *
@@ -21,5 +17,17 @@ class BuildingsController extends Controller
     {
         $buildings = [];
         return view('app.buildings.index', compact('buildings'));
+    }
+
+    /**
+     * Display a specific building
+     *
+     * @var Request $request
+     * @var App\Building $building
+     * @return Response
+     */
+    public function show(Request $request, Building $building)
+    {
+        return $building;
     }
 }

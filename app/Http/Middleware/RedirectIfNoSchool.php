@@ -20,8 +20,8 @@ class RedirectIfNoSchool
 
         $moreThanOneSchool = optional(Auth::User())->schools() >= 1;
 
-        if (!session('school') && $request->url() !== route('choose-school')) {
-            return redirect(route('choose-school'));
+        if (!session('school') && $request->url() !== route('web.choose-school')) {
+            return redirect(route('web.choose-school'));
         }
 
         return $response;

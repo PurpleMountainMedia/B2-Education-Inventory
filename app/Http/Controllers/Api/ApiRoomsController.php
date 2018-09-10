@@ -17,6 +17,12 @@ class ApiRoomsController extends Controller
      */
     public function index(Request $request)
     {
+        $this->validate($request, [
+            'schoolId' => 'required'
+        ]);
+
+        $this->authorize('list', Room::class);
+
         return RoomResource::collection(
             Room::inSchool($request->schoolId)
                 ->withCount($request->withCount ?: [])
