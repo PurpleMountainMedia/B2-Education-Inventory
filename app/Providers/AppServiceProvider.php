@@ -32,12 +32,12 @@ class AppServiceProvider extends ServiceProvider
             return getTypeName('item', true, $upper);
         });
 
-        Blade::directive('itemTypeName', function ($upper) {
-            return getTypeName('item-type', false, $upper);
+        Blade::directive('itemCategoryName', function ($upper) {
+            return getTypeName('item-category', false, $upper);
         });
 
-        Blade::directive('itemTypesName', function ($upper) {
-            return getTypeName('item-type', true, $upper);
+        Blade::directive('itemCategoriesName', function ($upper) {
+            return getTypeName('item-category', true, $upper);
         });
 
         Blade::directive('roomName', function ($upper) {

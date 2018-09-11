@@ -19,7 +19,7 @@ class CreateItemsTable extends Migration
                 $table->uuid('id')->primary();
                 $table->uuid('room_id');
                 $table->uuid('make_id')->nullable();
-                $table->uuid('item_type_id');
+                $table->uuid('item_category_id');
                 $table->string('barcode')->nullable();
                 $table->string('name')->nullable();
                 $table->string('description')->nullable();
@@ -38,8 +38,8 @@ class CreateItemsTable extends Migration
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
 
-                $table->foreign('item_type_id')
-                    ->references('id')->on('item_types')
+                $table->foreign('item_category_id')
+                    ->references('id')->on('item_categories')
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
 

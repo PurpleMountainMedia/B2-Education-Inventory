@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateItemtypesTable extends Migration
+class CreateItemCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,7 @@ class CreateItemtypesTable extends Migration
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
 
-            Schema::create('item_types', function (Blueprint $table) {
+            Schema::create('item_categories', function (Blueprint $table) {
                 $table->uuid('id')->primary();
                 $table->uuid('organisation_id')->nullable()->default(null);
                 $table->uuid('make_id')->nullable();
@@ -41,6 +41,6 @@ class CreateItemtypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('item_types');
+        Schema::dropIfExists('item_categories');
     }
 }

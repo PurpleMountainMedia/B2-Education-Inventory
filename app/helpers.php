@@ -21,8 +21,8 @@ function getTypeName($type, $plural = false, $caps = false, $lang = 'en')
       case 'building':
         $name = 'building';
         break;
-      case 'item-type':
-        $name = 'itemtype';
+      case 'item-category':
+        $name = 'item category';
         break;
       case 'report':
         $name = 'report';

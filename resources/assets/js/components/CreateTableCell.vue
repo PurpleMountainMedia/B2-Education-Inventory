@@ -4,31 +4,47 @@
                       :rules="[{required: required, message: `${__('Row')} ${(scope.$index + 1)} ${eiDefaults.building_name} ${__('is_required')}`}]"
                       :show-message="false"
                       :prop="`rows.${scope.$index}.${scope.column.property}`">
-            <el-autocomplete :autofocus="true"
+            <el-autocomplete :autofocus="false"
                              :fetch-suggestions="getData"
                              value-key="name"
                              v-on:select="onAutoCompleteSelect"
                              v-on:change="onAutoCompleteChange"
                              v-if="type === 'autocomplete'"
-                             @keyup.enter.native="newRow('down', `${scope.column.property}_cell_${(scope.$index + 1)}`, `${scope.column.property}_cell_${scope.$index}`)"
-                             @keyup.down.native="onHandleInputKey('down', `${scope.column.property}_cell_${(scope.$index + 1)}`, `${scope.column.property}_cell_${scope.$index}`)"
-                             @keyup.up.native="onHandleInputKey('up', `${scope.column.property}_cell_${(scope.$index - 1)}`, `${scope.column.property}_cell_${scope.$index}`)"
-                             @keyup.right.native="onHandleInputKey('right', `${rightCell}_cell_${scope.$index}`, `${scope.column.property}_cell_${scope.$index}`)"
-                             @keyup.left.native="onHandleInputKey('left', `${leftCell}_cell_${scope.$index}`, `${scope.column.property}_cell_${scope.$index}`)"
+                             @keyup.native="(event) => { handleKeyUp(event, scope.$index, scope.column.property) }"
                              :ref="`${scope.column.property}_cell_${scope.$index}`"
                              class="table_input_cell"
                              v-model="rows[scope.$index][scope.column.property]"></el-autocomplete>
 
-             <el-input class="table_input_cell"
-                       v-else
-                       :autofocus="true"
-                       @keyup.enter.native="newRow('down', `${scope.column.property}_cell_${(scope.$index + 1)}`, `${scope.column.property}_cell_${scope.$index}`)"
-                       @keyup.down.native="onHandleInputKey('down', `${scope.column.property}_cell_${(scope.$index + 1)}`, `${scope.column.property}_cell_${scope.$index}`)"
-                       @keyup.up.native="onHandleInputKey('up', `${scope.column.property}_cell_${(scope.$index - 1)}`, `${scope.column.property}_cell_${scope.$index}`)"
-                       @keyup.right.native="onHandleInputKey('right', `${rightCell}_cell_${scope.$index}`, `${scope.column.property}_cell_${scope.$index}`)"
-                       @keyup.left.native="onHandleInputKey('left', `${leftCell}_cell_${scope.$index}`, `${scope.column.property}_cell_${scope.$index}`)"
+            <el-select v-else-if="type === 'select'"
                        v-model="rows[scope.$index][scope.column.property]"
-                       :ref="`${scope.column.property}_cell_${scope.$index}`"></el-input>
+                       @keyup.native="(event) => { handleKeyUp(event, scope.$index, scope.column.property) }"
+                       :ref="`${scope.column.property}_cell_${scope.$index}`"
+                       class="table_input_cell"
+                       filterable>
+              <el-option v-for="item in data"
+                         :key="item.name"
+                         :label="item.name"
+                         :value="item.name">
+              </el-option>
+            </el-select>
+
+            <el-date-picker v-else-if="type === 'date'"
+                            v-model="rows[scope.$index][scope.column.property]"
+                            @keyup.native="(event) => { handleKeyUp(event, scope.$index, scope.column.property) }"
+                            :ref="`${scope.column.property}_cell_${scope.$index}`"
+                            type="date"
+                            class="table_input_cell"
+                            :format="eiDateFormat"
+                            :value-format="serverDateFormat">
+            </el-date-picker>
+
+            <el-input class="table_input_cell"
+                     v-else
+                     :autofocus="false"
+                     :disabled="scope.column.qty > 1"
+                     @keyup.native="(event) => { handleKeyUp(event, scope.$index, scope.column.property) }"
+                     v-model="rows[scope.$index][scope.column.property]"
+                     :ref="`${scope.column.property}_cell_${scope.$index}`"></el-input>
         </el-form-item>
     </div>
 </template>
@@ -104,14 +120,41 @@ export default {
         }))
       },
 
+      handleKeyUp (event, index, property) {
+        if (((event.altKey || event.ctrlKey) && !(event.altKey && event.ctrlKey)) && event.isTrusted) {
+          switch (event.key) {
+            case 'ArrowRight':
+              this.onHandleInputKey('right', `${this.rightCell}_cell_${index}`, `${property}_cell_${index}`)
+              break;
+            case 'ArrowLeft':
+              this.onHandleInputKey('left', `${this.leftCell}_cell_${index}`, `${property}_cell_${index}`)
+              break;
+            case 'ArrowUp':
+              this.onHandleInputKey('up', `${property}_cell_${index-1}`, `${property}_cell_${index}`)
+              break;
+            case 'ArrowDown':
+              this.onHandleInputKey('down', `${property}_cell_${index+1}`, `${property}_cell_${index}`)
+              break;
+            case 'Enter':
+              this.newRow('down', `${property}_cell_${(index+1)}`, `${property}_cell_${index}`, false)
+              break;
+          }
+        }
+      },
+
       focus () {
         this.$refs[`${this.scope.column.property}_cell_${this.scope.$index}`].focus();
       },
 
       blur () {
         var ref = this.$refs[`${this.scope.column.property}_cell_${this.scope.$index}`]
-        if (typeof ref.close == 'function') {
+
+        if (typeof ref.hidePicker == 'function') {
+          ref.hidePicker()
+        } else if (typeof ref.close == 'function') {
           ref.close()
+        } else if (typeof ref.blur == 'function') {
+          ref.blur()
         }
       }
     }

@@ -3,10 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\ResponsableTrait;
 
 class Make extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, ResponsableTrait;
 
     /**
      * The attributes that should be mutated into dates.
@@ -27,8 +28,8 @@ class Make extends Model
      *
      * @return collection
      */
-    public function itemTypes()
+    public function itemCategories()
     {
-        return $this->hasMany('App\ItemType');
+        return $this->hasMany('App\ItemCategory');
     }
 }

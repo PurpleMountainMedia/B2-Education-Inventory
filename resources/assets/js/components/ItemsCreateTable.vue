@@ -5,6 +5,12 @@
       </el-alert>
 
       <el-form :model="{rows: rows}">
+
+        <el-form-item :label="__('Barcode Start')">
+          <el-input v-model="barcodeStart"></el-input>
+        </el-form-item>
+
+
         <el-table :data="rows" @selection-change="handleSelectionChange">
 
 
@@ -17,7 +23,7 @@
             <template slot-scope="scope">
               <create-table-cell :type="col.type ? col.type : null"
                                  :data="col.data ? col.data : []"
-                                 :new-row="(type, to, from) => { addRow(); handleInputKey(type, to, from); }"
+                                 :new-row="addRow"
                                  :rows="rows"
                                  :scope="scope"
                                  :onAutoCompleteSelect="(value) => { handleAutoCompleteSelect(col.prop, value) }"
@@ -29,10 +35,19 @@
             </template>
           </el-table-column>
 
+          <el-table-column class-name="table_no_padding" :label="__('Barcode Range')" prop="barcodeRange" :width="100">
+            <template slot-scope="scope">
+              <div class="table_cell_barcode_range">{{ calculateBarcodeRange(scope) }}</div>
+            </template>
+          </el-table-column>
+
         </el-table>
       </el-form>
 
-      <el-button class="mt" @click="addRow" type="primary" plain>{{ __('Add Row') }}</el-button>
+      <el-button class="mt" @click="addRow" type="primary" plain>{{ __('Add More') }}</el-button>
+      <el-button class="mt" @click="createItems" type="primary">{{ __('Create Items') }}</el-button>
+
+      {{ rows }}
     </div>
 </template>
 
@@ -42,6 +57,8 @@ import CreateTableCell from 'components/CreateTableCell'
 import api from '../utils/api'
 
 const row = {
+    barcodeStart: 0,
+    barcodeEnd: 0,
     building: '',
     room: '',
     item_type: '',
@@ -56,183 +73,270 @@ const row = {
 }
 
 export default {
-    name: 'ItemsCreateTable',
+  name: 'ItemsCreateTable',
 
-    components: {
-        CreateTableCell: CreateTableCell
-    },
+  components: {
+      CreateTableCell: CreateTableCell
+  },
 
-    props: {
-      schoolId: {
-        type: [Number, String],
-        required: true,
-      }
-    },
+  props: {
+    schoolId: {
+      type: [Number, String],
+      required: true,
+    }
+  },
 
-    data () {
-      return {
-          loading: false,
-          rows: [clone(row)],
-          test: '',
-          selectedRows: [],
-          buildings: [],
-          rooms: [],
-      }
-    },
+  data () {
+    return {
+        loading: false,
+        rows: [clone(row)],
+        test: '',
+        selectedRows: [],
+        buildings: [],
+        rooms: [],
+        itemCategories: [],
+        makes: [],
+        barcodeStart: 1
+    }
+  },
 
-    mounted () {
-      this.getBuildings()
-    },
+  mounted () {
+    this.getBuildings()
+    this.getItemCategories()
+    this.getMakes()
+  },
 
-    watch: {
+  watch: {
 
-    },
+  },
 
-    computed: {
-      collumns () {
-        return [
-          {
-            label: this.ucFirst(this.eiDefaults.building_name),
-            prop: "building",
-            width: "100",
-            type: "autocomplete",
-            data: this.buildings
-          },
-          {
-            label: this.ucFirst(this.eiDefaults.room_name),
-            prop: "room",
-            width: "100",
-            type: "autocomplete",
-            data: this.rooms
-          },
-          {
-            label: this.ucFirst(this.eiDefaults.item_type_name),
-            prop: "itemType"
-          },
-          {
-            label: this.__('Name'),
-            prop: "name"
-          },
-          {
-            label: this.__('Description'),
-            prop: "description"
-          },
-          {
-            label: this.__('Make'),
-            prop: "make"
-          },
-          {
-            label: this.__('Serial'),
-            prop: 'serial'
-          },
-          {
-            label: this.__('Purchase Date'),
-            prop: 'purchaseDate'
-          },
-          {
-            label: this.__('Purchase Price'),
-            prop: 'purchasePrice'
-          },
-          {
-            label: this.__('Write Off'),
-            prop: 'writeOff'
-          },
-          {
-            label: this.__('Quantity'),
-            prop: 'qty'
-          }
-        ]
-      }
-    },
-
-    methods: {
-      addRow () {
-        var newRow = clone(row)
-        var rowsLength = this.rows.length-1
-        var colsToDup = ['building', 'room', 'qty']
-
-        if (rowsLength >= 0) {
-          colsToDup.forEach(row => {
-            newRow[row] = this.rows[rowsLength][row]
-          })
+  computed: {
+    collumns () {
+      return [
+        {
+          label: this.ucFirst(this.eiDefaults.building_name),
+          prop: "building",
+          width: "100",
+          type: "autocomplete",
+          data: this.buildings
+        },
+        {
+          label: this.ucFirst(this.eiDefaults.room_name),
+          prop: "room",
+          width: "100",
+          type: "autocomplete",
+          data: this.rooms
+        },
+        {
+          label: this.ucFirst(this.eiDefaults.item_type_name),
+          prop: "itemCategory",
+          type: "select",
+          data: this.itemCategories
+        },
+        {
+          label: this.__('Name'),
+          prop: "name"
+        },
+        {
+          label: this.__('Description'),
+          prop: "description"
+        },
+        {
+          label: this.__('Make'),
+          prop: "make",
+          type: "autocomplete",
+          data: this.makes
+        },
+        {
+          label: this.__('Serial'),
+          prop: 'serial'
+        },
+        {
+          label: this.__('Purchase Date'),
+          prop: 'purchaseDate',
+          type: 'date'
+        },
+        {
+          label: this.__('Purchase Price'),
+          prop: 'purchasePrice',
+        },
+        {
+          label: this.__('Write Off'),
+          prop: 'writeOff',
+          type: 'date'
+        },
+        {
+          label: this.__('Quantity'),
+          prop: 'qty'
         }
+      ]
+    }
+  },
 
-        this.rows.push(newRow)
-      },
+  methods: {
+    addRow () {
+      var newRow = clone(row)
+      var rowsLength = this.rows.length-1
+      var colsToDup = ['building', 'room', 'itemCategory']
 
-      handleSelectionChange (val) {
-        this.selectedRows = val;
-      },
-
-      handelMultipleDelete () {
-        this.selectedRows.forEach(row => {
-          this.rows.splice(this.rows.indexOf(row), 1)
+      if (rowsLength >= 0) {
+        colsToDup.forEach(row => {
+          newRow[row] = this.rows[rowsLength][row]
         })
-      },
-
-      handleInputKey (type, to, from) {
-        this.$nextTick(() => {
-          if (from) {
-            var fromRef = this.$refs[from] ? this.$refs[from][0] : null
-            if (fromRef) {
-              fromRef.blur()
-            }
-          }
-          if (to) {
-            var toRef = this.$refs[to] ? this.$refs[to][0] : null;
-            if (toRef) {
-              toRef.focus()
-            }
-          }
-        })
-      },
-
-      getBuildings () {
-        api.get({
-          path: 'buildings',
-          params: {
-            schoolId: this.schoolId,
-            limit: 100 * 100
-          }
-        })
-        .then(data => {
-          this.buildings = data.data
-        })
-        .catch(error => {
-
-        })
-      },
-
-      getRooms (buildingId) {
-        api.get({
-          path: `buildings/${buildingId}/rooms`,
-          params: {
-            limit: 100 * 100
-          }
-        })
-        .then(data => {
-          this.rooms = data.data
-        })
-        .catch(error => {
-
-        })
-      },
-
-      handleAutoCompleteSelect (col, value) {
-        switch (col) {
-          case 'building':
-            this.getRooms(value.id)
-            break;
-          default:
-
-        }
-      },
-
-      handleAutoCompleteChange (col, value) {
-        console.log(value)
       }
+
+      this.rows.push(newRow)
+
+      this.$nextTick(() => {
+        if (this.$refs[`itemCategory_cell_${rowsLength+1}`]) {
+          this.$refs[`itemCategory_cell_${rowsLength+1}`][0].focus()
+        }
+      })
+    },
+
+    handleSelectionChange (val) {
+      this.selectedRows = val;
+    },
+
+    handelMultipleDelete () {
+      this.selectedRows.forEach(row => {
+        this.rows.splice(this.rows.indexOf(row), 1)
+      })
+    },
+
+    handleInputKey (type, to, from, focus = true, blur = true) {
+      this.$nextTick(() => {
+        if (from) {
+          var fromRef = this.$refs[from] ? this.$refs[from][0] : null
+          if (fromRef && blur) {
+            fromRef.blur()
+          }
+        }
+        if (to) {
+          var toRef = this.$refs[to] ? this.$refs[to][0] : null;
+          if (toRef && focus) {
+            toRef.focus()
+          }
+        }
+      })
+    },
+
+    getBuildings () {
+      api.get({
+        path: 'buildings',
+        params: {
+          schoolId: this.schoolId,
+          limit: 100 * 100
+        }
+      })
+      .then(data => {
+        this.buildings = data.data
+      })
+      .catch(error => {
+
+      })
+    },
+
+    getRooms (buildingId) {
+      api.get({
+        path: `buildings/${buildingId}/rooms`,
+        params: {
+          limit: 100 * 100
+        }
+      })
+      .then(data => {
+        this.rooms = data.data
+      })
+      .catch(error => {
+
+      })
+    },
+
+    getItemCategories () {
+      api.get({
+        path: `item-categories`,
+        params: {
+          limit: 100 * 100
+        }
+      })
+      .then(data => {
+        this.itemCategories = data.data
+      })
+      .catch(error => {
+
+      })
+    },
+
+    getMakes () {
+      api.get({
+        path: `makes`,
+        params: {
+          limit: 100 * 100
+        }
+      })
+      .then(data => {
+        this.makes = data.data
+      })
+      .catch(error => {
+
+      })
+    },
+
+    handleAutoCompleteSelect (col, value) {
+      switch (col) {
+        case 'building':
+          this.getRooms(value.id)
+          break;
+        default:
+
+      }
+    },
+
+    handleAutoCompleteChange (col, value) {
+      console.log(value)
+    },
+
+    calculateBarcodeRange (row) {
+
+      var qty = row.row.qty ? row.row.qty : 1
+
+      if (this.rows[row.$index-1]) {
+        row.row.barcodeStart = parseInt(this.rows[row.$index-1].barcodeEnd)+1
+      } else {
+        var start = this.barcodeStart ? this.barcodeStart : 1
+        row.row.barcodeStart = parseInt(start) + parseInt(row.$index)
+      }
+
+      row.row.barcodeEnd = row.row.barcodeStart + (parseInt(qty)-1)
+
+      if (row.row.barcodeStart === row.row.barcodeEnd) {
+        return row.row.barcodeStart
+      } else {
+        return `${row.row.barcodeStart} - ${row.row.barcodeEnd}`
+      }
+    },
+
+    createItems () {
+      this.loading = true;
+      this.errors = {};
+
+      api.persist("post", {
+            path: "items/bulk",
+            object: {
+              items: this.rows,
+              schoolId: this.schoolId,
+            }
+        })
+        .then((data) => {
+            this.loading = false;
+        })
+        .catch((error) => {
+            this.loading = false;
+            this.errors = error;
+        });
     }
 
+  },
 }
 </script>
 

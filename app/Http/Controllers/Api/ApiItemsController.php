@@ -6,9 +6,20 @@ use App\Item;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Item as ItemResource;
+use App\Services\BuildingService;
 
 class ApiItemsController extends Controller
 {
+    protected $schoolId;
+
+    public function __construct(Request $request)
+    {
+        $this->validate($request, [
+            'schoolId' => 'required'
+        ]);
+        $this->schoolId = $request->schoolId;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,14 +28,10 @@ class ApiItemsController extends Controller
      */
     public function index(Request $request)
     {
-        $this->validate($request, [
-            'schoolId' => 'required'
-        ]);
-
         $this->authorize('list', Item::class);
 
         return ItemResource::collection(
-            Item::inSchool($request->schoolId)
+            Item::inSchool($this->schoolId)
                 ->withCount($request->withCount ?: [])
                 ->with($request->with ?: [])
                 ->filterable()
@@ -75,5 +82,41 @@ class ApiItemsController extends Controller
     public function destroy(Item $item)
     {
         //
+    }
+
+    public function bulkAdd(Request $request, BuildingService $buildingService)
+    {
+
+
+        $this->validate($request, [
+            'items' => 'required|array'
+        ]);
+
+        $items = collect($request->items);
+
+        $buildings = $buildingService->buildingsFromNames(
+            $this->schoolId,
+            $items->pluck('building')->toArray()
+        );
+
+        $item = [
+            "barcodeStart" => 1,
+            "barcodeEnd" => 1,
+            "building" => "Test Building",
+            "room" => "Test Room",
+            "item_type" => null,
+            "name" => "New Name",
+            "description" => "New Description",
+            "make" => "Apple",
+            "serial" => "010101",
+            "purchase_date" => null,
+            "purchase_price" => null,
+            "write_off" => null,
+            "qty" => 1,
+            "itemCategory" => "AV Equipment",
+            "purchaseDate" => "11/09/2018",
+            "purchasePrice" => "1000",
+            "writeOff" => "10/09/2018"
+        ];
     }
 }

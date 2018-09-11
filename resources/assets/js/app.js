@@ -13,7 +13,7 @@ Vue.config.productionTip = false
 Vue.mixin({
     mounted () {
         if (process.env.NODE_ENV === 'development') {
-            console.log(`${this.$options.name}.vue mounted!`);
+            // console.log(`${this.$options.name}.vue mounted!`);
         }
     },
 
@@ -24,6 +24,14 @@ Vue.mixin({
 
         eiSchool() {
           return window.eiSchool;
+        },
+
+        eiDateFormat() {
+          return 'dd/MM/yyyy';
+        },
+
+        serverDateFormat() {
+          return 'dd/MM/yyyy';
         }
     },
 

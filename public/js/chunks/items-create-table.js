@@ -7,8 +7,24 @@ webpackJsonp([1],{
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -46,94 +62,120 @@ Object.defineProperty(exports, "__esModule", {
 //
 
 exports.default = {
-    name: "CreateTableCell",
+  name: "CreateTableCell",
 
-    props: {
-        scope: {
-            type: Object,
-            required: true
-        },
-        rows: {
-            type: Array,
-            required: true
-        },
-        onHandleInputKey: {
-            type: Function,
-            required: false,
-            default: function _default() {
-                return function (type, to, from) {};
-            }
-        },
-        newRow: {
-            type: Function,
-            required: false,
-            default: function _default() {
-                return function (type, to, from) {};
-            }
-        },
-        type: {
-            type: String,
-            required: false,
-            default: function _default() {
-                return 'input';
-            }
-        },
-        rightCell: {
-            type: String,
-            required: false,
-            default: function _default() {
-                return null;
-            }
-        },
-        leftCell: {
-            type: String,
-            required: false,
-            default: function _default() {
-                return null;
-            }
-        },
-        required: {
-            type: Boolean,
-            required: false,
-            default: function _default() {
-                return false;
-            }
-        },
-        data: {
-            type: Array,
-            required: false,
-            default: function _default() {
-                return [];
-            }
-        },
-        onAutoCompleteSelect: {
-            type: Function,
-            required: false,
-            default: function _default() {}
-        },
-        onAutoCompleteChange: {
-            type: Function,
-            required: false,
-            default: function _default() {}
-        }
+  props: {
+    scope: {
+      type: Object,
+      required: true
     },
-
-    methods: {
-        getData: function getData(query, cb) {
-            cb(this.data.filter(function (data) {
-                return data.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
-            }));
-        },
-        focus: function focus() {
-            this.$refs[this.scope.column.property + '_cell_' + this.scope.$index].focus();
-        },
-        blur: function blur() {
-            var ref = this.$refs[this.scope.column.property + '_cell_' + this.scope.$index];
-            if (typeof ref.close == 'function') {
-                ref.close();
-            }
-        }
+    rows: {
+      type: Array,
+      required: true
+    },
+    onHandleInputKey: {
+      type: Function,
+      required: false,
+      default: function _default() {
+        return function (type, to, from) {};
+      }
+    },
+    newRow: {
+      type: Function,
+      required: false,
+      default: function _default() {
+        return function (type, to, from) {};
+      }
+    },
+    type: {
+      type: String,
+      required: false,
+      default: function _default() {
+        return 'input';
+      }
+    },
+    rightCell: {
+      type: String,
+      required: false,
+      default: function _default() {
+        return null;
+      }
+    },
+    leftCell: {
+      type: String,
+      required: false,
+      default: function _default() {
+        return null;
+      }
+    },
+    required: {
+      type: Boolean,
+      required: false,
+      default: function _default() {
+        return false;
+      }
+    },
+    data: {
+      type: Array,
+      required: false,
+      default: function _default() {
+        return [];
+      }
+    },
+    onAutoCompleteSelect: {
+      type: Function,
+      required: false,
+      default: function _default() {}
+    },
+    onAutoCompleteChange: {
+      type: Function,
+      required: false,
+      default: function _default() {}
     }
+  },
+
+  methods: {
+    getData: function getData(query, cb) {
+      cb(this.data.filter(function (data) {
+        return data.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
+      }));
+    },
+    handleKeyUp: function handleKeyUp(event, index, property) {
+      if ((event.altKey || event.ctrlKey) && !(event.altKey && event.ctrlKey) && event.isTrusted) {
+        switch (event.key) {
+          case 'ArrowRight':
+            this.onHandleInputKey('right', this.rightCell + '_cell_' + index, property + '_cell_' + index);
+            break;
+          case 'ArrowLeft':
+            this.onHandleInputKey('left', this.leftCell + '_cell_' + index, property + '_cell_' + index);
+            break;
+          case 'ArrowUp':
+            this.onHandleInputKey('up', property + '_cell_' + (index - 1), property + '_cell_' + index);
+            break;
+          case 'ArrowDown':
+            this.onHandleInputKey('down', property + '_cell_' + (index + 1), property + '_cell_' + index);
+            break;
+          case 'Enter':
+            this.newRow('down', property + '_cell_' + (index + 1), property + '_cell_' + index, false);
+            break;
+        }
+      }
+    },
+    focus: function focus() {
+      this.$refs[this.scope.column.property + '_cell_' + this.scope.$index].focus();
+    },
+    blur: function blur() {
+      var ref = this.$refs[this.scope.column.property + '_cell_' + this.scope.$index];
+
+      if (typeof ref.hidePicker == 'function') {
+        ref.hidePicker();
+      } else if (typeof ref.close == 'function') {
+        ref.close();
+      } else if (typeof ref.blur == 'function') {
+        ref.blur();
+      }
+    }
+  }
 };
 
 /***/ }),
@@ -196,11 +238,28 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var clone = __webpack_require__("./node_modules/lodash.clone/index.js");
 
 
 var row = {
+  barcodeStart: 0,
+  barcodeEnd: 0,
   building: '',
   room: '',
   item_type: '',
@@ -235,11 +294,16 @@ exports.default = {
       test: '',
       selectedRows: [],
       buildings: [],
-      rooms: []
+      rooms: [],
+      itemCategories: [],
+      makes: [],
+      barcodeStart: 1
     };
   },
   mounted: function mounted() {
     this.getBuildings();
+    this.getItemCategories();
+    this.getMakes();
   },
 
 
@@ -261,7 +325,9 @@ exports.default = {
         data: this.rooms
       }, {
         label: this.ucFirst(this.eiDefaults.item_type_name),
-        prop: "itemType"
+        prop: "itemCategory",
+        type: "select",
+        data: this.itemCategories
       }, {
         label: this.__('Name'),
         prop: "name"
@@ -270,19 +336,23 @@ exports.default = {
         prop: "description"
       }, {
         label: this.__('Make'),
-        prop: "make"
+        prop: "make",
+        type: "autocomplete",
+        data: this.makes
       }, {
         label: this.__('Serial'),
         prop: 'serial'
       }, {
         label: this.__('Purchase Date'),
-        prop: 'purchaseDate'
+        prop: 'purchaseDate',
+        type: 'date'
       }, {
         label: this.__('Purchase Price'),
         prop: 'purchasePrice'
       }, {
         label: this.__('Write Off'),
-        prop: 'writeOff'
+        prop: 'writeOff',
+        type: 'date'
       }, {
         label: this.__('Quantity'),
         prop: 'qty'
@@ -296,7 +366,7 @@ exports.default = {
 
       var newRow = clone(row);
       var rowsLength = this.rows.length - 1;
-      var colsToDup = ['building', 'room', 'qty'];
+      var colsToDup = ['building', 'room', 'itemCategory'];
 
       if (rowsLength >= 0) {
         colsToDup.forEach(function (row) {
@@ -305,6 +375,12 @@ exports.default = {
       }
 
       this.rows.push(newRow);
+
+      this.$nextTick(function () {
+        if (_this.$refs['itemCategory_cell_' + (rowsLength + 1)]) {
+          _this.$refs['itemCategory_cell_' + (rowsLength + 1)][0].focus();
+        }
+      });
     },
     handleSelectionChange: function handleSelectionChange(val) {
       this.selectedRows = val;
@@ -319,16 +395,19 @@ exports.default = {
     handleInputKey: function handleInputKey(type, to, from) {
       var _this3 = this;
 
+      var focus = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+      var blur = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : true;
+
       this.$nextTick(function () {
         if (from) {
           var fromRef = _this3.$refs[from] ? _this3.$refs[from][0] : null;
-          if (fromRef) {
+          if (fromRef && blur) {
             fromRef.blur();
           }
         }
         if (to) {
           var toRef = _this3.$refs[to] ? _this3.$refs[to][0] : null;
-          if (toRef) {
+          if (toRef && focus) {
             toRef.focus();
           }
         }
@@ -359,6 +438,30 @@ exports.default = {
         _this5.rooms = data.data;
       }).catch(function (error) {});
     },
+    getItemCategories: function getItemCategories() {
+      var _this6 = this;
+
+      _api2.default.get({
+        path: 'item-categories',
+        params: {
+          limit: 100 * 100
+        }
+      }).then(function (data) {
+        _this6.itemCategories = data.data;
+      }).catch(function (error) {});
+    },
+    getMakes: function getMakes() {
+      var _this7 = this;
+
+      _api2.default.get({
+        path: 'makes',
+        params: {
+          limit: 100 * 100
+        }
+      }).then(function (data) {
+        _this7.makes = data.data;
+      }).catch(function (error) {});
+    },
     handleAutoCompleteSelect: function handleAutoCompleteSelect(col, value) {
       switch (col) {
         case 'building':
@@ -370,9 +473,46 @@ exports.default = {
     },
     handleAutoCompleteChange: function handleAutoCompleteChange(col, value) {
       console.log(value);
+    },
+    calculateBarcodeRange: function calculateBarcodeRange(row) {
+
+      var qty = row.row.qty ? row.row.qty : 1;
+
+      if (this.rows[row.$index - 1]) {
+        row.row.barcodeStart = parseInt(this.rows[row.$index - 1].barcodeEnd) + 1;
+      } else {
+        var start = this.barcodeStart ? this.barcodeStart : 1;
+        row.row.barcodeStart = parseInt(start) + parseInt(row.$index);
+      }
+
+      row.row.barcodeEnd = row.row.barcodeStart + (parseInt(qty) - 1);
+
+      if (row.row.barcodeStart === row.row.barcodeEnd) {
+        return row.row.barcodeStart;
+      } else {
+        return row.row.barcodeStart + ' - ' + row.row.barcodeEnd;
+      }
+    },
+    createItems: function createItems() {
+      var _this8 = this;
+
+      this.loading = true;
+      this.errors = {};
+
+      _api2.default.persist("post", {
+        path: "items/bulk",
+        object: {
+          items: this.rows,
+          schoolId: this.schoolId
+        }
+      }).then(function (data) {
+        _this8.loading = false;
+      }).catch(function (error) {
+        _this8.loading = false;
+        _this8.errors = error;
+      });
     }
   }
-
 };
 
 /***/ }),
@@ -400,7 +540,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -3507,6 +3647,23 @@ var render = function() {
         { attrs: { model: { rows: _vm.rows } } },
         [
           _c(
+            "el-form-item",
+            { attrs: { label: _vm.__("Barcode Start") } },
+            [
+              _c("el-input", {
+                model: {
+                  value: _vm.barcodeStart,
+                  callback: function($$v) {
+                    _vm.barcodeStart = $$v
+                  },
+                  expression: "barcodeStart"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
             "el-table",
             {
               attrs: { data: _vm.rows },
@@ -3542,10 +3699,7 @@ var render = function() {
                             attrs: {
                               type: col.type ? col.type : null,
                               data: col.data ? col.data : [],
-                              "new-row": function(type, to, from) {
-                                _vm.addRow()
-                                _vm.handleInputKey(type, to, from)
-                              },
+                              "new-row": _vm.addRow,
                               rows: _vm.rows,
                               scope: scope,
                               onAutoCompleteSelect: function(value) {
@@ -3568,6 +3722,27 @@ var render = function() {
                     }
                   ])
                 })
+              }),
+              _vm._v(" "),
+              _c("el-table-column", {
+                attrs: {
+                  "class-name": "table_no_padding",
+                  label: _vm.__("Barcode Range"),
+                  prop: "barcodeRange",
+                  width: 100
+                },
+                scopedSlots: _vm._u([
+                  {
+                    key: "default",
+                    fn: function(scope) {
+                      return [
+                        _c("div", { staticClass: "table_cell_barcode_range" }, [
+                          _vm._v(_vm._s(_vm.calculateBarcodeRange(scope)))
+                        ])
+                      ]
+                    }
+                  }
+                ])
               })
             ],
             2
@@ -3583,8 +3758,19 @@ var render = function() {
           attrs: { type: "primary", plain: "" },
           on: { click: _vm.addRow }
         },
-        [_vm._v(_vm._s(_vm.__("Add Row")))]
-      )
+        [_vm._v(_vm._s(_vm.__("Add More")))]
+      ),
+      _vm._v(" "),
+      _c(
+        "el-button",
+        {
+          staticClass: "mt",
+          attrs: { type: "primary" },
+          on: { click: _vm.createItems }
+        },
+        [_vm._v(_vm._s(_vm.__("Create Items")))]
+      ),
+      _vm._v("\n\n  " + _vm._s(_vm.rows) + "\n")
     ],
     1
   )
@@ -3639,7 +3825,7 @@ var render = function() {
                 ref: _vm.scope.column.property + "_cell_" + _vm.scope.$index,
                 staticClass: "table_input_cell",
                 attrs: {
-                  autofocus: true,
+                  autofocus: false,
                   "fetch-suggestions": _vm.getData,
                   "value-key": "name"
                 },
@@ -3648,97 +3834,15 @@ var render = function() {
                   change: _vm.onAutoCompleteChange
                 },
                 nativeOn: {
-                  keyup: [
-                    function($event) {
-                      if (
-                        !("button" in $event) &&
-                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                      ) {
-                        return null
-                      }
-                      _vm.newRow(
-                        "down",
-                        _vm.scope.column.property +
-                          "_cell_" +
-                          (_vm.scope.$index + 1),
-                        _vm.scope.column.property + "_cell_" + _vm.scope.$index
+                  keyup: function($event) {
+                    return (function(event) {
+                      _vm.handleKeyUp(
+                        event,
+                        _vm.scope.$index,
+                        _vm.scope.column.property
                       )
-                    },
-                    function($event) {
-                      if (
-                        !("button" in $event) &&
-                        _vm._k($event.keyCode, "down", 40, $event.key, [
-                          "Down",
-                          "ArrowDown"
-                        ])
-                      ) {
-                        return null
-                      }
-                      _vm.onHandleInputKey(
-                        "down",
-                        _vm.scope.column.property +
-                          "_cell_" +
-                          (_vm.scope.$index + 1),
-                        _vm.scope.column.property + "_cell_" + _vm.scope.$index
-                      )
-                    },
-                    function($event) {
-                      if (
-                        !("button" in $event) &&
-                        _vm._k($event.keyCode, "up", 38, $event.key, [
-                          "Up",
-                          "ArrowUp"
-                        ])
-                      ) {
-                        return null
-                      }
-                      _vm.onHandleInputKey(
-                        "up",
-                        _vm.scope.column.property +
-                          "_cell_" +
-                          (_vm.scope.$index - 1),
-                        _vm.scope.column.property + "_cell_" + _vm.scope.$index
-                      )
-                    },
-                    function($event) {
-                      if (
-                        !("button" in $event) &&
-                        _vm._k($event.keyCode, "right", 39, $event.key, [
-                          "Right",
-                          "ArrowRight"
-                        ])
-                      ) {
-                        return null
-                      }
-                      if ("button" in $event && $event.button !== 2) {
-                        return null
-                      }
-                      _vm.onHandleInputKey(
-                        "right",
-                        _vm.rightCell + "_cell_" + _vm.scope.$index,
-                        _vm.scope.column.property + "_cell_" + _vm.scope.$index
-                      )
-                    },
-                    function($event) {
-                      if (
-                        !("button" in $event) &&
-                        _vm._k($event.keyCode, "left", 37, $event.key, [
-                          "Left",
-                          "ArrowLeft"
-                        ])
-                      ) {
-                        return null
-                      }
-                      if ("button" in $event && $event.button !== 0) {
-                        return null
-                      }
-                      _vm.onHandleInputKey(
-                        "left",
-                        _vm.leftCell + "_cell_" + _vm.scope.$index,
-                        _vm.scope.column.property + "_cell_" + _vm.scope.$index
-                      )
-                    }
-                  ]
+                    })($event)
+                  }
                 },
                 model: {
                   value: _vm.rows[_vm.scope.$index][_vm.scope.column.property],
@@ -3752,115 +3856,111 @@ var render = function() {
                   expression: "rows[scope.$index][scope.column.property]"
                 }
               })
-            : _c("el-input", {
-                ref: _vm.scope.column.property + "_cell_" + _vm.scope.$index,
-                staticClass: "table_input_cell",
-                attrs: { autofocus: true },
-                nativeOn: {
-                  keyup: [
-                    function($event) {
-                      if (
-                        !("button" in $event) &&
-                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                      ) {
-                        return null
+            : _vm.type === "select"
+              ? _c(
+                  "el-select",
+                  {
+                    ref:
+                      _vm.scope.column.property + "_cell_" + _vm.scope.$index,
+                    staticClass: "table_input_cell",
+                    attrs: { filterable: "" },
+                    nativeOn: {
+                      keyup: function($event) {
+                        return (function(event) {
+                          _vm.handleKeyUp(
+                            event,
+                            _vm.scope.$index,
+                            _vm.scope.column.property
+                          )
+                        })($event)
                       }
-                      _vm.newRow(
-                        "down",
-                        _vm.scope.column.property +
-                          "_cell_" +
-                          (_vm.scope.$index + 1),
-                        _vm.scope.column.property + "_cell_" + _vm.scope.$index
-                      )
                     },
-                    function($event) {
-                      if (
-                        !("button" in $event) &&
-                        _vm._k($event.keyCode, "down", 40, $event.key, [
-                          "Down",
-                          "ArrowDown"
-                        ])
-                      ) {
-                        return null
-                      }
-                      _vm.onHandleInputKey(
-                        "down",
-                        _vm.scope.column.property +
-                          "_cell_" +
-                          (_vm.scope.$index + 1),
-                        _vm.scope.column.property + "_cell_" + _vm.scope.$index
-                      )
-                    },
-                    function($event) {
-                      if (
-                        !("button" in $event) &&
-                        _vm._k($event.keyCode, "up", 38, $event.key, [
-                          "Up",
-                          "ArrowUp"
-                        ])
-                      ) {
-                        return null
-                      }
-                      _vm.onHandleInputKey(
-                        "up",
-                        _vm.scope.column.property +
-                          "_cell_" +
-                          (_vm.scope.$index - 1),
-                        _vm.scope.column.property + "_cell_" + _vm.scope.$index
-                      )
-                    },
-                    function($event) {
-                      if (
-                        !("button" in $event) &&
-                        _vm._k($event.keyCode, "right", 39, $event.key, [
-                          "Right",
-                          "ArrowRight"
-                        ])
-                      ) {
-                        return null
-                      }
-                      if ("button" in $event && $event.button !== 2) {
-                        return null
-                      }
-                      _vm.onHandleInputKey(
-                        "right",
-                        _vm.rightCell + "_cell_" + _vm.scope.$index,
-                        _vm.scope.column.property + "_cell_" + _vm.scope.$index
-                      )
-                    },
-                    function($event) {
-                      if (
-                        !("button" in $event) &&
-                        _vm._k($event.keyCode, "left", 37, $event.key, [
-                          "Left",
-                          "ArrowLeft"
-                        ])
-                      ) {
-                        return null
-                      }
-                      if ("button" in $event && $event.button !== 0) {
-                        return null
-                      }
-                      _vm.onHandleInputKey(
-                        "left",
-                        _vm.leftCell + "_cell_" + _vm.scope.$index,
-                        _vm.scope.column.property + "_cell_" + _vm.scope.$index
-                      )
+                    model: {
+                      value:
+                        _vm.rows[_vm.scope.$index][_vm.scope.column.property],
+                      callback: function($$v) {
+                        _vm.$set(
+                          _vm.rows[_vm.scope.$index],
+                          _vm.scope.column.property,
+                          $$v
+                        )
+                      },
+                      expression: "rows[scope.$index][scope.column.property]"
                     }
-                  ]
-                },
-                model: {
-                  value: _vm.rows[_vm.scope.$index][_vm.scope.column.property],
-                  callback: function($$v) {
-                    _vm.$set(
-                      _vm.rows[_vm.scope.$index],
-                      _vm.scope.column.property,
-                      $$v
-                    )
                   },
-                  expression: "rows[scope.$index][scope.column.property]"
-                }
-              })
+                  _vm._l(_vm.data, function(item) {
+                    return _c("el-option", {
+                      key: item.name,
+                      attrs: { label: item.name, value: item.name }
+                    })
+                  })
+                )
+              : _vm.type === "date"
+                ? _c("el-date-picker", {
+                    ref:
+                      _vm.scope.column.property + "_cell_" + _vm.scope.$index,
+                    staticClass: "table_input_cell",
+                    attrs: {
+                      type: "date",
+                      format: _vm.eiDateFormat,
+                      "value-format": _vm.serverDateFormat
+                    },
+                    nativeOn: {
+                      keyup: function($event) {
+                        return (function(event) {
+                          _vm.handleKeyUp(
+                            event,
+                            _vm.scope.$index,
+                            _vm.scope.column.property
+                          )
+                        })($event)
+                      }
+                    },
+                    model: {
+                      value:
+                        _vm.rows[_vm.scope.$index][_vm.scope.column.property],
+                      callback: function($$v) {
+                        _vm.$set(
+                          _vm.rows[_vm.scope.$index],
+                          _vm.scope.column.property,
+                          $$v
+                        )
+                      },
+                      expression: "rows[scope.$index][scope.column.property]"
+                    }
+                  })
+                : _c("el-input", {
+                    ref:
+                      _vm.scope.column.property + "_cell_" + _vm.scope.$index,
+                    staticClass: "table_input_cell",
+                    attrs: {
+                      autofocus: false,
+                      disabled: _vm.scope.column.qty > 1
+                    },
+                    nativeOn: {
+                      keyup: function($event) {
+                        return (function(event) {
+                          _vm.handleKeyUp(
+                            event,
+                            _vm.scope.$index,
+                            _vm.scope.column.property
+                          )
+                        })($event)
+                      }
+                    },
+                    model: {
+                      value:
+                        _vm.rows[_vm.scope.$index][_vm.scope.column.property],
+                      callback: function($$v) {
+                        _vm.$set(
+                          _vm.rows[_vm.scope.$index],
+                          _vm.scope.column.property,
+                          $$v
+                        )
+                      },
+                      expression: "rows[scope.$index][scope.column.property]"
+                    }
+                  })
         ],
         1
       )

@@ -60,9 +60,9 @@ class Item extends Model
     *
     * @return collection
     */
-    public function itemType()
+    public function itemCategory()
     {
-        return $this->belongsTo('App\ItemType');
+        return $this->belongsTo('App\ItemCategory');
     }
 
     /**

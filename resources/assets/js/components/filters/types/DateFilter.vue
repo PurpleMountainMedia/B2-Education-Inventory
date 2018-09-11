@@ -2,8 +2,8 @@
   <el-date-picker v-model="internalValue"
                   ref="input"
                   type="date"
-                  :format="dateFormat"
-                  :value-format="dateFormat">
+                  :format="eiDateFormat"
+                  :value-format="serverDateFormat">
   </el-date-picker>
 </template>
 
@@ -36,12 +36,6 @@ export default {
     internalValue (val) {
       this.onValueUpdate(val)
       this.$emit('value-update', val)
-    }
-  },
-
-  computed: {
-    dateFormat () {
-      return 'dd/MM/yyyy'
     }
   },
 

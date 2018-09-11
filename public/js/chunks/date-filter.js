@@ -53,12 +53,6 @@ exports.default = {
     }
   },
 
-  computed: {
-    dateFormat: function dateFormat() {
-      return 'dd/MM/yyyy';
-    }
-  },
-
   mounted: function mounted() {
     this.internalValue = this.value;
     this.$refs.input.focus();
@@ -77,7 +71,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -95,8 +89,8 @@ var render = function() {
     ref: "input",
     attrs: {
       type: "date",
-      format: _vm.dateFormat,
-      "value-format": _vm.dateFormat
+      format: _vm.eiDateFormat,
+      "value-format": _vm.serverDateFormat
     },
     model: {
       value: _vm.internalValue,

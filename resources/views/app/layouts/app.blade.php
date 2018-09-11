@@ -35,8 +35,8 @@
           window.eiDefaults = {
               item_name: '@itemName',
               items_name: '@itemsName',
-              item_type_name: '@itemTypeName',
-              item_types_name: '@itemTypesName',
+              item_type_name: '@itemCategoryName',
+              item_types_name: '@itemCategoriesName',
               room_name: '@roomName',
               rooms_name: '@roomsName',
               building_name: '@buildingName',

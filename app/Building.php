@@ -22,7 +22,7 @@ class Building extends Model
     *
     * @var array
     */
-    protected $fillable = ['name', 'school_id', 'created_by', 'type', 'meta'];
+    protected $fillable = ['id', 'name', 'school_id', 'created_by', 'type', 'meta', 'created_at', 'updated_at'];
 
     /**
      * Which scopes to use for filter.

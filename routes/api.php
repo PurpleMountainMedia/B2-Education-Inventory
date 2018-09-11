@@ -22,5 +22,10 @@ Route::namespace('Api')->middleware('auth:api')->group(function () {
     Route::get('buildings/{building}/rooms', 'ApiBuildingsController@rooms');
 
     Route::apiResource('rooms', 'ApiRoomsController');
+
     Route::apiResource('items', 'ApiItemsController');
+    Route::post('items/bulk', 'ApiItemsController@bulkAdd');
+
+    Route::apiResource('item-categories', 'ApiItemCategoriesController');
+    Route::apiResource('makes', 'ApiMakesController');
 });

@@ -2,8 +2,12 @@
 
 namespace App;
 
-class ItemType extends Model
+use App\Traits\ResponsableTrait;
+
+class ItemCategory extends Model
 {
+    use ResponsableTrait;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -12,7 +16,7 @@ class ItemType extends Model
     protected $fillable = ['make_id', 'name', 'description', 'owned_by', 'created_by'];
 
     /**
-    * The items that are a certain ItemType
+    * The items that are a certain ItemCategory
     *
     * @return collection
     */
@@ -22,7 +26,7 @@ class ItemType extends Model
     }
 
     /**
-     * The make of the Item Type.
+     * The make of the item category.
      *
      * @return collection
      */
