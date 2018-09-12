@@ -95,30 +95,13 @@ class ApiItemsController extends Controller
 
         $items = collect($request->items);
 
-        $buildings = $buildingService->buildingsFromNames(
-            $this->schoolId,
-            $items->pluck('building')->toArray()
-        );
+        $items = $buildingService->buildingsFromNames($this->schoolId, $items)
+                                 ->mapTo($items, 'building')
+                                 ->get();
 
-        $items = $items->map(function ($item) use ($buildings) {
-            $item['building'] = $buildings->where(
-                'name',
-                'like',
-                trim($item['building'])
-            )->first();
-            return $item;
-        });
-
-        $rooms = $roomService->roomsFromNames($items);
-
-        $items = $items->map(function ($item) use ($rooms) {
-            $item['room'] = $rooms->where(
-                'name',
-                'like',
-                trim($item['room'])
-            )->first();
-            return $item;
-        });
+        $items = $roomService->roomsFromNames($items)
+                             ->mapTo($items, 'room')
+                             ->get();
 
         dd($items);
 

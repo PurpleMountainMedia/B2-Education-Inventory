@@ -8,9 +8,14 @@ use Illuminate\Support\Str;
 
 class BuildingService
 {
-    public function buildingsFromNames($schoolId, array $buildingNames)
-    {
+    use MapToTrait;
 
+    protected $returnData;
+
+    public function buildingsFromNames($schoolId, $items)
+    {
+        $buildingNames = $items->pluck('building')->toArray();
+        
         $newBuildings = [];
         $existingBuildings = Building::where('school_id', $schoolId)
                              ->where(function ($query) use ($buildingNames) {
@@ -36,7 +41,9 @@ class BuildingService
             Building::insert($buildingsToCreate);
         }
 
-        return $existingBuildings->merge($newBuildings);
+        $this->returnData = $existingBuildings->merge($newBuildings);
+
+        return $this;
     }
 
     public function newBuildingFromName($schoolId, $name)

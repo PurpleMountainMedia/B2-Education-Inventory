@@ -8,6 +8,10 @@ use Illuminate\Support\Str;
 
 class RoomService
 {
+    use MapToTrait;
+
+    protected $returnData;
+
     public function roomsFromNames($items)
     {
         $newRooms = [];
@@ -38,7 +42,9 @@ class RoomService
         }
         Room::insert($roomsToCreate);
 
-        return $existingRooms->merge($newRooms);
+        $this->returnData = $existingRooms->merge($newRooms);
+
+        return $this;
     }
 
     public function newRoomFromName($buildingId, $name)
