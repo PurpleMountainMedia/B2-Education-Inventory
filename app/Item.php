@@ -36,13 +36,23 @@ class Item extends Model
     ];
 
     /**
-     * The building that the item belongs to.
+     * The room that the item belongs to.
      *
      * @return collection
      */
     public function room()
     {
          return $this->belongsTo('App\Room');
+    }
+
+    /**
+     * The building that the item belongs to.
+     *
+     * @return collection
+     */
+    public function building()
+    {
+         return optional($this->room)->building;
     }
 
     /**

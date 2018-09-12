@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Item as ItemResource;
 use App\Services\BuildingService;
+use App\Services\RoomService;
 
 class ApiItemsController extends Controller
 {
@@ -84,7 +85,7 @@ class ApiItemsController extends Controller
         //
     }
 
-    public function bulkAdd(Request $request, BuildingService $buildingService)
+    public function bulkAdd(Request $request, BuildingService $buildingService, RoomService $roomService)
     {
 
 
@@ -98,6 +99,28 @@ class ApiItemsController extends Controller
             $this->schoolId,
             $items->pluck('building')->toArray()
         );
+
+        $items = $items->map(function ($item) use ($buildings) {
+            $item['building'] = $buildings->where(
+                'name',
+                'like',
+                trim($item['building'])
+            )->first();
+            return $item;
+        });
+
+        $rooms = $roomService->roomsFromNames($items);
+
+        $items = $items->map(function ($item) use ($rooms) {
+            $item['room'] = $rooms->where(
+                'name',
+                'like',
+                trim($item['room'])
+            )->first();
+            return $item;
+        });
+
+        dd($items);
 
         $item = [
             "barcodeStart" => 1,

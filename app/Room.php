@@ -22,7 +22,7 @@ class Room extends Model
      *
      * @var array
      */
-    protected $fillable = ['building_id', 'name', 'created_by', 'type', 'meta'];
+    protected $fillable = ['id', 'building_id', 'name', 'created_by', 'type', 'meta'];
 
     /**
     * The building that the room belongs to.
