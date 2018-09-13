@@ -1,4 +1,4 @@
-webpackJsonp([15],{
+webpackJsonp([17],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/FiltersList.vue":
 /***/ (function(module, exports, __webpack_require__) {
@@ -21,7 +21,7 @@ exports.default = {
 
   components: {
     FilterComponent: function FilterComponent() {
-      return __webpack_require__.e/* import() */(16).then(__webpack_require__.bind(null, "./resources/assets/js/components/FilterComponent.vue"));
+      return __webpack_require__.e/* import() */(18).then(__webpack_require__.bind(null, "./resources/assets/js/components/FilterComponent.vue"));
     }
   },
 

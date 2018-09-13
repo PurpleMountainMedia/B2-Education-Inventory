@@ -32,7 +32,6 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
-//
 
 exports.default = {
   name: 'BuildingEditForm',
@@ -41,6 +40,17 @@ exports.default = {
     buildingId: {
       type: String,
       required: true
+    },
+    indexUrl: {
+      required: true,
+      type: String
+    },
+    breadcrumbs: {
+      required: false,
+      type: Function,
+      default: function _default(data) {
+        return [];
+      }
     }
   },
 
@@ -54,7 +64,7 @@ exports.default = {
 
   components: {
     EditForm: function EditForm() {
-      return __webpack_require__.e/* import() */(17).then(__webpack_require__.bind(null, "./resources/assets/js/components/EditForm.vue"));
+      return __webpack_require__.e/* import() */(12).then(__webpack_require__.bind(null, "./resources/assets/js/components/EditForm.vue"));
     }
   }
 };
@@ -69,7 +79,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -282,7 +292,12 @@ var render = function() {
       _c("edit-form", {
         attrs: {
           "data-url": "buildings/" + _vm.buildingId,
-          "request-includes": ["buildings.extra"]
+          "index-url": _vm.indexUrl,
+          "request-includes": ["buildings.extra"],
+          title: function(data) {
+            return data.name
+          },
+          breadcrumbs: _vm.breadcrumbs
         },
         scopedSlots: _vm._u([
           {
@@ -293,7 +308,7 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "el-form-item",
-                  { attrs: { label: "Name" } },
+                  { staticClass: "short_input", attrs: { label: "Name" } },
                   [
                     _c("el-input", {
                       model: {

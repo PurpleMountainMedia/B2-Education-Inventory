@@ -5482,3 +5482,11 @@ button {
   margin-top: 300px;
 }
 
+.danger_text_btn {
+  color: red !important;
+}
+
+.short_input {
+  max-width: 270px;
+}
+

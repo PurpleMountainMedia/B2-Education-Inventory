@@ -1,4 +1,4 @@
-webpackJsonp([17],{
+webpackJsonp([12],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/EditForm.vue":
 /***/ (function(module, exports, __webpack_require__) {
@@ -20,7 +20,25 @@ exports.default = {
   name: 'EditForm',
 
   props: {
+    title: {
+      required: false,
+      type: Function,
+      default: function _default(data) {
+        return '';
+      }
+    },
+    breadcrumbs: {
+      required: false,
+      type: Function,
+      default: function _default(data) {
+        return [];
+      }
+    },
     dataUrl: {
+      required: true,
+      type: String
+    },
+    indexUrl: {
       required: true,
       type: String
     },
@@ -54,6 +72,14 @@ exports.default = {
       errors: {}
     };
   },
+
+
+  components: {
+    LayoutHeader: function LayoutHeader() {
+      return __webpack_require__.e/* import() */(13).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutHeader.vue"));
+    }
+  },
+
   mounted: function mounted() {
     this.getData();
   },
@@ -114,9 +140,44 @@ exports.default = {
           message: _this2.__('update_error_message')
         });
       });
+    },
+    deleteData: function deleteData() {
+      var _this3 = this;
+
+      this.loading = true;
+      this.errors = {};
+
+      _api2.default.delete({
+        path: this.dataUrl
+      }).then(function (data) {
+        _this3.loading = false;
+
+        _this3.$message.success({
+          message: _this3.data.name + ', ' + _this3.__('deleted!')
+        });
+
+        window.location = _this3.indexUrl;
+      }).catch(function (error) {
+        _this3.loading = false;
+        _this3.errors = error;
+
+        _this3.$message.error({
+          message: _this3.__('update_error_message')
+        });
+      });
     }
   }
 }; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -143,7 +204,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1256,7 +1317,16 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { attrs: { loading: _vm.loading } },
+    {
+      directives: [
+        {
+          name: "loading",
+          rawName: "v-loading",
+          value: _vm.loading,
+          expression: "loading"
+        }
+      ]
+    },
     [
       _c(
         "el-row",
@@ -1269,6 +1339,13 @@ var render = function() {
               _c(
                 "el-card",
                 [
+                  _c("layout-header", {
+                    attrs: {
+                      title: _vm.title(_vm.data),
+                      breadcrumbs: _vm.breadcrumbs(_vm.data)
+                    }
+                  }),
+                  _vm._v(" "),
                   _c(
                     "el-form",
                     { attrs: { model: _vm.data, "label-position": "top" } },
@@ -1277,13 +1354,64 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _c(
+                    "el-popover",
+                    { ref: "deleteItemConfirm", attrs: { placement: "top" } },
+                    [
+                      _c("p", [_vm._v(_vm._s(_vm.__("delete_confirm")))]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticStyle: { "text-align": "right", margin: "0" } },
+                        [
+                          _c(
+                            "el-button",
+                            {
+                              attrs: { size: "mini", type: "text" },
+                              on: {
+                                click: function($event) {
+                                  _vm.$refs.deleteItemConfirm.doClose()
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(_vm.__("Cancel")))]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "el-button",
+                            {
+                              attrs: { type: "danger", size: "mini" },
+                              on: { click: _vm.deleteData }
+                            },
+                            [_vm._v(_vm._s(_vm.__("Delete")))]
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "el-button",
+                        {
+                          attrs: {
+                            slot: "reference",
+                            type: "danger",
+                            plain: ""
+                          },
+                          slot: "reference"
+                        },
+                        [_vm._v(_vm._s(_vm.__("Delete")))]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
                     "el-button",
                     {
                       staticClass: "mt-sm",
-                      attrs: { type: "primary", plain: "" },
+                      attrs: { loading: _vm.loading, type: "primary" },
                       on: { click: _vm.persistData }
                     },
-                    [_vm._v(_vm._s(_vm.__("Submit")))]
+                    [_vm._v(_vm._s(_vm.__("Save")))]
                   )
                 ],
                 1

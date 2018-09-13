@@ -19016,7 +19016,7 @@ window.io = __webpack_require__("./node_modules/socket.io-client/lib/index.js");
 /***/ "./resources/assets/js/lang/en.json":
 /***/ (function(module, exports) {
 
-module.exports = {"Cancel":"Cancel","Add":"Add","Add New":"Add New","Name":"Name","name":"name","name_required":"Name is required.","is_required":"is required.","Information":"Information","Add More":"Add More","Row":"Row","Search":"Search","Type":"Type","Actions":"Actions","Delete":"Delete","View":"View","Edit":"Edit","List":"List","Add Filter":"Add Filter","Delete Filter":"Delete Filter","Filter By":"Filter By","Search for attribute":"Search for attribute"}
+module.exports = {"Cancel":"Cancel","Add":"Add","Add New":"Add New","Name":"Name","name":"name","name_required":"Name is required.","is_required":"is required.","Information":"Information","Add More":"Add More","Row":"Row","Search":"Search","Type":"Type","Actions":"Actions","Delete":"Delete","View":"View","Edit":"Edit","List":"List","Add Filter":"Add Filter","Delete Filter":"Delete Filter","Filter By":"Filter By","Search for attribute":"Search for attribute","delete_confirm":"Confirm delete?"}
 
 /***/ }),
 

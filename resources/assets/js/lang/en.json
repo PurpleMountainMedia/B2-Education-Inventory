@@ -19,5 +19,6 @@
     "Add Filter": "Add Filter",
     "Delete Filter": "Delete Filter",
     "Filter By": "Filter By",
-    "Search for attribute": "Search for attribute"
+    "Search for attribute": "Search for attribute",
+    "delete_confirm": "Confirm delete?"
 }
