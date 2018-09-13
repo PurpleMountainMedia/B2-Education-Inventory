@@ -57,6 +57,19 @@
         <h1>Sorry, No Data</h1>
       </div>
     </el-table>
+
+    <el-row class="table_footer">
+        <el-col>
+            <el-pagination :page-sizes="perPages"
+                           :page-size="paginationMeta.perPage"
+                           layout="sizes, prev, pager, next"
+                           :total="paginationMeta.total"
+                           v-on:size-change="handleSizeChange"
+                           v-on:current-change="handlePageChange">
+            </el-pagination>
+        </el-col>
+    </el-row>
+
   </div>
 </template>
 
@@ -138,7 +151,11 @@ export default {
           ],
           actionLinks: [
             {
-              urlCallback: function () {
+              urlCallback: function (row) {
+                var links = row.links ? row.links : {}
+                if (links.self) {
+                  return links.url
+                }
                 return '/'
               },
               textCallback: function () { return this.__('View') }.bind(this),
@@ -156,6 +173,13 @@ export default {
         filters: [],
         errors: {}
       }
+    },
+
+    computed: {
+      perPages () {
+        var total = this.paginationMeta.total;
+        return  (total <= 15 ) ? [15] : (total <= 30 ) ? [15, 30] : (total <= 100 ) ?  [15, 30, 100] : [15, 30, 100, 250];
+      },
     },
 
     mounted () {
@@ -248,6 +272,28 @@ export default {
                   this.$set(this.data, index, e.item)
               });
         }
+      },
+
+      /**
+       * Handle a size change event on the table.
+       *
+       * @param Int perPage
+       * @return void
+       */
+      handleSizeChange (perPage) {
+        this.paginationMeta.perPage = perPage;
+        this.getData();
+      },
+
+      /**
+       * Handle a page change event on the table.
+       *
+       * @param Int page
+       * @return void
+       */
+      handlePageChange (page) {
+        this.paginationMeta.currentPage = page;
+        this.getData();
       },
     }
 }

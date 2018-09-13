@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Item;
 
 class ItemsController extends Controller
 {
@@ -14,6 +15,18 @@ class ItemsController extends Controller
     public function index()
     {
         return view('app.items.index');
+    }
+
+    /**
+     * Display a specific item
+     *
+     * @var Request $request
+     * @var App\Room $room
+     * @return Response
+     */
+    public function show(Request $request, Item $item)
+    {
+        return view('app.items.show', compact('item'));
     }
 
     /**

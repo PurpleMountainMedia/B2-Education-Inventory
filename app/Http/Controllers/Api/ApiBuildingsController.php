@@ -50,9 +50,9 @@ class ApiBuildingsController extends Controller
      * @param  \App\Building  $building
      * @return \Illuminate\Http\Response
      */
-    public function show(Building $building)
+    public function show(Request $request, Building $building)
     {
-        //
+        return new BuildingResource($building->load($request->with ?: []));
     }
 
     /**
@@ -64,7 +64,12 @@ class ApiBuildingsController extends Controller
      */
     public function update(Request $request, Building $building)
     {
-        //
+        $building->update([
+            'name' => $request->input('data.name'),
+            'type' => $request->input('data.type')
+        ]);
+
+        return new BuildingResource($building->load($request->with ?: []));
     }
 
     /**

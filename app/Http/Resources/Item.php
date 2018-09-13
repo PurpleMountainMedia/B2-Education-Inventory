@@ -30,6 +30,8 @@ class Item extends JsonResource
 
             'created_at' => $this->when(requestIncludes('items.timestamps'), $this->created_at),
             'updated_at' => $this->when(requestIncludes('items.timestamps'), $this->updated_at),
+
+            'links' => $this->links,
         ];
     }
 }

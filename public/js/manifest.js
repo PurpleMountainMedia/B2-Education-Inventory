@@ -34,7 +34,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		16: 0
+/******/ 		18: 0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -91,7 +91,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "js/chunks/" + ({"0":"data-table","1":"items-create-table","2":"add-new-modal","3":"list-rooms","4":"list-items","5":"list-buildings","6":"school-selecter","7":"main-menu","10":"b2-errors","11":"number-filter","12":"input-filter","13":"date-filter","14":"filters-list","15":"filter-component"}[chunkId]||chunkId) + ".js";
+/******/ 		script.src = __webpack_require__.p + "js/chunks/" + ({"0":"data-table","1":"items-create-table","2":"add-new-modal","3":"list-rooms","4":"list-items","5":"list-buildings","6":"building-edit-form","7":"school-selecter","8":"main-menu","11":"b2-errors","12":"number-filter","13":"input-filter","14":"date-filter","15":"filters-list","16":"filter-component","17":"edit-form"}[chunkId]||chunkId) + ".js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {

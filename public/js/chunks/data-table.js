@@ -90,6 +90,19 @@ var findIndex = __webpack_require__("./node_modules/lodash.findindex/index.js");
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var throttle = __webpack_require__("./node_modules/lodash.throttle/index.js");
 exports.default = {
@@ -99,10 +112,10 @@ exports.default = {
 
   components: {
     FiltersList: function FiltersList() {
-      return __webpack_require__.e/* import() */(14).then(__webpack_require__.bind(null, "./resources/assets/js/components/FiltersList.vue"));
+      return __webpack_require__.e/* import() */(15).then(__webpack_require__.bind(null, "./resources/assets/js/components/FiltersList.vue"));
     },
     B2Errors: function B2Errors() {
-      return __webpack_require__.e/* import() */(10).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
+      return __webpack_require__.e/* import() */(11).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
     }
   },
 
@@ -174,7 +187,11 @@ exports.default = {
           label: this.__('Name')
         }],
         actionLinks: [{
-          urlCallback: function urlCallback() {
+          urlCallback: function urlCallback(row) {
+            var links = row.links ? row.links : {};
+            if (links.self) {
+              return links.url;
+            }
             return '/';
           },
           textCallback: function () {
@@ -194,6 +211,15 @@ exports.default = {
       errors: {}
     };
   },
+
+
+  computed: {
+    perPages: function perPages() {
+      var total = this.paginationMeta.total;
+      return total <= 15 ? [15] : total <= 30 ? [15, 30] : total <= 100 ? [15, 30, 100] : [15, 30, 100, 250];
+    }
+  },
+
   mounted: function mounted() {
     Object.assign(this.mergedOptions, this.defaultOptions, this.options);
 
@@ -283,6 +309,30 @@ exports.default = {
           _this3.$set(_this3.data, index, e.item);
         });
       }
+    },
+
+
+    /**
+     * Handle a size change event on the table.
+     *
+     * @param Int perPage
+     * @return void
+     */
+    handleSizeChange: function handleSizeChange(perPage) {
+      this.paginationMeta.perPage = perPage;
+      this.getData();
+    },
+
+
+    /**
+     * Handle a page change event on the table.
+     *
+     * @param Int page
+     * @return void
+     */
+    handlePageChange: function handlePageChange(page) {
+      this.paginationMeta.currentPage = page;
+      this.getData();
     }
   }
 };
@@ -4626,6 +4676,32 @@ var render = function() {
           ])
         ],
         2
+      ),
+      _vm._v(" "),
+      _c(
+        "el-row",
+        { staticClass: "table_footer" },
+        [
+          _c(
+            "el-col",
+            [
+              _c("el-pagination", {
+                attrs: {
+                  "page-sizes": _vm.perPages,
+                  "page-size": _vm.paginationMeta.perPage,
+                  layout: "sizes, prev, pager, next",
+                  total: _vm.paginationMeta.total
+                },
+                on: {
+                  "size-change": _vm.handleSizeChange,
+                  "current-change": _vm.handlePageChange
+                }
+              })
+            ],
+            1
+          )
+        ],
+        1
       )
     ],
     1
@@ -5379,7 +5455,9 @@ exports.default = {
       if (obj.hasOwnProperty(p)) {
         var k = prefix ? prefix + "[" + p + "]" : p,
             v = obj[p];
-        str.push(v !== null && (typeof v === "undefined" ? "undefined" : _typeof(v)) === "object" && v != 'undefined' ? this.serialize(v, k) : encodeURIComponent(k) + "=" + encodeURIComponent(v));
+        if (v != undefined) {
+          str.push(v !== null && (typeof v === "undefined" ? "undefined" : _typeof(v)) === "object" ? this.serialize(v, k) : encodeURIComponent(k) + "=" + encodeURIComponent(v));
+        }
       }
     }
     return str.join("&");

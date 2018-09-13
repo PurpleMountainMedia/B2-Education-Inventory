@@ -43,26 +43,6 @@ export default {
             prop: 'rooms_count',
             label: this.__('Number of Rooms')
           }
-        ],
-        actionLinks: [
-          {
-            urlCallback: function (row) {
-              return `/buildings/${row.id}/edit`
-            },
-            textCallback: function (row) {
-              return `${this.__('Edit')} ${this.ucFirst(this.eiDefaults['building_name'])}`
-            }.bind(this),
-            icon: 'fal fa-edit'
-          },
-          {
-            urlCallback: function (row) {
-              return `/buildings/${row.id}/rooms`
-            },
-            textCallback: function (row) {
-              return `${this.__('List')} ${this.ucFirst(this.eiDefaults['rooms_name'])}`
-            }.bind(this),
-            icon: 'fal fa-door-open'
-          },
         ]
       }
     }

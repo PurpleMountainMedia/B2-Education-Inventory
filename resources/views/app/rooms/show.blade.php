@@ -7,13 +7,16 @@
               'title' =>  session('school')['name'] ?? ''
             ],
             [
-              'title' => getTypeName('item', true, true)
+              'title' => getTypeName('room', true, true),
+              'link' => route('web.rooms.index')
+            ],
+            [
+              'title' => $room->name
             ]
         ],
-        'title' => getTypeName('item', true, true)
+        'title' => $room->name
     ])
     @endcomponent
 
-    <list-items school-id='{{ session('school')['id'] ?? '' }}'>
-    </list-items>
+
 @endsection

@@ -14,9 +14,11 @@ export default {
       if (obj.hasOwnProperty(p)) {
         var k = prefix ? prefix + "[" + p + "]" : p,
           v = obj[p];
-        str.push((v !== null && typeof v === "object" && v != 'undefined') ?
-          this.serialize(v, k) :
-          encodeURIComponent(k) + "=" + encodeURIComponent(v));
+        if (v != undefined) {
+          str.push((v !== null && typeof v === "object") ?
+            this.serialize(v, k) :
+            encodeURIComponent(k) + "=" + encodeURIComponent(v));
+        }
       }
     }
     return str.join("&");

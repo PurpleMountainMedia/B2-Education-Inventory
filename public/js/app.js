@@ -1,4 +1,4 @@
-webpackJsonp([8],{
+webpackJsonp([9],{
 
 /***/ "./node_modules/after/index.js":
 /***/ (function(module, exports) {
@@ -18942,7 +18942,7 @@ var app = new _vue2.default({
 
     components: {
         MainMenu: function MainMenu() {
-            return __webpack_require__.e/* import() */(7).then(__webpack_require__.bind(null, "./resources/assets/js/components/MainMenu.vue"));
+            return __webpack_require__.e/* import() */(8).then(__webpack_require__.bind(null, "./resources/assets/js/components/MainMenu.vue"));
         },
         AddNewModal: function AddNewModal() {
             return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, "./resources/assets/js/components/AddNewModal.vue"));
@@ -18954,7 +18954,7 @@ var app = new _vue2.default({
             return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/components/DataTable.vue"));
         },
         SchoolSelecter: function SchoolSelecter() {
-            return __webpack_require__.e/* import() */(6).then(__webpack_require__.bind(null, "./resources/assets/js/components/SchoolSelecter.vue"));
+            return __webpack_require__.e/* import() */(7).then(__webpack_require__.bind(null, "./resources/assets/js/components/SchoolSelecter.vue"));
         },
         ListBuildings: function ListBuildings() {
             return __webpack_require__.e/* import() */(5).then(__webpack_require__.bind(null, "./resources/assets/js/components/buildings/ListBuildings.vue"));
@@ -18964,6 +18964,9 @@ var app = new _vue2.default({
         },
         ListItems: function ListItems() {
             return __webpack_require__.e/* import() */(4).then(__webpack_require__.bind(null, "./resources/assets/js/components/items/ListItems.vue"));
+        },
+        BuildingEditForm: function BuildingEditForm() {
+            return __webpack_require__.e/* import() */(6).then(__webpack_require__.bind(null, "./resources/assets/js/components/buildings/BuildingEditForm.vue"));
         }
     },
 

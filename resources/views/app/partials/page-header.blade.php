@@ -1,11 +1,13 @@
 @isset($breadcrumbs)
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-        @foreach ($breadcrumbs as $key => $breadcrumb)
-            @if($breadcrumb['link'] ?? false)<a href="{{ $breadcrumb['link'] }}">@endif
-                <el-breadcrumb-item>{{ $breadcrumb['title'] ?? '' }}</el-breadcrumb-item>
-            @if($breadcrumb['link'] ?? false)</a>@endif
-        @endforeach
-    </el-breadcrumb>
+  <el-breadcrumb separator-class="el-icon-arrow-right">
+    @foreach ($breadcrumbs as $key => $breadcrumb)
+      <el-breadcrumb-item>
+        @if($breadcrumb['link'] ?? false)<a href="{{ $breadcrumb['link'] }}">@endif
+          {{ $breadcrumb['title'] ?? '' }}
+        @if($breadcrumb['link'] ?? false)</a>@endif
+      </el-breadcrumb-item>
+    @endforeach
+  </el-breadcrumb>
 @endisset
 
 @isset($title)

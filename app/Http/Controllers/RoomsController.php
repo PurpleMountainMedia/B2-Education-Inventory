@@ -15,8 +15,7 @@ class RoomsController extends Controller
      */
     public function index(Request $request)
     {
-        $rooms = [];
-        return view('app.rooms.index', compact('rooms'));
+        return view('app.rooms.index');
     }
 
     /**
@@ -28,6 +27,6 @@ class RoomsController extends Controller
      */
     public function show(Request $request, Room $room)
     {
-        return $room;
+        return view('app.rooms.show', compact('room'));
     }
 }

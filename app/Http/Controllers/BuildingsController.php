@@ -15,8 +15,7 @@ class BuildingsController extends Controller
      */
     public function index(Request $request)
     {
-        $buildings = [];
-        return view('app.buildings.index', compact('buildings'));
+        return view('app.buildings.index');
     }
 
     /**
@@ -28,6 +27,6 @@ class BuildingsController extends Controller
      */
     public function show(Request $request, Building $building)
     {
-        return $building;
+        return view('app.buildings.show', compact('building'));
     }
 }

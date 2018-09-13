@@ -19,15 +19,11 @@ trait ResponsableTrait
         $request = request();
 
         if ($request->filled('search') && !empty($this->responsableSearch())) {
-            $i = 0;
-            foreach ($this->responsableSearch() as $key => $search) {
-                $i++;
-                if ($i === 1) {
-                    $query->where("{$this->getTable()}.{$search}", 'like', '%' . $request->search . '%');
-                } else {
+            $query->where(function ($query) use ($request) {
+                foreach ($this->responsableSearch() as $key => $search) {
                     $query->orWhere("{$this->getTable()}.{$search}", 'like', '%' . $request->search . '%');
                 }
-            }
+            });
         }
 
         $query = $query->responseAdapter();

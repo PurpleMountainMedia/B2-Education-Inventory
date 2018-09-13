@@ -28,6 +28,7 @@ Route::middleware('needs_school')->group(function () {
 
     // Items
     Route::get('items', 'ItemsController@index')->name('web.items.index');
+    Route::get('items/{item}', 'ItemsController@show')->name('web.items.show');
     Route::get('items/create/table', 'ItemsController@createTable')->name('web.items.create.table');
 
     // Reports

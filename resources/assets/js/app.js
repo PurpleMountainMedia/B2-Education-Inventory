@@ -64,6 +64,7 @@ const app = new Vue({
         ListBuildings: () => import(/* webpackChunkName: "list-buildings" */'components/buildings/ListBuildings'),
         ListRooms: () => import(/* webpackChunkName: "list-rooms" */'components/rooms/ListRooms'),
         ListItems: () => import(/* webpackChunkName: "list-items" */'components/items/ListItems'),
+        BuildingEditForm: () => import(/* webpackChunkName: "building-edit-form" */'components/buildings/BuildingEditForm'),
     },
 
     mounted () {
