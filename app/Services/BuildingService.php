@@ -15,7 +15,7 @@ class BuildingService
     public function buildingsFromNames($schoolId, $items)
     {
         $buildingNames = $items->pluck('building')->toArray();
-        
+
         $newBuildings = [];
         $existingBuildings = Building::where('school_id', $schoolId)
                              ->where(function ($query) use ($buildingNames) {

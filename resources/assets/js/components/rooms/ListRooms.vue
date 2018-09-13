@@ -4,7 +4,8 @@
                 type-name="room"
                 :request-params="{schoolId: schoolId}"
                 :options="tableOptions"
-                :request-includes="['rooms.extra']">
+                :request-includes="['rooms.extra']"
+                :request-with="['building']">
 
     </data-table>
   </div>
@@ -24,7 +25,12 @@ export default {
   data () {
     return {
       loading: false,
-      tableOptions: {
+    }
+  },
+
+  computed: {
+    tableOptions () {
+      return {
         columns: [
           {
             prop: 'name',
@@ -33,21 +39,23 @@ export default {
           {
             prop: 'type',
             label: this.__('Type')
+          },
+          {
+            prop: 'building.name',
+            label: this.ucFirst(this.eiDefaults['building_name'])
           }
         ]
       }
+    },
+
+    roomsUrl () {
+      return `rooms`
     }
   },
 
   components: {
     DataTable: () => import(/* webpackChunkName: "data-table" */'../DataTable'),
   },
-
-  computed: {
-    roomsUrl () {
-      return `rooms`
-    }
-  }
 }
 </script>
 

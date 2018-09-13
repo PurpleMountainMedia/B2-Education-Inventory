@@ -22,8 +22,8 @@ class Item extends Model
      * @var array
      */
     protected $fillable = [
-      'room_id', 'make_id', 'item_type_id', 'name', 'description', 'serial_number', 'purchase_price',
-      'purchase_date', 'meta', 'created_by', 'write_off', 'missing_at', 'bardcode'
+      'id', 'room_id', 'make_id', 'item_category_id', 'name', 'description', 'serial_number', 'purchase_price',
+      'purchase_date', 'meta', 'created_by', 'write_off', 'missing_at', 'bardcode', 'created_at', 'updated_at'
     ];
 
     /**

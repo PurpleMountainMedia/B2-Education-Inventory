@@ -17,7 +17,7 @@ class CreateItemCategoriesTable extends Migration
 
             Schema::create('item_categories', function (Blueprint $table) {
                 $table->uuid('id')->primary();
-                $table->uuid('organisation_id')->nullable()->default(null);
+                $table->uuid('school_id')->nullable()->default(null);
                 $table->uuid('make_id')->nullable();
                 $table->string('name')->nullable();
                 $table->string('description')->nullable();

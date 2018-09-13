@@ -18,6 +18,14 @@ class Item extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
 
+            'description' => $this->when(requestIncludes('items.extra'), $this->description),
+            'serial_number' => $this->when(requestIncludes('items.extra'), $this->serial_number),
+            'purchase_price' => $this->when(requestIncludes('items.extra'), $this->purchase_price),
+            'purchase_date' => $this->when(requestIncludes('items.extra'), $this->purchase_date),
+            'meta' => $this->when(requestIncludes('items.extra'), $this->meta),
+            'write_off' => $this->when(requestIncludes('items.extra'), $this->write_off),
+            'missing_at' => $this->when(requestIncludes('items.extra'), $this->missing_at),
+
             'room' => new Room($this->whenLoaded('room')),
 
             'created_at' => $this->when(requestIncludes('items.timestamps'), $this->created_at),

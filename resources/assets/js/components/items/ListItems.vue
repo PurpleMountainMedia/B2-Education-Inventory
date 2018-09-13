@@ -5,7 +5,7 @@
                 :request-params="{schoolId: schoolId}"
                 :options="tableOptions"
                 :request-includes="['items.extra']"
-                :request-with="['room']">
+                :request-with="['room.building']">
 
     </data-table>
   </div>
@@ -37,8 +37,16 @@ export default {
             label: this.__('Name')
           },
           {
+            prop: 'description',
+            label: this.__('Description')
+          },
+          {
             prop: 'room.name',
             label: this.ucFirst(this.eiDefaults['room_name'])
+          },
+          {
+            prop: 'room.building.name',
+            label: this.ucFirst(this.eiDefaults['building_name'])
           },
         ]
       }

@@ -13,7 +13,7 @@ class ItemCategory extends Model
      *
      * @var array
      */
-    protected $fillable = ['make_id', 'name', 'description', 'owned_by', 'created_by'];
+    protected $fillable = ['make_id', 'name', 'description', 'school_id', 'created_by'];
 
     /**
     * The items that are a certain ItemCategory

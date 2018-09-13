@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 /**
  * Get the name in the system for a specific type of item.
  *
@@ -100,4 +102,9 @@ function getRequestParentProperty($request)
         return $user->hasAccessTo($request->room) ? $request->room->name : 'this room';
     }
     return 'this property';
+}
+
+function dtFromInput($input = null, $format = 'd/m/Y')
+{
+    return $input ? Carbon::createFromFormat($format, $input)->toDateTimeString() : null;
 }

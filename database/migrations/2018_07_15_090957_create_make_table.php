@@ -17,10 +17,10 @@ class CreateMakeTable extends Migration
 
             Schema::create('makes', function (Blueprint $table) {
                 $table->uuid('id')->primary();
-                $table->integer('organisation_id')->nullable()->default(null);
+                $table->uuid('school_id')->nullable()->default(null);
                 $table->string('name')->nullable();
                 $table->string('description')->nullable();
-                $table->integer('created_by')->unsigned()->nullable()->default(null);
+                $table->uuid('created_by')->nullable()->default(null);
                 $table->softDeletes();
                 $table->nullableTimestamps();
             });

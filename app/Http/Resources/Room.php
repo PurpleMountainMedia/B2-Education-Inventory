@@ -22,6 +22,7 @@ class Room extends JsonResource
             'updated_at' => $this->when(requestIncludes('rooms.timestamps'), $this->updated_at),
 
             'items' => new ItemCollection($this->whenLoaded('items')),
+            'building' => new Building($this->whenLoaded('building')),
 
             'links' => $this->links,
         ];

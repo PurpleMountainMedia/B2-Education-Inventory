@@ -21,7 +21,7 @@ class Make extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'organisation_id', 'description', 'owned_by', 'created_by'];
+    protected $fillable = ['id', 'name', 'school_id', 'description', 'created_by'];
 
     /**
      * The Item Types that have this make.

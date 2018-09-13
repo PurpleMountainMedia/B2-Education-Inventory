@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Item as ItemResource;
 use App\Services\BuildingService;
+use App\Services\ItemCategoryService;
 use App\Services\RoomService;
+use App\Services\MakeService;
+use App\Services\ItemService;
 
 class ApiItemsController extends Controller
 {
@@ -85,12 +88,21 @@ class ApiItemsController extends Controller
         //
     }
 
-    public function bulkAdd(Request $request, BuildingService $buildingService, RoomService $roomService)
-    {
+    public function bulkAdd(
+        Request $request,
+        BuildingService $buildingService,
+        RoomService $roomService,
+        ItemCategoryService $categoryService,
+        MakeService $makeService,
+        ItemService $itemService
+    ) {
 
 
         $this->validate($request, [
-            'items' => 'required|array'
+            'items' => 'required|array',
+            'items.*.room' => 'required',
+            'items.*.building' => 'required',
+            'items.*.name' => 'required',
         ]);
 
         $items = collect($request->items);
@@ -103,26 +115,17 @@ class ApiItemsController extends Controller
                              ->mapTo($items, 'room')
                              ->get();
 
-        dd($items);
+        $items = $categoryService->categoriesFromNames($items)
+                                 ->mapTo($items, 'itemCategory')
+                                 ->get();
 
-        $item = [
-            "barcodeStart" => 1,
-            "barcodeEnd" => 1,
-            "building" => "Test Building",
-            "room" => "Test Room",
-            "item_type" => null,
-            "name" => "New Name",
-            "description" => "New Description",
-            "make" => "Apple",
-            "serial" => "010101",
-            "purchase_date" => null,
-            "purchase_price" => null,
-            "write_off" => null,
-            "qty" => 1,
-            "itemCategory" => "AV Equipment",
-            "purchaseDate" => "11/09/2018",
-            "purchasePrice" => "1000",
-            "writeOff" => "10/09/2018"
-        ];
+        $items = $makeService->makesFromNames($this->schoolId, $items)
+                             ->mapTo($items, 'make')
+                             ->get();
+
+        $items = $itemService->createItemsFromMultiple($items)
+                             ->get();
+
+        dd($items);
     }
 }
