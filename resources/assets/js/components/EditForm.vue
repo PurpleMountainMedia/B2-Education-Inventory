@@ -4,7 +4,7 @@
       <b2-errors :errors="errors"/>
       <slot name="aboveCard" v-bind:data="data"></slot>
       <el-card>
-        <layout-header :title="title(data)" :breadcrumbs="breadcrumbs(data)"/>
+        <layout-header :title="title(data)" :tag="tag(data)" :breadcrumbs="breadcrumbs(data)" class="mb"/>
         <el-form :model="data" label-position="top" ref="editForm">
           <slot name="form" v-bind:data="data"></slot>
         </el-form>
@@ -35,7 +35,12 @@ export default {
     title: {
       required: false,
       type: Function,
-      default: (data) => { return '' }
+      default: (data) => { return null }
+    },
+    tag: {
+      required: false,
+      type: Function,
+      default: (data) => { return null }
     },
     breadcrumbs: {
       required: false,

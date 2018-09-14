@@ -5,10 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\ResponsableTrait;
 use App\Traits\LinkableTrait;
+use App\Traits\CreatedByTrait;
 
 class Item extends Model
 {
-    use SoftDeletes, ResponsableTrait, LinkableTrait;
+    use SoftDeletes, ResponsableTrait, LinkableTrait, CreatedByTrait;
 
     /**
      * The attributes that should be mutated into dates.
@@ -53,7 +54,7 @@ class Item extends Model
      */
     public function building()
     {
-         return optional($this->room)->building;
+         return optional($this->room)->building();
     }
 
     /**

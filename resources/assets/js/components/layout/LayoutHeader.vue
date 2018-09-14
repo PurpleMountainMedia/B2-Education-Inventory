@@ -7,7 +7,8 @@
       </el-breadcrumb-item>
     </el-breadcrumb>
 
-    <h1>{{ title }}</h1>
+    <h1 class="mb-0" v-if="title">{{ title }}</h1>
+    <el-tag v-if="tag" type="info" size="mini">{{ tag }}</el-tag>
   </div>
 </template>
 
@@ -19,7 +20,12 @@ export default {
     title: {
       required: false,
       type: String,
-      default: () => { return '' }
+      default: () => { return null }
+    },
+    tag: {
+      required: false,
+      type: String,
+      default: () => { return null }
     },
     breadcrumbs: {
       required: false,

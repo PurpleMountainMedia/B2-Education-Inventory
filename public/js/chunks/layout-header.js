@@ -1,4 +1,4 @@
-webpackJsonp([15],{
+webpackJsonp([19],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/layout/LayoutHeader.vue":
 /***/ (function(module, exports, __webpack_require__) {
@@ -22,6 +22,7 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
 
 exports.default = {
   name: 'LayoutHeader',
@@ -31,7 +32,14 @@ exports.default = {
       required: false,
       type: String,
       default: function _default() {
-        return '';
+        return null;
+      }
+    },
+    tag: {
+      required: false,
+      type: String,
+      default: function _default() {
+        return null;
       }
     },
     breadcrumbs: {
@@ -54,7 +62,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -87,7 +95,15 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _c("h1", [_vm._v(_vm._s(_vm.title))])
+      _vm.title
+        ? _c("h1", { staticClass: "mb-0" }, [_vm._v(_vm._s(_vm.title))])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.tag
+        ? _c("el-tag", { attrs: { type: "info", size: "mini" } }, [
+            _vm._v(_vm._s(_vm.tag))
+          ])
+        : _vm._e()
     ],
     1
   )

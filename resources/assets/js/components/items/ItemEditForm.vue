@@ -1,13 +1,12 @@
 <template lang="html">
   <div>
-    <edit-form :data-url="`buildings/${buildingId}`"
+    <edit-form :data-url="`items/${itemId}`"
                :index-url="indexUrl"
-               :request-includes="['buildings.extra', 'buildings.timestamps']"
+               :request-includes="['items.extra', 'items.timestamps']"
                :request-with="['createdBy']"
                :title="(data) => { return data.name }"
-               :tag="(data) => { return data.type }"
-               :breadcrumbs="breadcrumbs"
-               :on-update="(data) => { $refs.listRooms.getData() }">
+               :tag="(data) => { return data.description }"
+               :breadcrumbs="breadcrumbs">
 
 
       <div slot="aboveCard" slot-scope="slotProps" class="mb-sm">
@@ -24,16 +23,10 @@
           <el-input v-model="slotProps.data.name"></el-input>
         </el-form-item>
 
-        <el-form-item label="Type">
-          <el-select v-model="slotProps.data.type" prop="type" :rules="{required: true}">
-            <el-option :value="op" v-for="(op, key) in typeOptions" :key="key">{{ op }}</el-option>
-          </el-select>
-        </el-form-item>
       </template>
 
       <el-card slot="belowCard" slot-scope="slotProps" class="mt">
-        <span slot="header">{{ slotProps.data.name }} - <strong>{{ ucFirst(eiDefaults.rooms_name) }}</strong></span>
-        <list-rooms :school-id="eiSchool.id" :building-id="buildingId" ref="listRooms"/>
+
       </el-card>
 
     </edit-form>
@@ -46,7 +39,7 @@ export default {
   name: 'BuildingEditForm',
 
   props: {
-    buildingId: {
+    itemId: {
       type: String,
       required: true
     },
@@ -63,14 +56,12 @@ export default {
 
   data () {
     return {
-      building: {},
-      typeOptions: ['Building', 'Outside']
+      item: {},
     }
   },
 
   components: {
     EditForm: () => import(/* webpackChunkName: "edit-form" */'components/EditForm'),
-    ListRooms: () => import(/* webpackChunkName: "list-rooms" */'components/rooms/ListRooms'),
     LayoutCenterPage: () => import(/* webpackChunkName: "layout-center-page" */'components/layout/LayoutCenterPage'),
     ObjectInformation: () => import(/* webpackChunkName: "object-information" */'components/ObjectInformation'),
   }

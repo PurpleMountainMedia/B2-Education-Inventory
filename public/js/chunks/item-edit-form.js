@@ -1,6 +1,6 @@
-webpackJsonp([10],{
+webpackJsonp([7],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SchoolSelecter.vue":
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/items/ItemEditForm.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30,59 +30,66 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
-  name: 'SchoolSelecter',
+  name: 'BuildingEditForm',
 
   props: {
-    data: {
-      type: Array,
-      required: false,
-      default: function _default() {
-        return [];
-      }
-    },
-    csrfToken: {
+    itemId: {
       type: String,
       required: true
     },
-    selecterSize: {
-      type: String,
-      required: false,
-      default: function _default() {
-        return 'small';
-      }
+    indexUrl: {
+      required: true,
+      type: String
     },
-    selecterClass: {
-      type: String,
+    breadcrumbs: {
       required: false,
-      default: function _default() {
-        return 'school_selecter_select';
+      type: Function,
+      default: function _default(data) {
+        return [];
       }
     }
   },
 
   data: function data() {
     return {
-      school: ''
+      item: {}
     };
   },
 
 
-  methods: {
-    handleChange: function handleChange(val) {
-      var _this = this;
-
-      this.$nextTick(function () {
-        _this.$refs.schoolSelecterForm.submit();
-      });
+  components: {
+    EditForm: function EditForm() {
+      return __webpack_require__.e/* import() */(16).then(__webpack_require__.bind(null, "./resources/assets/js/components/EditForm.vue"));
+    },
+    LayoutCenterPage: function LayoutCenterPage() {
+      return __webpack_require__.e/* import() */(14).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
+    },
+    ObjectInformation: function ObjectInformation() {
+      return __webpack_require__.e/* import() */(17).then(__webpack_require__.bind(null, "./resources/assets/js/components/ObjectInformation.vue"));
     }
   }
 };
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-48b74498\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SchoolSelecter.vue":
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-454be687\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/items/ItemEditForm.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
@@ -90,7 +97,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -290,73 +297,96 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-48b74498\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SchoolSelecter.vue":
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-454be687\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/items/ItemEditForm.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "form",
-      {
-        ref: "schoolSelecterForm",
-        attrs: { action: "/session", method: "POST" }
-      },
-      [
-        _c("input", {
-          attrs: { type: "hidden", name: "_token" },
-          domProps: { value: _vm.csrfToken }
-        }),
-        _vm._v(" "),
-        _c("input", {
-          attrs: { type: "hidden", name: "school[id]" },
-          domProps: { value: _vm.school.id }
-        }),
-        _vm._v(" "),
-        _c(
-          "el-select",
+  return _c(
+    "div",
+    [
+      _c("edit-form", {
+        attrs: {
+          "data-url": "items/" + _vm.itemId,
+          "index-url": _vm.indexUrl,
+          "request-includes": ["items.extra", "items.timestamps"],
+          "request-with": ["createdBy"],
+          title: function(data) {
+            return data.name
+          },
+          tag: function(data) {
+            return data.description
+          },
+          breadcrumbs: _vm.breadcrumbs
+        },
+        scopedSlots: _vm._u([
           {
-            class: _vm.selecterClass,
-            attrs: {
-              filterable: "",
-              name: "school[name]",
-              "value-key": "id",
-              size: _vm.selecterSize
-            },
-            on: { change: _vm.handleChange },
-            model: {
-              value: _vm.school,
-              callback: function($$v) {
-                _vm.school = $$v
-              },
-              expression: "school"
+            key: "aboveCard",
+            fn: function(slotProps) {
+              return _c(
+                "div",
+                { staticClass: "mb-sm" },
+                [
+                  _c(
+                    "el-button",
+                    { attrs: { size: "mini", plain: "", type: "info" } },
+                    [_vm._v(_vm._s(_vm.__("Generate Report")))]
+                  )
+                ],
+                1
+              )
             }
           },
-          _vm._l(_vm.data, function(organisation) {
-            return organisation.schools.length >= 1
-              ? _c(
-                  "el-option-group",
-                  { key: organisation.id, attrs: { label: organisation.name } },
-                  _vm._l(organisation.schools, function(school) {
-                    return _c(
-                      "el-option",
-                      {
-                        key: school.id,
-                        attrs: { label: school.name, value: school }
-                      },
-                      [_vm._v(_vm._s(school.name) + "\n        ")]
-                    )
-                  })
+          {
+            key: "form",
+            fn: function(slotProps) {
+              return [
+                _vm._t("card", null, { data: slotProps.data }),
+                _vm._v(" "),
+                _c("object-information", {
+                  staticClass: "mb-sm",
+                  attrs: { object: slotProps.data }
+                }),
+                _vm._v(" "),
+                _c(
+                  "el-form-item",
+                  {
+                    staticClass: "short_input",
+                    attrs: {
+                      label: "Name",
+                      prop: "name",
+                      rules: { required: true }
+                    }
+                  },
+                  [
+                    _c("el-input", {
+                      model: {
+                        value: slotProps.data.name,
+                        callback: function($$v) {
+                          _vm.$set(slotProps.data, "name", $$v)
+                        },
+                        expression: "slotProps.data.name"
+                      }
+                    })
+                  ],
+                  1
                 )
-              : _vm._e()
-          })
-        )
-      ],
-      1
-    )
-  ])
+              ]
+            }
+          },
+          {
+            key: "belowCard",
+            fn: function(slotProps) {
+              return _c("el-card", { staticClass: "mt" })
+            }
+          }
+        ])
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -364,29 +394,29 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-48b74498", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-454be687", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-48b74498\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SchoolSelecter.vue":
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-454be687\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/items/ItemEditForm.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-48b74498\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SchoolSelecter.vue");
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-454be687\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/items/ItemEditForm.vue");
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("034052bf", content, false, {});
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("8e8b4150", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-48b74498\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SchoolSelecter.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-48b74498\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SchoolSelecter.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-454be687\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ItemEditForm.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-454be687\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ItemEditForm.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -660,19 +690,19 @@ module.exports = function listToStyles (parentId, list) {
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/SchoolSelecter.vue":
+/***/ "./resources/assets/js/components/items/ItemEditForm.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-48b74498\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SchoolSelecter.vue")
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-454be687\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/items/ItemEditForm.vue")
 }
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SchoolSelecter.vue")
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/items/ItemEditForm.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-48b74498\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SchoolSelecter.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-454be687\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/items/ItemEditForm.vue")
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -689,7 +719,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/SchoolSelecter.vue"
+Component.options.__file = "resources/assets/js/components/items/ItemEditForm.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -698,9 +728,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-48b74498", Component.options)
+    hotAPI.createRecord("data-v-454be687", Component.options)
   } else {
-    hotAPI.reload("data-v-48b74498", Component.options)
+    hotAPI.reload("data-v-454be687", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

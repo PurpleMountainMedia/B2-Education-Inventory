@@ -28,6 +28,8 @@ class Item extends JsonResource
 
             'room' => new Room($this->whenLoaded('room')),
 
+            'created_by' => new User($this->whenLoaded('createdBy')),
+
             'created_at' => $this->when(requestIncludes('items.timestamps'), $this->created_at),
             'updated_at' => $this->when(requestIncludes('items.timestamps'), $this->updated_at),
 

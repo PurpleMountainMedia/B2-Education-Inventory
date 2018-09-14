@@ -1,4 +1,4 @@
-webpackJsonp([10],{
+webpackJsonp([12],{
 
 /***/ "./node_modules/after/index.js":
 /***/ (function(module, exports) {
@@ -35654,87 +35654,91 @@ _vue2.default.config.productionTip = false;
 
 // Mixin
 _vue2.default.mixin({
-    mounted: function mounted() {
-        if (true) {
-            // console.log(`${this.$options.name}.vue mounted!`);
-        }
-    },
-
-
-    computed: {
-        eiDefaults: function eiDefaults() {
-            return window.eiDefaults;
-        },
-        eiSchool: function eiSchool() {
-            return window.eiSchool;
-        },
-        eiDateFormat: function eiDateFormat() {
-            return 'dd/MM/yyyy';
-        },
-        serverDateFormat: function serverDateFormat() {
-            return 'dd/MM/yyyy';
-        }
-    },
-
-    methods: {
-        __: function __(key) {
-            return _en4.default[key] ? _en4.default[key] : key;
-        },
-        dateTime: function dateTime() {
-            var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-            var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-
-            return (0, _moment2.default)(date, format);
-        },
-        ucFirst: function ucFirst(str) {
-            var lower = String(str);
-            lower = lower.toLowerCase();
-            return lower.replace(/(^| )(\w)/g, function (x) {
-                return x.toUpperCase();
-            });
-        }
+  mounted: function mounted() {
+    if (true) {
+      // console.log(`${this.$options.name}.vue mounted!`);
     }
+  },
+
+
+  computed: {
+    eiDefaults: function eiDefaults() {
+      return window.eiDefaults;
+    },
+    eiSchool: function eiSchool() {
+      return window.eiSchool;
+    },
+    eiDateFormat: function eiDateFormat() {
+      return 'dd/MM/yyyy';
+    },
+    serverDateFormat: function serverDateFormat() {
+      return 'dd/MM/yyyy';
+    }
+  },
+
+  methods: {
+    __: function __(key) {
+      return _en4.default[key] ? _en4.default[key] : key;
+    },
+    dateTime: function dateTime() {
+      var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+      return (0, _moment2.default)(date, format);
+    },
+    ucFirst: function ucFirst(str) {
+      var lower = String(str);
+      lower = lower.toLowerCase();
+      return lower.replace(/(^| )(\w)/g, function (x) {
+        return x.toUpperCase();
+      });
+    }
+  }
 });
 
 var app = new _vue2.default({
-    el: '#app',
+  el: '#app',
 
-    name: 'EducationInventoryApp',
+  name: 'EducationInventoryApp',
 
-    components: {
-        MainMenu: function MainMenu() {
-            return __webpack_require__.e/* import() */(9).then(__webpack_require__.bind(null, "./resources/assets/js/components/MainMenu.vue"));
-        },
-        AddNewModal: function AddNewModal() {
-            return __webpack_require__.e/* import() */(5).then(__webpack_require__.bind(null, "./resources/assets/js/components/AddNewModal.vue"));
-        },
-        ItemsCreateTable: function ItemsCreateTable() {
-            return __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, "./resources/assets/js/components/ItemsCreateTable.vue"));
-        },
-        DataTable: function DataTable() {
-            return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/components/DataTable.vue"));
-        },
-        SchoolSelecter: function SchoolSelecter() {
-            return __webpack_require__.e/* import() */(8).then(__webpack_require__.bind(null, "./resources/assets/js/components/SchoolSelecter.vue"));
-        },
-        ListBuildings: function ListBuildings() {
-            return __webpack_require__.e/* import() */(6).then(__webpack_require__.bind(null, "./resources/assets/js/components/buildings/ListBuildings.vue"));
-        },
-        ListRooms: function ListRooms() {
-            return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, "./resources/assets/js/components/rooms/ListRooms.vue"));
-        },
-        ListItems: function ListItems() {
-            return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, "./resources/assets/js/components/items/ListItems.vue"));
-        },
-        BuildingEditForm: function BuildingEditForm() {
-            return __webpack_require__.e/* import() */(7).then(__webpack_require__.bind(null, "./resources/assets/js/components/buildings/BuildingEditForm.vue"));
-        },
-        RoomEditForm: function RoomEditForm() {
-            return __webpack_require__.e/* import() */(4).then(__webpack_require__.bind(null, "./resources/assets/js/components/rooms/RoomEditForm.vue"));
-        }
+  components: {
+    MainMenu: function MainMenu() {
+      return __webpack_require__.e/* import() */(11).then(__webpack_require__.bind(null, "./resources/assets/js/components/MainMenu.vue"));
     },
-
-    mounted: function mounted() {}
+    AddNewModal: function AddNewModal() {
+      return __webpack_require__.e/* import() */(5).then(__webpack_require__.bind(null, "./resources/assets/js/components/AddNewModal.vue"));
+    },
+    ItemsCreateTable: function ItemsCreateTable() {
+      return __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, "./resources/assets/js/components/ItemsCreateTable.vue"));
+    },
+    DataTable: function DataTable() {
+      return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/components/DataTable.vue"));
+    },
+    SchoolSelecter: function SchoolSelecter() {
+      return __webpack_require__.e/* import() */(10).then(__webpack_require__.bind(null, "./resources/assets/js/components/SchoolSelecter.vue"));
+    },
+    ListBuildings: function ListBuildings() {
+      return __webpack_require__.e/* import() */(8).then(__webpack_require__.bind(null, "./resources/assets/js/components/buildings/ListBuildings.vue"));
+    },
+    ListRooms: function ListRooms() {
+      return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, "./resources/assets/js/components/rooms/ListRooms.vue"));
+    },
+    ListItems: function ListItems() {
+      return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, "./resources/assets/js/components/items/ListItems.vue"));
+    },
+    BuildingEditForm: function BuildingEditForm() {
+      return __webpack_require__.e/* import() */(9).then(__webpack_require__.bind(null, "./resources/assets/js/components/buildings/BuildingEditForm.vue"));
+    },
+    RoomEditForm: function RoomEditForm() {
+      return __webpack_require__.e/* import() */(4).then(__webpack_require__.bind(null, "./resources/assets/js/components/rooms/RoomEditForm.vue"));
+    },
+    ItemEditForm: function ItemEditForm() {
+      return __webpack_require__.e/* import() */(7).then(__webpack_require__.bind(null, "./resources/assets/js/components/items/ItemEditForm.vue"));
+    },
+    ListReports: function ListReports() {
+      return __webpack_require__.e/* import() */(6).then(__webpack_require__.bind(null, "./resources/assets/js/components/reports/ListReports.vue"));
+    }
+  }
 });
 
 /***/ }),

@@ -52,10 +52,14 @@ class LoginController extends Controller
         /** @var \App\User $user */
         $user = Socialite::driver('b2systems')->user();
 
-        User::firstOrCreate(
+        $new_user = User::firstOrCreate(
             ['id' => $user->id],
             ['token' => $user->token, 'name' => $user->name, 'refresh_token' => $user->refreshToken]
         );
+
+        if ($new_user->wasRecentlyCreated) {
+            $new_user->assignRole('organisation admin');
+        }
 
         Auth::login($user, true);
 

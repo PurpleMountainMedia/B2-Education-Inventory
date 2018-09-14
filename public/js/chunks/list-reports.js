@@ -1,6 +1,6 @@
-webpackJsonp([5],{
+webpackJsonp([6],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/AddNewModal.vue":
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/reports/ListReports.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10,60 +10,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-var _validation = __webpack_require__("./resources/assets/js/utils/validation.js");
-
-var _validation2 = _interopRequireDefault(_validation);
-
 var _api = __webpack_require__("./resources/assets/js/utils/api.js");
 
 var _api2 = _interopRequireDefault(_api);
@@ -71,148 +17,98 @@ var _api2 = _interopRequireDefault(_api);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-  name: 'AddNewModal',
-
-  components: {
-    B2Errors: function B2Errors() {
-      return __webpack_require__.e/* import() */(15).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
-    }
-  },
+  name: 'ListReports',
 
   props: {
-    addName: {
+    schoolId: {
       required: true,
       type: String
-    },
-    dataUrl: {
-      required: true,
-      type: String
-    },
-    withRequest: {
-      required: false,
-      type: Object,
-      default: function _default() {
-        return {};
-      }
-    },
-    button: {
-      required: false,
-      type: Object,
-      default: function _default() {
-        return {};
-      }
-    },
-    modal: {
-      required: false,
-      type: Object,
-      default: function _default() {
-        return {};
-      }
-    },
-    onUpdate: {
-      type: Function,
-      required: false,
-      default: function _default(data) {}
     }
   },
 
   data: function data() {
     return {
-      defaultButton: {
-        text: this.__('Add'),
-        icon: 'el-icon-circle-plus',
-        size: 'small'
-      },
-      defaultModal: {
-        title: this.__('Add')
-      },
-      showModal: false,
-      form: {},
-      formErrors: {},
-      loading: false
+      reports: [],
+      errors: {},
+      requestIncludes: ['reports.timestamps'],
+      paginationMeta: {
+        total: 0,
+        perPage: 0,
+        orderBy: 'id',
+        ascending: 0,
+        currentPage: 1
+      }
     };
+  },
+  mounted: function mounted() {
+    this.getReports();
   },
 
 
-  computed: {
-    mergedButton: function mergedButton() {
-      return _extends({}, this.defaultButton, this.button);
+  components: {
+    ReportCard: function ReportCard() {
+      return __webpack_require__.e/* import() */(18).then(__webpack_require__.bind(null, "./resources/assets/js/components/reports/ReportCard.vue"));
     },
-    mergedModal: function mergedModal() {
-      return _extends({}, this.defaultModal, this.modal);
+    LayoutCenterPage: function LayoutCenterPage() {
+      return __webpack_require__.e/* import() */(14).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
+    },
+    AddNewModal: function AddNewModal() {
+      return __webpack_require__.e/* import() */(5).then(__webpack_require__.bind(null, "./resources/assets/js/components/AddNewModal.vue"));
     }
   },
 
   methods: {
-
-    /**
-     * Handle the closure of the modal
-     *
-     * @return Void
-     */
-    closeModal: function closeModal(ref) {
-      this.showModal = false;
-      this.$refs[ref].resetFields();
-      this.form = {};
-      this.formErrors = {};
-    },
-
-
-    /**
-     * Handle the opening of the modal
-     *
-     * @return Void
-     */
-    openModal: function openModal() {
-      this.showModal = true;
-    },
-
-
-    /**
-     * Handle the save of the form
-     *
-     * @return Void
-     */
-    handleSave: function handleSave() {
+    getReports: function getReports() {
       var _this = this;
 
       this.loading = true;
+      this.errors = {};
 
-      var object = {
-        data: this.form
-      };
-
-      object = Object.assign(this.withRequest, object);
-
-      this.$refs['addNewForm'].validate(function (valid, errors) {
-        if (valid) {
-          _api2.default.persist("post", {
-            path: _this.dataUrl,
-            object: object
-          }).then(function (data) {
-            _this.loading = false;
-            _this.showModal = false;
-            _this.onUpdate(data.data);
-          }).catch(function (error) {
-            _this.loading = false;
-          });
-        } else {
-          _this.loading = false;
-          _this.formErrors = {
-            message: _validation2.default.getValidationErrorMessage(),
-            errors: _validation2.default.getValidationMessages(errors)
-          };
-          return false;
+      _api2.default.get({
+        path: 'reports',
+        params: {
+          schoolId: this.schoolId,
+          include: this.requestIncludes
         }
+      }).then(function (data) {
+        _this.loading = false;
+        _this.errors = {};
+        _this.reports = data.data;
+      }).catch(function (error) {
+        _this.loading = false;
+        _this.errors = error;
       });
     }
   }
-
-};
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-c8850572\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/AddNewModal.vue":
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-603855ec\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/reports/ListReports.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
@@ -220,7 +116,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1517,7 +1413,7 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-c8850572\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/AddNewModal.vue":
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-603855ec\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/reports/ListReports.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -1526,159 +1422,55 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      directives: [
-        {
-          name: "loading",
-          rawName: "v-loading",
-          value: _vm.loading,
-          expression: "loading"
-        }
-      ]
-    },
     [
-      _vm._t(
-        "button",
-        [
-          _c(
-            "el-button",
-            {
-              class: _vm.mergedButton.class,
-              attrs: {
-                plain: _vm.mergedButton.plain,
-                size: _vm.mergedButton.size,
-                icon: _vm.mergedButton.icon,
-                type: "primary"
-              },
-              on: { click: _vm.openModal }
-            },
-            [_vm._v(_vm._s(_vm.mergedButton.text) + "\n    ")]
-          )
-        ],
-        { openModal: _vm.openModal }
-      ),
-      _vm._v(" "),
       _c(
-        "el-dialog",
-        {
-          attrs: { title: _vm.mergedModal.title, visible: _vm.showModal },
-          on: {
-            "update:visible": function($event) {
-              _vm.showModal = $event
-            }
-          }
-        },
+        "layout-center-page",
         [
-          _c(
-            "el-form",
-            {
-              ref: "addNewForm",
-              attrs: { model: _vm.form, "label-position": "top" }
-            },
-            [
-              _vm._t("form", [
-                _c("el-row", { attrs: { gutter: 10 } }, [
-                  _c("p", [
-                    _c("strong", [_vm._v(_vm._s(_vm.__("Information")))])
-                  ]),
-                  _vm._v(" "),
-                  _c("hr")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "el-row",
-                  { attrs: { gutter: 10 } },
-                  [
-                    _c(
-                      "el-col",
-                      { attrs: { span: 18, offset: 4 } },
-                      [
-                        _c(
-                          "el-form-item",
-                          {
-                            attrs: {
-                              label: _vm.addName + " " + _vm.__("Name"),
-                              prop: "name",
-                              rules: [
-                                {
-                                  required: true,
-                                  message: _vm.__("name_required")
-                                }
-                              ],
-                              error: _vm.formErrors.name
-                            }
-                          },
-                          [
-                            _c("el-input", {
-                              attrs: {
-                                placeholder: _vm.addName + " " + _vm.__("name")
-                              },
-                              model: {
-                                value: _vm.form.name,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.form, "name", $$v)
-                                },
-                                expression: "form.name"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ])
-            ],
-            2
-          ),
+          _c("add-new-modal", {
+            attrs: {
+              "data-url": "reports",
+              "add-name": "Report",
+              button: { text: "Add Report", plain: true },
+              "with-request": {
+                schoolId: _vm.schoolId,
+                include: _vm.requestIncludes
+              },
+              "on-update": function(data) {
+                _vm.reports.push(data)
+              }
+            }
+          }),
           _vm._v(" "),
-          _c("b2-errors", { attrs: { errors: _vm.formErrors } }),
+          _vm._l(_vm.reports, function(report, key) {
+            return _c("report-card", { key: key, attrs: { report: report } })
+          }),
           _vm._v(" "),
           _c(
-            "span",
-            {
-              staticClass: "dialog-footer",
-              attrs: { slot: "footer" },
-              slot: "footer"
-            },
+            "el-row",
+            { staticClass: "table_footer" },
             [
-              _vm._t(
-                "footer",
+              _c(
+                "el-col",
                 [
-                  _c(
-                    "el-button",
-                    {
-                      on: {
-                        click: function($event) {
-                          _vm.closeModal("addNewForm")
-                        }
-                      }
-                    },
-                    [_vm._v(_vm._s(_vm.__("Cancel")))]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "el-button",
-                    {
-                      attrs: { loading: _vm.loading, type: "primary" },
-                      on: { click: _vm.handleSave }
-                    },
-                    [_vm._v(_vm._s(_vm.__("Add")))]
-                  )
+                  _c("el-pagination", {
+                    attrs: {
+                      "page-sizes": [15],
+                      "page-size": _vm.paginationMeta.perPage,
+                      layout: "sizes, prev, pager, next",
+                      total: _vm.paginationMeta.total
+                    }
+                  })
                 ],
-                { closeModal: _vm.closeModal, handleSave: _vm.handleSave }
+                1
               )
             ],
-            2
+            1
           )
         ],
-        1
+        2
       )
     ],
-    2
+    1
   )
 }
 var staticRenderFns = []
@@ -1687,29 +1479,29 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-c8850572", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-603855ec", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-c8850572\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/AddNewModal.vue":
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-603855ec\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/reports/ListReports.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-c8850572\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/AddNewModal.vue");
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-603855ec\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/reports/ListReports.vue");
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("748af4e9", content, false, {});
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("620559fa", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-c8850572\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddNewModal.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-c8850572\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddNewModal.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-603855ec\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ListReports.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-603855ec\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ListReports.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -1983,19 +1775,19 @@ module.exports = function listToStyles (parentId, list) {
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/AddNewModal.vue":
+/***/ "./resources/assets/js/components/reports/ListReports.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-c8850572\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/AddNewModal.vue")
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-603855ec\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/reports/ListReports.vue")
 }
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/AddNewModal.vue")
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/reports/ListReports.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-c8850572\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/AddNewModal.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-603855ec\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/reports/ListReports.vue")
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -2012,7 +1804,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/AddNewModal.vue"
+Component.options.__file = "resources/assets/js/components/reports/ListReports.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -2021,9 +1813,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-c8850572", Component.options)
+    hotAPI.createRecord("data-v-603855ec", Component.options)
   } else {
-    hotAPI.reload("data-v-c8850572", Component.options)
+    hotAPI.reload("data-v-603855ec", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -2177,72 +1969,6 @@ exports.default = {
             },
             code: error.status
         };
-    }
-};
-
-/***/ }),
-
-/***/ "./resources/assets/js/utils/validation.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var ERROR_MESSAGE = 'Oops, there was a problem saving the data.';
-var VALIDATION_ERROR_MESSAGE = 'Please fill in the required fields above.';
-var SUCCESS_MESSAGE = 'Data saved successfully.';
-
-exports.default = {
-
-    /**
-     * Get and format the validation messages from the form.
-     *
-     * @param errors
-     * @return Array
-     */
-    getValidationMessages: function getValidationMessages() {
-        var errors = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-        var validationMessages = [];
-        for (var error in errors) {
-            if (errors[error]) {
-                validationMessages.push([errors[error][0] ? errors[error][0].message : '']);
-            }
-        }
-        return validationMessages;
-    },
-
-
-    /**
-     * Return the error message if issues saving the data.
-     *
-     * @return String
-     */
-    getErrorMessage: function getErrorMessage() {
-        return ERROR_MESSAGE;
-    },
-
-
-    /**
-     * Return the validation error message if validation fails.
-     *
-     * @return String
-     */
-    getValidationErrorMessage: function getValidationErrorMessage() {
-        return VALIDATION_ERROR_MESSAGE;
-    },
-
-
-    /**
-     * Return the success message if data saved successfully.
-     *
-     * @return String
-     */
-    getSuccessMessage: function getSuccessMessage() {
-        return SUCCESS_MESSAGE;
     }
 };
 

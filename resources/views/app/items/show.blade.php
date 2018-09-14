@@ -1,22 +1,24 @@
 @extends('app.layouts.app')
 
 @section('content')
-    @component('app.partials.page-header', [
-        'breadcrumbs' => [
-            [
-              'title' =>  session('school')['name'] ?? ''
-            ],
-            [
-              'title' => getTypeName('item', true, true),
-              'link' => route('web.items.index')
-            ],
-            [
-              'title' => $item->name
-            ]
-        ],
-        'title' => $item->name
-    ])
-    @endcomponent
-
-
+  <item-edit-form item-id="{{ $item->id }}"
+                  index-url="{{ route('web.items.index') }}"
+                  :breadcrumbs="(data) => { return [
+                    {
+                      'title': '{{ session('school')['name'] ?? '' }}',
+                      'url': '{{ route('web.dashboard.index') }}'
+                    },
+                    {
+                      'title': '{{ $item->building->name }}',
+                      'url': '{{ route('web.buildings.show', $item->building) }}'
+                    },
+                    {
+                      'title': '{{ $item->room->name }}',
+                      'url': '{{ route('web.rooms.show', $item->room) }}'
+                    },
+                    {
+                      'title': data.name
+                    }
+                  ]}">
+  </item-edit-form>
 @endsection

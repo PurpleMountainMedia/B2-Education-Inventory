@@ -1,13 +1,6 @@
 @extends('app.layouts.app')
 
 @section('content')
-    @component('app.partials.page-header', [
-        'breadcrumbs' => [
-            [
-              'title' => getTypeName('report', true, true)
-            ]
-        ],
-        'title' => getTypeName('report', true, true)
-    ])
-    @endcomponent
+  <list-reports school-id='{{ session('school')['id'] ?? '' }}'>
+  </list-reports>
 @endsection

@@ -18,9 +18,6 @@ class ApiItemsController extends Controller
 
     public function __construct(Request $request)
     {
-        $this->validate($request, [
-            'schoolId' => 'required'
-        ]);
         $this->schoolId = $request->schoolId;
     }
 
@@ -33,6 +30,10 @@ class ApiItemsController extends Controller
     public function index(Request $request)
     {
         $this->authorize('list', Item::class);
+
+        $this->validate($request, [
+            'schoolId' => 'required'
+        ]);
 
         return ItemResource::collection(
             Item::inSchool($this->schoolId)
@@ -52,7 +53,9 @@ class ApiItemsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
     }
 
     /**
@@ -61,9 +64,9 @@ class ApiItemsController extends Controller
      * @param  \App\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function show(Item $item)
+    public function show(Request $request, Item $item)
     {
-        //
+        return new ItemResource($item->load($request->with ?: []));
     }
 
     /**
@@ -75,7 +78,15 @@ class ApiItemsController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        //
+        $this->validate($request, [
+            'data.name' => 'required'
+        ]);
+
+        $item->update([
+            'name' => $request->input('data.name')
+        ]);
+
+        return new ItemResource($item->load($request->with ?: []));
     }
 
     /**
@@ -98,8 +109,8 @@ class ApiItemsController extends Controller
         ItemService $itemService
     ) {
 
-
         $this->validate($request, [
+            'schoolId' => 'required',
             'items' => 'required|array',
             'items.*.room' => 'required',
             'items.*.building' => 'required',

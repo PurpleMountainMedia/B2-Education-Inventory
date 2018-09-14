@@ -1,4 +1,4 @@
-webpackJsonp([21],{
+webpackJsonp([24],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/FilterComponent.vue":
 /***/ (function(module, exports, __webpack_require__) {
@@ -35,13 +35,13 @@ exports.default = {
 
   components: {
     InputFilter: function InputFilter() {
-      return __webpack_require__.e/* import() */(17).then(__webpack_require__.bind(null, "./resources/assets/js/components/filters/types/InputFilter.vue"));
+      return __webpack_require__.e/* import() */(21).then(__webpack_require__.bind(null, "./resources/assets/js/components/filters/types/InputFilter.vue"));
     },
     DateFilter: function DateFilter() {
-      return __webpack_require__.e/* import() */(18).then(__webpack_require__.bind(null, "./resources/assets/js/components/filters/types/DateFilter.vue"));
+      return __webpack_require__.e/* import() */(22).then(__webpack_require__.bind(null, "./resources/assets/js/components/filters/types/DateFilter.vue"));
     },
     NumberFilter: function NumberFilter() {
-      return __webpack_require__.e/* import() */(16).then(__webpack_require__.bind(null, "./resources/assets/js/components/filters/types/NumberFilter.vue"));
+      return __webpack_require__.e/* import() */(20).then(__webpack_require__.bind(null, "./resources/assets/js/components/filters/types/NumberFilter.vue"));
     }
   },
 

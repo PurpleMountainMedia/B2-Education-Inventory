@@ -5,11 +5,12 @@
                   index-url="{{ route('web.rooms.index') }}"
                   :breadcrumbs="(data) => { return [
                     {
-                      'title': '{{ session('school')['name'] ?? '' }}'
+                      'title': '{{ session('school')['name'] ?? '' }}',
+                      'url': '{{ route('web.dashboard.index') }}'
                     },
                     {
-                      'title': '{{ getTypeName('room', true, true) }}',
-                      'url': '{{ route('web.rooms.index') }}'
+                      'title': '{{ $room->building->name }}',
+                      'url': '{{ route('web.buildings.show', $room->building) }}'
                     },
                     {
                       'title': data.name
