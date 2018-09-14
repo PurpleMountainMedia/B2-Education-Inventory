@@ -36,6 +36,7 @@ class ApiItemsController extends Controller
 
         return ItemResource::collection(
             Item::inSchool($this->schoolId)
+                ->inRoom($request->roomId)
                 ->withCount($request->withCount ?: [])
                 ->with($request->with ?: [])
                 ->filterable()

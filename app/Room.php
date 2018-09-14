@@ -5,10 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\LinkableTrait;
 use App\Traits\ResponsableTrait;
+use App\Traits\CreatedByTrait;
 
 class Room extends Model
 {
-    use SoftDeletes, ResponsableTrait;
+    use SoftDeletes, ResponsableTrait, LinkableTrait, CreatedByTrait;
 
     /**
     * The attributes that should be mutated into dates.
@@ -66,5 +67,14 @@ class Room extends Model
         return $query->join('buildings', 'rooms.building_id', '=', 'buildings.id')
                      ->where('buildings.school_id', $schoolId)
                      ->select('rooms.*');
+    }
+
+    public function scopeInBuilding($query, $buildingId)
+    {
+        if ($buildingId) {
+            return $query->where('building_id', $buildingId);
+        }
+
+        return $query;
     }
 }

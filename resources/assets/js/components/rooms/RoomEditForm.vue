@@ -1,12 +1,12 @@
 <template lang="html">
   <div>
-    <edit-form :data-url="`buildings/${buildingId}`"
+    <edit-form :data-url="`rooms/${roomId}`"
                :index-url="indexUrl"
-               :request-includes="['buildings.extra', 'buildings.timestamps']"
+               :request-includes="['rooms.extra', 'rooms.timestamps']"
                :request-with="['createdBy']"
                :title="(data) => { return data.name }"
                :breadcrumbs="breadcrumbs"
-               :on-update="(data) => { $refs.listRooms.getData() }">
+               :on-update="(data) => { $refs.listItems.getData() }">
 
 
       <div slot="aboveCard" slot-scope="slotProps" class="mb-sm">
@@ -23,16 +23,12 @@
           <el-input v-model="slotProps.data.name"></el-input>
         </el-form-item>
 
-        <el-form-item label="Type">
-          <el-select v-model="slotProps.data.type" prop="type" :rules="{required: true}">
-            <el-option :value="op" v-for="(op, key) in typeOptions" :key="key">{{ op }}</el-option>
-          </el-select>
-        </el-form-item>
+        <b2-errors :errors="buildingErrors" />
       </template>
 
       <el-card slot="belowCard" slot-scope="slotProps" class="mt">
-        <span slot="header">{{ slotProps.data.name }} - <strong>{{ ucFirst(eiDefaults.rooms_name) }}</strong></span>
-        <list-rooms :school-id="eiSchool.id" :building-id="buildingId" ref="listRooms"/>
+        <span slot="header">{{ slotProps.data.name }} - <strong>{{ ucFirst(eiDefaults.items_name) }}</strong></span>
+        <list-items :school-id="eiSchool.id" :room-id="roomId" ref="listItems"/>
       </el-card>
 
     </edit-form>
@@ -41,11 +37,13 @@
 </template>
 
 <script>
+import api from 'utils/api'
+
 export default {
-  name: 'BuildingEditForm',
+  name: 'RoomEditForm',
 
   props: {
-    buildingId: {
+    roomId: {
       type: String,
       required: true
     },
@@ -62,16 +60,40 @@ export default {
 
   data () {
     return {
-      building: {},
-      typeOptions: ['Building', 'Outside']
+      room: {},
+      buildings: []
     }
+  },
+
+  mounted () {
+    this.getBuildings()
   },
 
   components: {
     EditForm: () => import(/* webpackChunkName: "edit-form" */'components/EditForm'),
-    ListRooms: () => import(/* webpackChunkName: "list-rooms" */'components/rooms/ListRooms'),
+    ListItems: () => import(/* webpackChunkName: "list-items" */'components/items/ListItems'),
     LayoutCenterPage: () => import(/* webpackChunkName: "layout-center-page" */'components/layout/LayoutCenterPage'),
+    B2Errors: () => import(/* webpackChunkName: "b2-errors" */'components/B2Errors'),
     ObjectInformation: () => import(/* webpackChunkName: "object-information" */'components/ObjectInformation'),
+  },
+
+  methods: {
+    getBuildings () {
+      this.buildingErrors = {};
+
+      api.get({
+        path: "buildings",
+        params: {
+          schoolId: this.eiSchool.id
+        }
+      })
+      .then((data) => {
+        this.buildings = data.data;
+      })
+      .catch((error) => {
+        this.buildingErrors = error;
+      });
+    }
   }
 }
 </script>

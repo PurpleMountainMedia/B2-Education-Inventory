@@ -1,4 +1,4 @@
-webpackJsonp([3],{
+webpackJsonp([1],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/rooms/ListRooms.vue":
 /***/ (function(module, exports, __webpack_require__) {
@@ -22,6 +22,7 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
 
 exports.default = {
   name: 'ListRooms',
@@ -30,6 +31,13 @@ exports.default = {
     schoolId: {
       type: [Number, String],
       required: true
+    },
+    buildingId: {
+      type: [String],
+      required: false,
+      default: function _default() {
+        return null;
+      }
     }
   },
 
@@ -64,6 +72,12 @@ exports.default = {
     DataTable: function DataTable() {
       return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/components/DataTable.vue"));
     }
+  },
+
+  methods: {
+    getData: function getData() {
+      this.$refs.dataTable.getData();
+    }
   }
 };
 
@@ -77,7 +91,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -289,10 +303,14 @@ var render = function() {
     { attrs: { loading: _vm.loading } },
     [
       _c("data-table", {
+        ref: "dataTable",
         attrs: {
           url: _vm.roomsUrl,
           "type-name": "room",
-          "request-params": { schoolId: _vm.schoolId },
+          "request-params": {
+            schoolId: _vm.schoolId,
+            buildingId: _vm.buildingId
+          },
           options: _vm.tableOptions,
           "request-includes": ["rooms.extra"],
           "request-with": ["building"]

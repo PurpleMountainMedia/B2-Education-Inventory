@@ -53,7 +53,8 @@ class LoginController extends Controller
         $user = Socialite::driver('b2systems')->user();
 
         User::firstOrCreate(
-            ['id' => $user->id], ['token' => $user->token, 'refresh_token' => $user->refreshToken]
+            ['id' => $user->id],
+            ['token' => $user->token, 'name' => $user->name, 'refresh_token' => $user->refreshToken]
         );
 
         Auth::login($user, true);

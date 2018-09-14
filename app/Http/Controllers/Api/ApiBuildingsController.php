@@ -64,6 +64,11 @@ class ApiBuildingsController extends Controller
      */
     public function update(Request $request, Building $building)
     {
+        $this->validate($request, [
+            'data.name' => 'required',
+            'data.type' => 'required'
+        ]);
+
         $building->update([
             'name' => $request->input('data.name'),
             'type' => $request->input('data.type')

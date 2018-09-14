@@ -25,6 +25,7 @@ class ApiRoomsController extends Controller
 
         return RoomResource::collection(
             Room::inSchool($request->schoolId)
+                ->inBuilding($request->buildingId)
                 ->withCount($request->withCount ?: [])
                 ->with($request->with ?: [])
                 ->filterable()
@@ -49,9 +50,9 @@ class ApiRoomsController extends Controller
      * @param  \App\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function show(Room $room)
+    public function show(Request $request, Room $room)
     {
-        //
+        return new RoomResource($room->load($request->with ?: []));
     }
 
     /**
@@ -63,7 +64,15 @@ class ApiRoomsController extends Controller
      */
     public function update(Request $request, Room $room)
     {
-        //
+        $this->validate($request, [
+            'data.name' => 'required',
+        ]);
+
+        $room->update([
+            'name' => $request->input('data.name'),
+        ]);
+
+        return new RoomResource($room->load($request->with ?: []));
     }
 
     /**

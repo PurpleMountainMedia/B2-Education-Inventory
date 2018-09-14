@@ -1,26 +1,27 @@
 <template lang="html">
   <div v-loading="loading">
-    <el-row justify="center" type="flex">
-      <el-col :xl="12" :lg="16">
-        <el-card>
-          <layout-header :title="title(data)" :breadcrumbs="breadcrumbs(data)"/>
-          <el-form :model="data" label-position="top">
-            <slot name="form" v-bind:data="data"></slot>
-          </el-form>
+    <layout-center-page>
+      <b2-errors :errors="errors"/>
+      <slot name="aboveCard" v-bind:data="data"></slot>
+      <el-card>
+        <layout-header :title="title(data)" :breadcrumbs="breadcrumbs(data)"/>
+        <el-form :model="data" label-position="top" ref="editForm">
+          <slot name="form" v-bind:data="data"></slot>
+        </el-form>
 
-          <el-popover placement="top" ref="deleteItemConfirm">
-            <p>{{ __('delete_confirm') }}</p>
-            <div style="text-align: right; margin: 0">
-              <el-button size="mini" type="text" @click="$refs.deleteItemConfirm.doClose()">{{ __('Cancel') }}</el-button>
-              <el-button type="danger" size="mini" @click="deleteData">{{ __('Delete') }}</el-button>
-            </div>
-            <el-button slot="reference" type="danger" plain>{{ __('Delete') }}</el-button>
-          </el-popover>
+        <el-popover placement="top" ref="deleteItemConfirm">
+          <p>{{ __('delete_confirm') }}</p>
+          <div style="text-align: right; margin: 0">
+            <el-button size="mini" type="text" @click="$refs.deleteItemConfirm.doClose()">{{ __('Cancel') }}</el-button>
+            <el-button type="danger" size="mini" @click="deleteData">{{ __('Delete') }}</el-button>
+          </div>
+          <el-button slot="reference" type="danger" plain>{{ __('Delete') }}</el-button>
+        </el-popover>
 
-          <el-button :loading="loading" @click="persistData" type="primary" class="mt-sm">{{ __('Save') }}</el-button>
-        </el-card>
-      </el-col>
-    </el-row>
+        <el-button :loading="loading" @click="persistData" type="primary" class="mt-sm">{{ __('Save') }}</el-button>
+      </el-card>
+      <slot name="belowCard" v-bind:data="data"></slot>
+    </layout-center-page>
   </div>
 </template>
 
@@ -64,6 +65,11 @@ export default {
       required: false,
       default: () => { return [] }
     },
+    onUpdate: {
+      type: Function,
+      required: false,
+      default: (data) => {}
+    }
   },
 
   data () {
@@ -76,6 +82,8 @@ export default {
 
   components: {
     LayoutHeader: () => import(/* webpackChunkName: "layout-header" */'components/layout/LayoutHeader'),
+    LayoutCenterPage: () => import(/* webpackChunkName: "layout-center-page" */'components/layout/LayoutCenterPage'),
+    B2Errors: () => import(/* webpackChunkName: "b2-errors" */'components/B2Errors'),
   },
 
   mounted () {
@@ -115,29 +123,40 @@ export default {
       this.loading = true;
       this.errors = {};
 
-      api.persist("put", {
-          path: this.dataUrl,
-          object: {
-            data: this.data,
-            include: this.requestIncludes
-          }
-        })
-        .then((data) => {
-          this.loading = false;
-          this.data = data.data;
+      this.$refs.editForm.validate((valid) => {
+        if (valid) {
+          api.persist("put", {
+            path: this.dataUrl,
+            object: {
+              data: this.data,
+              with: this.requestWith,
+              withCount: this.requestWithCount,
+              include: this.requestIncludes,
+            }
+          })
+          .then((data) => {
+            this.loading = false;
+            this.data = data.data;
+            this.onUpdate(this.data)
 
-          this.$message.success({
-            message: `${this.data.name}, ${this.__('updated!')}`,
-          });
-        })
-        .catch((error) => {
-          this.loading = false;
-          this.errors = error;
+            this.$message({
+              message: `${this.data.name}, ${this.__('updated!')}`,
+              type: 'success'
+            });
+          })
+          .catch((error) => {
+            console.error(error)
+            this.loading = false;
+            this.errors = error;
 
-          this.$message.error({
-            message: this.__('update_error_message'),
+            this.$message.error({
+              message: this.__('update_error_message'),
+            });
           });
-        });
+        } else {
+          this.loading = false;
+        }
+      });
     },
 
     deleteData () {

@@ -4,6 +4,7 @@ import Vue from 'vue'
 import Element from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/en'
 import en from './lang/en.json'
+import moment from 'moment'
 
 Vue.use(Element, {locale, size: 'small'})
 
@@ -32,12 +33,16 @@ Vue.mixin({
 
         serverDateFormat() {
           return 'dd/MM/yyyy';
-        }
+        },
     },
 
     methods: {
         __(key) {
             return en[key] ? en[key] : key;
+        },
+
+        dateTime (date = '', format = '') {
+          return moment(date, format)
         },
 
         ucFirst(str) {
@@ -65,6 +70,7 @@ const app = new Vue({
         ListRooms: () => import(/* webpackChunkName: "list-rooms" */'components/rooms/ListRooms'),
         ListItems: () => import(/* webpackChunkName: "list-items" */'components/items/ListItems'),
         BuildingEditForm: () => import(/* webpackChunkName: "building-edit-form" */'components/buildings/BuildingEditForm'),
+        RoomEditForm: () => import(/* webpackChunkName: "room-edit-form" */'components/rooms/RoomEditForm'),
     },
 
     mounted () {

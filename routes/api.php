@@ -23,6 +23,8 @@ Route::namespace('Api')->middleware('auth:api')->group(function () {
 
     Route::apiResource('rooms', 'ApiRoomsController');
 
+    Route::apiResource('users', 'ApiUsersController');
+
     Route::apiResource('items', 'ApiItemsController');
     Route::post('items/bulk', 'ApiItemsController@bulkAdd');
 

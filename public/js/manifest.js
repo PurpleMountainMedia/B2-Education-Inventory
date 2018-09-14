@@ -34,7 +34,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		19: 0
+/******/ 		22: 0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -91,7 +91,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "js/chunks/" + ({"0":"data-table","1":"items-create-table","2":"add-new-modal","3":"list-rooms","4":"list-items","5":"list-buildings","6":"building-edit-form","7":"school-selecter","8":"main-menu","11":"b2-errors","12":"edit-form","13":"layout-header","14":"number-filter","15":"input-filter","16":"date-filter","17":"filters-list","18":"filter-component"}[chunkId]||chunkId) + ".js";
+/******/ 		script.src = __webpack_require__.p + "js/chunks/" + ({"0":"data-table","1":"list-rooms","2":"list-items","3":"items-create-table","4":"room-edit-form","5":"add-new-modal","6":"list-buildings","7":"building-edit-form","8":"school-selecter","9":"main-menu","12":"b2-errors","13":"layout-center-page","14":"edit-form","15":"layout-header","16":"number-filter","17":"input-filter","18":"date-filter","19":"object-information","20":"filters-list","21":"filter-component"}[chunkId]||chunkId) + ".js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {

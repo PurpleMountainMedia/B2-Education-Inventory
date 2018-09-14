@@ -18,6 +18,9 @@ class Building extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'type' => $this->when(requestIncludes('buildings.extra'), $this->type),
+
+            'created_by' => new User($this->whenLoaded('createdBy')),
+
             'created_at' => $this->when(requestIncludes('buildings.timestamps'), $this->created_at),
             'updated_at' => $this->when(requestIncludes('buildings.timestamps'), $this->updated_at),
 

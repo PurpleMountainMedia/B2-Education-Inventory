@@ -1,4 +1,4 @@
-webpackJsonp([6],{
+webpackJsonp([7],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/buildings/BuildingEditForm.vue":
 /***/ (function(module, exports, __webpack_require__) {
@@ -9,6 +9,25 @@ webpackJsonp([6],{
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -64,7 +83,16 @@ exports.default = {
 
   components: {
     EditForm: function EditForm() {
-      return __webpack_require__.e/* import() */(12).then(__webpack_require__.bind(null, "./resources/assets/js/components/EditForm.vue"));
+      return __webpack_require__.e/* import() */(14).then(__webpack_require__.bind(null, "./resources/assets/js/components/EditForm.vue"));
+    },
+    ListRooms: function ListRooms() {
+      return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, "./resources/assets/js/components/rooms/ListRooms.vue"));
+    },
+    LayoutCenterPage: function LayoutCenterPage() {
+      return __webpack_require__.e/* import() */(13).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
+    },
+    ObjectInformation: function ObjectInformation() {
+      return __webpack_require__.e/* import() */(19).then(__webpack_require__.bind(null, "./resources/assets/js/components/ObjectInformation.vue"));
     }
   }
 };
@@ -79,7 +107,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -293,22 +321,55 @@ var render = function() {
         attrs: {
           "data-url": "buildings/" + _vm.buildingId,
           "index-url": _vm.indexUrl,
-          "request-includes": ["buildings.extra"],
+          "request-includes": ["buildings.extra", "buildings.timestamps"],
+          "request-with": ["createdBy"],
           title: function(data) {
             return data.name
           },
-          breadcrumbs: _vm.breadcrumbs
+          breadcrumbs: _vm.breadcrumbs,
+          "on-update": function(data) {
+            _vm.$refs.listRooms.getData()
+          }
         },
         scopedSlots: _vm._u([
+          {
+            key: "aboveCard",
+            fn: function(slotProps) {
+              return _c(
+                "div",
+                { staticClass: "mb-sm" },
+                [
+                  _c(
+                    "el-button",
+                    { attrs: { size: "mini", plain: "", type: "info" } },
+                    [_vm._v(_vm._s(_vm.__("Generate Report")))]
+                  )
+                ],
+                1
+              )
+            }
+          },
           {
             key: "form",
             fn: function(slotProps) {
               return [
                 _vm._t("card", null, { data: slotProps.data }),
                 _vm._v(" "),
+                _c("object-information", {
+                  staticClass: "mb-sm",
+                  attrs: { object: slotProps.data }
+                }),
+                _vm._v(" "),
                 _c(
                   "el-form-item",
-                  { staticClass: "short_input", attrs: { label: "Name" } },
+                  {
+                    staticClass: "short_input",
+                    attrs: {
+                      label: "Name",
+                      prop: "name",
+                      rules: { required: true }
+                    }
+                  },
                   [
                     _c("el-input", {
                       model: {
@@ -330,6 +391,7 @@ var render = function() {
                     _c(
                       "el-select",
                       {
+                        attrs: { prop: "type", rules: { required: true } },
                         model: {
                           value: slotProps.data.type,
                           callback: function($$v) {
@@ -350,6 +412,32 @@ var render = function() {
                   1
                 )
               ]
+            }
+          },
+          {
+            key: "belowCard",
+            fn: function(slotProps) {
+              return _c(
+                "el-card",
+                { staticClass: "mt" },
+                [
+                  _c("span", { attrs: { slot: "header" }, slot: "header" }, [
+                    _vm._v(_vm._s(slotProps.data.name) + " - "),
+                    _c("strong", [
+                      _vm._v(_vm._s(_vm.ucFirst(_vm.eiDefaults.rooms_name)))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("list-rooms", {
+                    ref: "listRooms",
+                    attrs: {
+                      "school-id": _vm.eiSchool.id,
+                      "building-id": _vm.buildingId
+                    }
+                  })
+                ],
+                1
+              )
             }
           }
         ])

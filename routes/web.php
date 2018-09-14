@@ -26,6 +26,10 @@ Route::middleware('needs_school')->group(function () {
     Route::get('rooms', 'RoomsController@index')->name('web.rooms.index');
     Route::get('rooms/{room}', 'RoomsController@show')->name('web.rooms.show');
 
+    // Users
+    Route::get('users', 'UsersController@index')->name('web.users.index');
+    Route::get('users/{user}', 'UsersController@show')->name('web.users.show');
+
     // Items
     Route::get('items', 'ItemsController@index')->name('web.items.index');
     Route::get('items/{item}', 'ItemsController@show')->name('web.items.show');

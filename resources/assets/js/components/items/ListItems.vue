@@ -2,11 +2,11 @@
   <div :loading="loading">
     <data-table url="items"
                 type-name="item"
-                :request-params="{schoolId: schoolId}"
+                :request-params="{schoolId: schoolId, roomId: roomId}"
                 :options="tableOptions"
+                ref="dataTable"
                 :request-includes="['items.extra']"
                 :request-with="['room.building']">
-
     </data-table>
   </div>
 </template>
@@ -19,7 +19,12 @@ export default {
     schoolId: {
       type: [Number, String],
       required: true,
-    }
+    },
+    roomId: {
+      type: [Number, String],
+      required: false,
+      default: () => { return null }
+    },
   },
 
   data () {
@@ -56,6 +61,12 @@ export default {
   components: {
     DataTable: () => import(/* webpackChunkName: "data-table" */'../DataTable'),
   },
+
+  methods: {
+    getData () {
+      this.$refs.dataTable.getData()
+    }
+  }
 }
 </script>
 

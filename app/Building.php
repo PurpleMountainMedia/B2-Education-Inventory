@@ -5,10 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\LinkableTrait;
 use App\Traits\ResponsableTrait;
+use App\Traits\CreatedByTrait;
 
 class Building extends Model
 {
-    use SoftDeletes, LinkableTrait, ResponsableTrait;
+    use SoftDeletes, LinkableTrait, ResponsableTrait, CreatedByTrait;
 
     /**
     * The attributes that should be mutated into dates.

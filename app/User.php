@@ -10,10 +10,11 @@ use B2Systems\B2\B2;
 use Illuminate\Support\Facades\Cache;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Traits\LinkableTrait;
 
 class User extends Authenticatable
 {
-    use Notifiable, B2UserTrait, HasApiTokens, HasRoles;
+    use Notifiable, B2UserTrait, HasApiTokens, HasRoles, LinkableTrait;
 
     /**
      * Whether or not the database ID is incrementing.

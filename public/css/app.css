@@ -5326,6 +5326,18 @@ button {
   color: white !important;
 }
 
+a {
+  color: #86af49;
+}
+
+a:hover {
+  color: #9ec16a;
+}
+
+a:visited {
+  color: #6a8b3a;
+}
+
 .main_menu_wrap {
   display: block;
   width: 100%;

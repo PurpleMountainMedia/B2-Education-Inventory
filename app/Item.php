@@ -100,4 +100,13 @@ class Item extends Model
                      ->where('buildings.school_id', $schoolId)
                      ->select('items.*');
     }
+
+    public function scopeInRoom($query, $roomId)
+    {
+        if ($roomId) {
+            return $query->where('room_id', $roomId);
+        }
+
+        return $query;
+    }
 }

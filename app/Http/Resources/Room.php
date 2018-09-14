@@ -18,6 +18,9 @@ class Room extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'type' => $this->when(requestIncludes('rooms.extra'), $this->type),
+
+            'created_by' => new User($this->whenLoaded('createdBy')),
+
             'created_at' => $this->when(requestIncludes('rooms.timestamps'), $this->created_at),
             'updated_at' => $this->when(requestIncludes('rooms.timestamps'), $this->updated_at),
 
