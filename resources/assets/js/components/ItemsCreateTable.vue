@@ -1,19 +1,18 @@
 <template lang="html">
-    <div v-loading="loading">
+  <div v-loading="loading">
+    <layout-center-page>
       <el-alert type="warning" :closable="false" title="" class="mb-sm" v-if="selectedRows.length > 0">
         <el-button @click="handelMultipleDelete" type="danger" size="mini">{{ __('Delete') }}</el-button>
       </el-alert>
 
-      <el-form :model="{rows: rows}">
+      <b2-errors :errors="errors" />
 
+      <el-form :model="{rows: rows}" label-position="top">
         <el-form-item :label="__('Barcode Start')">
-          <el-input v-model="barcodeStart"></el-input>
+          <el-input class="short_input" v-model="barcodeStart"></el-input>
         </el-form-item>
 
-
         <el-table :data="rows" @selection-change="handleSelectionChange">
-
-
           <el-table-column type="selection"
                            class-name="table_no_padding selection_col"
                            width="30">
@@ -46,9 +45,8 @@
 
       <el-button class="mt" @click="addRow" type="primary" plain>{{ __('Add More') }}</el-button>
       <el-button class="mt" @click="createItems" type="primary">{{ __('Create Items') }}</el-button>
-
-      {{ rows }}
-    </div>
+    </layout-center-page>
+  </div>
 </template>
 
 <script>
@@ -76,7 +74,9 @@ export default {
   name: 'ItemsCreateTable',
 
   components: {
-      CreateTableCell: CreateTableCell
+      CreateTableCell: CreateTableCell,
+      LayoutCenterPage: () => import(/* webpackChunkName: "layout-center-page" */'components/layout/LayoutCenterPage'),
+      B2Errors: () => import(/* webpackChunkName: "b2-errors" */'components/B2Errors'),
   },
 
   props: {
@@ -88,15 +88,16 @@ export default {
 
   data () {
     return {
-        loading: false,
-        rows: [clone(row)],
-        test: '',
-        selectedRows: [],
-        buildings: [],
-        rooms: [],
-        itemCategories: [],
-        makes: [],
-        barcodeStart: 1
+      loading: false,
+      rows: [clone(row)],
+      test: '',
+      errors: {},
+      selectedRows: [],
+      buildings: [],
+      rooms: [],
+      itemCategories: [],
+      makes: [],
+      barcodeStart: 1
     }
   },
 
@@ -329,6 +330,7 @@ export default {
         })
         .then((data) => {
             this.loading = false;
+            this.rows = [clone(row)]
         })
         .catch((error) => {
             this.loading = false;

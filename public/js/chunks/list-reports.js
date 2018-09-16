@@ -31,6 +31,7 @@ exports.default = {
       reports: [],
       errors: {},
       requestIncludes: ['reports.timestamps'],
+      requestWith: ['createdBy'],
       paginationMeta: {
         total: 0,
         perPage: 0,
@@ -47,13 +48,16 @@ exports.default = {
 
   components: {
     ReportCard: function ReportCard() {
-      return __webpack_require__.e/* import() */(18).then(__webpack_require__.bind(null, "./resources/assets/js/components/reports/ReportCard.vue"));
+      return __webpack_require__.e/* import() */(20).then(__webpack_require__.bind(null, "./resources/assets/js/components/reports/ReportCard.vue"));
     },
     LayoutCenterPage: function LayoutCenterPage() {
-      return __webpack_require__.e/* import() */(14).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
+      return __webpack_require__.e/* import() */(15).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
     },
     AddNewModal: function AddNewModal() {
-      return __webpack_require__.e/* import() */(5).then(__webpack_require__.bind(null, "./resources/assets/js/components/AddNewModal.vue"));
+      return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, "./resources/assets/js/components/AddNewModal.vue"));
+    },
+    AddNewReportFields: function AddNewReportFields() {
+      return __webpack_require__.e/* import() */(21).then(__webpack_require__.bind(null, "./resources/assets/js/components/reports/AddNewReportFields.vue"));
     }
   },
 
@@ -68,7 +72,8 @@ exports.default = {
         path: 'reports',
         params: {
           schoolId: this.schoolId,
-          include: this.requestIncludes
+          include: this.requestIncludes,
+          with: this.requestWith
         }
       }).then(function (data) {
         _this.loading = false;
@@ -105,6 +110,13 @@ exports.default = {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /***/ }),
 
@@ -116,7 +128,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1430,42 +1442,63 @@ var render = function() {
             attrs: {
               "data-url": "reports",
               "add-name": "Report",
+              modal: { title: "Add Report" },
               button: { text: "Add Report", plain: true },
               "with-request": {
                 schoolId: _vm.schoolId,
-                include: _vm.requestIncludes
+                include: _vm.requestIncludes,
+                with: _vm.requestWith
               },
               "on-update": function(data) {
                 _vm.reports.push(data)
               }
-            }
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "form",
+                fn: function(slotProps) {
+                  return _c("add-new-report-fields", {
+                    attrs: {
+                      form: slotProps.form,
+                      "form-errors": slotProps.formErrors
+                    }
+                  })
+                }
+              }
+            ])
           }),
           _vm._v(" "),
           _vm._l(_vm.reports, function(report, key) {
             return _c("report-card", { key: key, attrs: { report: report } })
           }),
           _vm._v(" "),
-          _c(
-            "el-row",
-            { staticClass: "table_footer" },
-            [
-              _c(
-                "el-col",
+          _vm.reports.length > 0
+            ? _c(
+                "el-row",
+                { staticClass: "table_footer" },
                 [
-                  _c("el-pagination", {
-                    attrs: {
-                      "page-sizes": [15],
-                      "page-size": _vm.paginationMeta.perPage,
-                      layout: "sizes, prev, pager, next",
-                      total: _vm.paginationMeta.total
-                    }
-                  })
+                  _c(
+                    "el-col",
+                    [
+                      _c("el-pagination", {
+                        attrs: {
+                          "page-sizes": [15],
+                          "page-size": _vm.paginationMeta.perPage,
+                          layout: "sizes, prev, pager, next",
+                          total: _vm.paginationMeta.total
+                        }
+                      })
+                    ],
+                    1
+                  )
                 ],
                 1
               )
-            ],
-            1
-          )
+            : _c("el-card", { staticClass: "mt" }, [
+                _c("h1", { staticClass: "text-center" }, [
+                  _vm._v(_vm._s(_vm.__("Sorry, No Data")))
+                ])
+              ])
         ],
         2
       )

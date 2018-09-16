@@ -16,7 +16,7 @@
     <el-dialog :title="mergedModal.title"
                :visible.sync="showModal">
       <el-form :model="form" label-position="top" ref="addNewForm">
-        <slot name="form">
+        <slot name="form" v-bind:form="form" v-bind:formErrors="formErrors">
           <el-row :gutter="10">
             <p><strong>{{ __('Information') }}</strong></p>
             <hr>

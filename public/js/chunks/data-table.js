@@ -103,6 +103,7 @@ var findIndex = __webpack_require__("./node_modules/lodash.findindex/index.js");
 //
 //
 //
+//
 
 var throttle = __webpack_require__("./node_modules/lodash.throttle/index.js");
 exports.default = {
@@ -112,10 +113,10 @@ exports.default = {
 
   components: {
     FiltersList: function FiltersList() {
-      return __webpack_require__.e/* import() */(23).then(__webpack_require__.bind(null, "./resources/assets/js/components/FiltersList.vue"));
+      return __webpack_require__.e/* import() */(26).then(__webpack_require__.bind(null, "./resources/assets/js/components/FiltersList.vue"));
     },
     B2Errors: function B2Errors() {
-      return __webpack_require__.e/* import() */(15).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
+      return __webpack_require__.e/* import() */(18).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
     }
   },
 
@@ -161,13 +162,30 @@ exports.default = {
     },
     url: {
       type: String,
-      required: true
+      required: false,
+      default: function _default() {
+        return null;
+      }
     },
     deleteUrl: {
       type: String,
       required: false,
       default: function _default() {
-        return this.url;
+        return null;
+      }
+    },
+    data: {
+      type: Array,
+      required: false,
+      default: function _default() {
+        return [];
+      }
+    },
+    server: {
+      type: Boolean,
+      required: false,
+      default: function _default() {
+        return true;
       }
     }
   },
@@ -175,7 +193,7 @@ exports.default = {
   data: function data() {
     return {
       loading: false,
-      data: [],
+      internalData: [],
       mergedOptions: {},
       urlFilters: {},
       defaultOptions: {
@@ -197,7 +215,14 @@ exports.default = {
           textCallback: function () {
             return this.__('View');
           }.bind(this)
-        }]
+        }],
+        display: {
+          filters: true,
+          search: true,
+          new: true,
+          refresh: true,
+          actions: true
+        }
       },
       paginationMeta: {
         total: 0,
@@ -217,6 +242,13 @@ exports.default = {
     perPages: function perPages() {
       var total = this.paginationMeta.total;
       return total <= 15 ? [15] : total <= 30 ? [15, 30] : total <= 100 ? [15, 30, 100] : [15, 30, 100, 250];
+    },
+    tableData: function tableData() {
+      if (this.server) {
+        return this.internalData;
+      } else {
+        return this.internalData.slice(0, this.paginationMeta.perPage);
+      }
     }
   },
 
@@ -228,13 +260,22 @@ exports.default = {
 
     this.search = filters[this.typeName + '_search'];
 
-    this.getData();
+    if (this.server) {
+      this.getData();
+    } else {
+      this.internalData = this.data;
+      this.paginationMeta.total = this.internalData.length;
+      this.paginationMeta.perPage = 15;
+      this.paginationMeta.perPage = 15;
+    }
   },
 
 
   watch: {
     search: function search(value) {
-      value ? this.getData() : null;
+      if (this.server) {
+        this.getData();
+      }
 
       this.urlFilters[this.typeName + '_search'] = value;
       window.location.hash = _url2.default.serialize(this.urlFilters);
@@ -274,7 +315,7 @@ exports.default = {
         params: params
       }).then(function (data) {
         _this.loading = false;
-        _this.data = data.data;
+        _this.internalData = data.data;
         _this.paginationMeta = {
           total: data.meta.total,
           perPage: parseInt(data.meta.per_page),
@@ -304,9 +345,9 @@ exports.default = {
         Echo.private('items.1').listen('ItemUpdated', function (e) {
           console.log(e.item);
 
-          var index = findIndex(_this3.data, ['id', e.item.id]);
+          var index = findIndex(_this3.internalData, ['id', e.item.id]);
 
-          _this3.$set(_this3.data, index, e.item);
+          _this3.$set(_this3.internalData, index, e.item);
         });
       }
     },
@@ -320,7 +361,9 @@ exports.default = {
      */
     handleSizeChange: function handleSizeChange(perPage) {
       this.paginationMeta.perPage = perPage;
-      this.getData();
+      if (this.server) {
+        this.getData();
+      }
     },
 
 
@@ -332,7 +375,9 @@ exports.default = {
      */
     handlePageChange: function handlePageChange(page) {
       this.paginationMeta.currentPage = page;
-      this.getData();
+      if (this.server) {
+        this.getData();
+      }
     }
   }
 };
@@ -4528,29 +4573,33 @@ var render = function() {
             "el-col",
             { attrs: { sm: 12 } },
             [
-              _c(
-                "el-input",
-                {
-                  attrs: {
-                    placeholder: _vm.__("Search"),
-                    disabled: _vm.filters.length >= 1
-                  },
-                  model: {
-                    value: _vm.search,
-                    callback: function($$v) {
-                      _vm.search = $$v
+              (_vm.mergedOptions.display
+              ? _vm.mergedOptions.display.search
+              : false)
+                ? _c(
+                    "el-input",
+                    {
+                      attrs: {
+                        placeholder: _vm.__("Search"),
+                        disabled: _vm.filters.length >= 1
+                      },
+                      model: {
+                        value: _vm.search,
+                        callback: function($$v) {
+                          _vm.search = $$v
+                        },
+                        expression: "search"
+                      }
                     },
-                    expression: "search"
-                  }
-                },
-                [
-                  _c("i", {
-                    staticClass: "el-input__icon el-icon-search",
-                    attrs: { slot: "prefix" },
-                    slot: "prefix"
-                  })
-                ]
-              )
+                    [
+                      _c("i", {
+                        staticClass: "el-input__icon el-icon-search",
+                        attrs: { slot: "prefix" },
+                        slot: "prefix"
+                      })
+                    ]
+                  )
+                : _vm._e()
             ],
             1
           ),
@@ -4560,25 +4609,33 @@ var render = function() {
             { attrs: { sm: 12 } },
             [
               _vm._t("createButton", [
-                _c(
-                  "el-button",
-                  {
-                    staticClass: "create_btn",
-                    attrs: { type: "primary", plain: "" }
-                  },
-                  [_vm._v(_vm._s(_vm.__("Add New")))]
-                )
+                (_vm.mergedOptions.display
+                ? _vm.mergedOptions.display.new
+                : false)
+                  ? _c(
+                      "el-button",
+                      {
+                        staticClass: "create_btn",
+                        attrs: { type: "primary", plain: "" }
+                      },
+                      [_vm._v(_vm._s(_vm.__("Add New")))]
+                    )
+                  : _vm._e()
               ]),
               _vm._v(" "),
-              _c(
-                "el-button",
-                {
-                  staticClass: "refresh_btn",
-                  attrs: { type: "info", plain: "" },
-                  on: { click: _vm.getData }
-                },
-                [_c("i", { staticClass: "el-icon-refresh" })]
-              )
+              (_vm.mergedOptions.display
+              ? _vm.mergedOptions.display.refresh
+              : false)
+                ? _c(
+                    "el-button",
+                    {
+                      staticClass: "refresh_btn",
+                      attrs: { type: "info", plain: "" },
+                      on: { click: _vm.getData }
+                    },
+                    [_c("i", { staticClass: "el-icon-refresh" })]
+                  )
+                : _vm._e()
             ],
             2
           )
@@ -4586,15 +4643,19 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "el-row",
-        [_c("filters-list", { attrs: { filters: _vm.filters } })],
-        1
-      ),
+      (_vm.mergedOptions.display
+      ? _vm.mergedOptions.display.filters
+      : false)
+        ? _c(
+            "el-row",
+            [_c("filters-list", { attrs: { filters: _vm.filters } })],
+            1
+          )
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "el-table",
-        { staticClass: "mt-sm", attrs: { data: _vm.data } },
+        { staticClass: "mt-sm", attrs: { data: _vm.tableData } },
         [
           _vm._l(_vm.mergedOptions.columns, function(column, key) {
             return _c("el-table-column", {
@@ -4608,68 +4669,79 @@ var render = function() {
             })
           }),
           _vm._v(" "),
-          _c("el-table-column", {
-            attrs: { label: _vm.__("Actions") },
-            scopedSlots: _vm._u([
-              {
-                key: "default",
-                fn: function(scope) {
-                  return [
-                    _vm._t(
-                      "actionButtons",
-                      [
-                        _vm._l(_vm.mergedOptions.actionLinks, function(
-                          btn,
-                          btnKey
-                        ) {
-                          return _c(
-                            "a",
-                            {
-                              key: btnKey,
-                              attrs: { href: btn.urlCallback(scope.row) }
-                            },
-                            [
-                              _c(
-                                "el-button",
+          (_vm.mergedOptions.display
+          ? _vm.mergedOptions.display.actions
+          : false)
+            ? _c("el-table-column", {
+                attrs: { label: _vm.__("Actions") },
+                scopedSlots: _vm._u([
+                  {
+                    key: "default",
+                    fn: function(scope) {
+                      return [
+                        _vm._t(
+                          "actionButtons",
+                          [
+                            _vm._l(_vm.mergedOptions.actionLinks, function(
+                              btn,
+                              btnKey
+                            ) {
+                              return _c(
+                                "a",
                                 {
-                                  staticClass: "action_btn view_btn",
-                                  attrs: { size: btn.size ? btn.size : "mini" }
+                                  key: btnKey,
+                                  attrs: { href: btn.urlCallback(scope.row) }
                                 },
                                 [
-                                  _vm._v(
-                                    _vm._s(btn.textCallback(scope.row)) + " "
-                                  ),
-                                  btn.icon
-                                    ? _c("i", { class: btn.icon })
-                                    : _vm._e()
-                                ]
+                                  _c(
+                                    "el-button",
+                                    {
+                                      staticClass: "action_btn view_btn",
+                                      attrs: {
+                                        size: btn.size ? btn.size : "mini"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        _vm._s(btn.textCallback(scope.row)) +
+                                          " "
+                                      ),
+                                      btn.icon
+                                        ? _c("i", { class: btn.icon })
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ],
+                                1
                               )
-                            ],
-                            1
-                          )
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "el-button",
-                          {
-                            staticClass: "action_btn delete_btn",
-                            attrs: { size: "mini", type: "danger" },
-                            on: {
-                              click: function($event) {
-                                _vm.deleteData(scope.row)
-                              }
-                            }
-                          },
-                          [_vm._v(_vm._s(_vm.__("Delete")) + "\n          ")]
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "el-button",
+                              {
+                                staticClass: "action_btn delete_btn",
+                                attrs: { size: "mini", type: "danger" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.deleteData(scope.row)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  _vm._s(_vm.__("Delete")) + "\n          "
+                                )
+                              ]
+                            )
+                          ],
+                          { row: scope.row, delete: _vm.deleteData }
                         )
-                      ],
-                      { row: scope.row, delete: _vm.deleteData }
-                    )
-                  ]
-                }
-              }
-            ])
-          }),
+                      ]
+                    }
+                  }
+                ])
+              })
+            : _vm._e(),
           _vm._v(" "),
           _c("div", { attrs: { slot: "empty" }, slot: "empty" }, [
             _c("h1", [_vm._v("Sorry, No Data")])

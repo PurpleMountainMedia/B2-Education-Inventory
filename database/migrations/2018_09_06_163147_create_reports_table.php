@@ -17,6 +17,7 @@ class CreateReportsTable extends Migration
             $table->uuid('id')->primary();
             $table->uuid('created_by')->nullable()->default(null);
             $table->uuid('school_id')->nullable()->default(null);
+            $table->uuid('parent_id')->nullable()->default(null);
             $table->string('type')->nullable()->default(null);
             $table->string('name')->nullable()->default(null);
             $table->integer('repeat_every');

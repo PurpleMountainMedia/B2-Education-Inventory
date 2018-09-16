@@ -9,23 +9,24 @@
       <el-col :sm="12">
           <el-input :placeholder="__('Search')"
                     v-model="search"
+                    v-if="mergedOptions.display ? mergedOptions.display.search : false"
                     :disabled="filters.length >= 1">
                     <i slot="prefix" class="el-input__icon el-icon-search"></i>
           </el-input>
       </el-col>
       <el-col :sm="12">
         <slot name="createButton">
-            <el-button class="create_btn" type="primary" plain>{{ __('Add New') }}</el-button>
+            <el-button class="create_btn" v-if="mergedOptions.display ? mergedOptions.display.new : false" type="primary" plain>{{ __('Add New') }}</el-button>
         </slot>
-        <el-button class="refresh_btn" @click="getData" type="info" plain><i class="el-icon-refresh"></i></el-button>
+        <el-button class="refresh_btn" v-if="mergedOptions.display ? mergedOptions.display.refresh : false" @click="getData" type="info" plain><i class="el-icon-refresh"></i></el-button>
       </el-col>
     </el-row>
 
-    <el-row>
+    <el-row v-if="mergedOptions.display ? mergedOptions.display.filters : false">
       <filters-list :filters="filters" />
     </el-row>
 
-    <el-table :data="data" class="mt-sm">
+    <el-table :data="tableData" class="mt-sm">
       <el-table-column v-for="(column, key) in mergedOptions.columns"
                        :key="key"
                        :prop="column.prop"
@@ -34,7 +35,7 @@
                        :label="column.label">
       </el-table-column>
 
-      <el-table-column :label="__('Actions')">
+      <el-table-column :label="__('Actions')" v-if="mergedOptions.display ? mergedOptions.display.actions : false">
         <template slot-scope="scope">
           <slot name="actionButtons" :row="scope.row" :delete="deleteData">
             <a v-for="(btn, btnKey) in mergedOptions.actionLinks"
@@ -59,15 +60,15 @@
     </el-table>
 
     <el-row class="table_footer">
-        <el-col>
-            <el-pagination :page-sizes="perPages"
-                           :page-size="paginationMeta.perPage"
-                           layout="sizes, prev, pager, next"
-                           :total="paginationMeta.total"
-                           v-on:size-change="handleSizeChange"
-                           v-on:current-change="handlePageChange">
-            </el-pagination>
-        </el-col>
+      <el-col>
+        <el-pagination :page-sizes="perPages"
+                       :page-size="paginationMeta.perPage"
+                       layout="sizes, prev, pager, next"
+                       :total="paginationMeta.total"
+                       v-on:size-change="handleSizeChange"
+                       v-on:current-change="handlePageChange">
+        </el-pagination>
+      </el-col>
     </el-row>
 
   </div>
@@ -123,19 +124,30 @@ export default {
       },
       url: {
         type: String,
-        required: true,
+        required: false,
+        default: () => { return null }
       },
       deleteUrl: {
         type: String,
         required: false,
-        default () { return this.url }
+        default: () => { return null }
+      },
+      data: {
+        type: Array,
+        required: false,
+        default: () => { return [] }
+      },
+      server: {
+        type: Boolean,
+        required: false,
+        default: () => { return true }
       }
     },
 
     data () {
       return {
         loading: false,
-        data: [],
+        internalData: [],
         mergedOptions: {},
         urlFilters: {},
         defaultOptions: {
@@ -160,7 +172,14 @@ export default {
               },
               textCallback: function () { return this.__('View') }.bind(this),
             }
-          ]
+          ],
+          display: {
+            filters: true,
+            search: true,
+            new: true,
+            refresh: true,
+            actions: true
+          }
         },
         paginationMeta: {
           total: 0,
@@ -180,6 +199,14 @@ export default {
         var total = this.paginationMeta.total;
         return  (total <= 15 ) ? [15] : (total <= 30 ) ? [15, 30] : (total <= 100 ) ?  [15, 30, 100] : [15, 30, 100, 250];
       },
+
+      tableData () {
+        if (this.server) {
+          return this.internalData
+        } else {
+          return this.internalData.slice(0, this.paginationMeta.perPage)
+        }
+      }
     },
 
     mounted () {
@@ -190,12 +217,21 @@ export default {
 
       this.search = filters[`${this.typeName}_search`]
 
-      this.getData();
+      if (this.server) {
+        this.getData();
+      } else {
+        this.internalData = this.data
+        this.paginationMeta.total = this.internalData.length
+        this.paginationMeta.perPage = 15
+        this.paginationMeta.perPage = 15
+      }
     },
 
     watch: {
       search: function (value) {
-        value ? this.getData() : null;
+        if (this.server) {
+          this.getData()
+        }
 
         this.urlFilters[`${this.typeName}_search`] = value
         window.location.hash = url.serialize(this.urlFilters)
@@ -234,7 +270,7 @@ export default {
         })
         .then(data => {
           this.loading = false;
-          this.data = data.data
+          this.internalData = data.data
           this.paginationMeta = {
             total: data.meta.total,
             perPage: parseInt(data.meta.per_page),
@@ -267,9 +303,9 @@ export default {
               .listen('ItemUpdated', (e) => {
                   console.log(e.item)
 
-                  var index = findIndex(this.data, ['id', e.item.id])
+                  var index = findIndex(this.internalData, ['id', e.item.id])
 
-                  this.$set(this.data, index, e.item)
+                  this.$set(this.internalData, index, e.item)
               });
         }
       },
@@ -282,7 +318,9 @@ export default {
        */
       handleSizeChange (perPage) {
         this.paginationMeta.perPage = perPage;
-        this.getData();
+        if (this.server) {
+          this.getData();
+        }
       },
 
       /**
@@ -293,7 +331,9 @@ export default {
        */
       handlePageChange (page) {
         this.paginationMeta.currentPage = page;
-        this.getData();
+        if (this.server) {
+          this.getData();
+        }
       },
     }
 }

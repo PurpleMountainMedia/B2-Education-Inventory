@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\ResponsableTrait;
 use App\Traits\LinkableTrait;
 use App\Traits\CreatedByTrait;
+use App\Item;
 
 class Report extends Model
 {
@@ -40,5 +41,15 @@ class Report extends Model
     public function scopeInSchool($query, $schoolId)
     {
         return $query->where('school_id', $schoolId);
+    }
+
+    public function getFormattedDataAttribute($data)
+    {
+        $formattedData = [];
+
+        foreach ($this->data as $key => $d) {
+            $formattedData[] = $d;
+        }
+        return collect($formattedData);
     }
 }

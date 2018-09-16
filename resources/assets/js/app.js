@@ -73,5 +73,6 @@ const app = new Vue({
     RoomEditForm: () => import(/* webpackChunkName: "room-edit-form" */'components/rooms/RoomEditForm'),
     ItemEditForm: () => import(/* webpackChunkName: "item-edit-form" */'components/items/ItemEditForm'),
     ListReports: () => import(/* webpackChunkName: "list-reports" */'components/reports/ListReports'),
+    ReportEditForm: () => import(/* webpackChunkName: "report-edit-form" */'components/reports/ReportEditForm'),
   },
 })

@@ -28,16 +28,12 @@
         @csrf
     </form>
 
-    <school-selecter :data='@json(Auth::User()->organisationsWithSchools())'
-                     csrf-token='{{ csrf_token() }}'
-                     form-url='{{ route('web.session') }}'>
-    </school-selecter>
-
     <el-row :gutter="20">
       <el-col :md="{span: 5, offset: 4}">
         <h1 class="text-center"><i class="fal fa-2x fa-building"></i></h1>
 
         <add-new-modal add-name="@buildingName(true)"
+                       data-url="buildings"
                        :button="{text: 'New @buildingName(true)', size: 'large', class: 'w-100'}"
                        :modal="{title: 'New @buildingName(true)'}">
         </add-new-modal>
@@ -50,6 +46,7 @@
       <el-col :md="{span: 5}">
         <h1 class="text-center"><i class="fal fa-2x fa-door-open"></i></h1>
         <add-new-modal add-name="@roomName(true)"
+                       data-url="rooms"
                        :button="{text: 'New @roomName(true)', size: 'large', class: 'w-100'}"
                        :modal="{title: 'New @roomName(true)'}">
         </add-new-modal>
@@ -61,6 +58,7 @@
         <el-col :md="{span: 5}">
             <h1 class="text-center"><i class="fal fa-2x fa-laptop"></i></h1>
             <add-new-modal add-name="@itemName(true)"
+                           data-url="items"
                            :button="{text: 'New @itemName(true)', size: 'large', class: 'w-100'}"
                            :modal="{title: 'New @itemName(true)'}"></add-new-modal>
             <a href="{{ route('web.items.index') }}" title="@itemsName()">
@@ -72,17 +70,16 @@
     <el-row :gutter="20" class="mt">
         <el-col :md="{span: 5, offset: 4}">
             <add-new-modal add-name="@reportName(true)"
+                           data-url="reports"
                            :button="{text: 'New @reportName(true)', size: 'large', class: 'w-100 mt-sm'}"
                            :modal="{title: 'New @reportName(true)'}"></add-new-modal>
             <el-button icon="el-icon-view" class="w-100 mt-sm">@lang('dashboard.view_all') @itemsName()</el-button>
         </el-col>
 
         <el-col :md="{span: 10}">
-          <p><small>@lang('dashboard.latest_reports_for', ['reports' => getTypeName('report', true)])</small></p>
-          <el-table :data="[]">
-              <el-table-column label="ID"></el-table-column>
-              <el-table-column label="Name"></el-table-column>
-              <el-table-column label="Created"></el-table-column>
+          <p><small>@lang('dashboard.latest_reports_for', ['reports' => getTypeName('report', true)]) <strong>{{ session('school')['name'] ?? null }}</strong></small></p>
+          <el-table :data="{{ App\Report::inSchool(session('school')['id'] ?? null)->get() }}">
+              <el-table-column label="Name" prop="name"></el-table-column>
           </el-table>
         </el-col>
     </el-row>

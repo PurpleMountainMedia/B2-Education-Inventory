@@ -1,4 +1,4 @@
-webpackJsonp([18],{
+webpackJsonp([20],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/reports/ReportCard.vue":
 /***/ (function(module, exports, __webpack_require__) {
@@ -9,6 +9,9 @@ webpackJsonp([18],{
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+//
+//
+//
 //
 //
 //
@@ -31,7 +34,7 @@ exports.default = {
 
   components: {
     ObjectInformation: function ObjectInformation() {
-      return __webpack_require__.e/* import() */(17).then(__webpack_require__.bind(null, "./resources/assets/js/components/ObjectInformation.vue"));
+      return __webpack_require__.e/* import() */(16).then(__webpack_require__.bind(null, "./resources/assets/js/components/ObjectInformation.vue"));
     }
   }
 };
@@ -46,7 +49,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -71,7 +74,23 @@ var render = function() {
             _vm._v(_vm._s(_vm.report.name))
           ]),
           _vm._v(" "),
-          _c("object-information", { attrs: { object: _vm.report } })
+          _c("object-information", { attrs: { object: _vm.report } }),
+          _vm._v(" "),
+          _c(
+            "a",
+            { attrs: { href: _vm.report.links.url, title: _vm.report.name } },
+            [
+              _c(
+                "el-button",
+                {
+                  staticClass: "mt-sm",
+                  attrs: { type: "primary", plain: "", size: "mini" }
+                },
+                [_vm._v(_vm._s(_vm.__("View Report")))]
+              )
+            ],
+            1
+          )
         ],
         1
       )

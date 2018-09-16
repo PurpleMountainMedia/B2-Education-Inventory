@@ -3,13 +3,16 @@
     <layout-center-page>
       <add-new-modal data-url="reports"
                      add-name="Report"
+                     :modal="{title: 'Add Report'}"
                      :button="{text: 'Add Report', plain: true}"
-                     :with-request="{schoolId: schoolId, include: requestIncludes}"
-                     :on-update="(data) => { reports.push(data) }"/>
+                     :with-request="{schoolId: schoolId, include: requestIncludes, with: requestWith}"
+                     :on-update="(data) => { reports.push(data) }">
+        <add-new-report-fields slot="form" slot-scope="slotProps" :form="slotProps.form" :form-errors="slotProps.formErrors"/>
+      </add-new-modal>
 
       <report-card v-for="(report, key) in reports" :key="key" :report="report"/>
 
-      <el-row class="table_footer">
+      <el-row class="table_footer" v-if="reports.length > 0">
         <el-col>
           <el-pagination :page-sizes="[15]"
                          :page-size="paginationMeta.perPage"
@@ -18,6 +21,10 @@
           </el-pagination>
         </el-col>
       </el-row>
+
+      <el-card v-else class="mt">
+        <h1 class="text-center">{{ __('Sorry, No Data') }}</h1>
+      </el-card>
 
     </layout-center-page>
   </div>
@@ -41,6 +48,7 @@ export default {
       reports: [],
       errors: {},
       requestIncludes: ['reports.timestamps'],
+      requestWith: ['createdBy'],
       paginationMeta: {
         total: 0,
         perPage: 0,
@@ -59,6 +67,7 @@ export default {
     ReportCard: () => import(/* webpackChunkName: "report-card" */'components/reports/ReportCard'),
     LayoutCenterPage: () => import(/* webpackChunkName: "layout-center-page" */'components/layout/LayoutCenterPage'),
     AddNewModal: () => import(/* webpackChunkName: "add-new-modal" */'components/AddNewModal'),
+    AddNewReportFields: () => import(/* webpackChunkName: "add-new-report-fields" */'components/reports/AddNewReportFields')
   },
 
   methods: {
@@ -71,7 +80,8 @@ export default {
         path: 'reports',
         params: {
           schoolId: this.schoolId,
-          include: this.requestIncludes
+          include: this.requestIncludes,
+          with: this.requestWith
         }
       })
       .then((data) => {

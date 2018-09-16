@@ -1,4 +1,4 @@
-webpackJsonp([5],{
+webpackJsonp([1],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/AddNewModal.vue":
 /***/ (function(module, exports, __webpack_require__) {
@@ -75,7 +75,7 @@ exports.default = {
 
   components: {
     B2Errors: function B2Errors() {
-      return __webpack_require__.e/* import() */(15).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
+      return __webpack_require__.e/* import() */(18).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
     }
   },
 
@@ -1576,61 +1576,66 @@ var render = function() {
               attrs: { model: _vm.form, "label-position": "top" }
             },
             [
-              _vm._t("form", [
-                _c("el-row", { attrs: { gutter: 10 } }, [
-                  _c("p", [
-                    _c("strong", [_vm._v(_vm._s(_vm.__("Information")))])
+              _vm._t(
+                "form",
+                [
+                  _c("el-row", { attrs: { gutter: 10 } }, [
+                    _c("p", [
+                      _c("strong", [_vm._v(_vm._s(_vm.__("Information")))])
+                    ]),
+                    _vm._v(" "),
+                    _c("hr")
                   ]),
                   _vm._v(" "),
-                  _c("hr")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "el-row",
-                  { attrs: { gutter: 10 } },
-                  [
-                    _c(
-                      "el-col",
-                      { attrs: { span: 18, offset: 4 } },
-                      [
-                        _c(
-                          "el-form-item",
-                          {
-                            attrs: {
-                              label: _vm.addName + " " + _vm.__("Name"),
-                              prop: "name",
-                              rules: [
-                                {
-                                  required: true,
-                                  message: _vm.__("name_required")
-                                }
-                              ],
-                              error: _vm.formErrors.name
-                            }
-                          },
-                          [
-                            _c("el-input", {
+                  _c(
+                    "el-row",
+                    { attrs: { gutter: 10 } },
+                    [
+                      _c(
+                        "el-col",
+                        { attrs: { span: 18, offset: 4 } },
+                        [
+                          _c(
+                            "el-form-item",
+                            {
                               attrs: {
-                                placeholder: _vm.addName + " " + _vm.__("name")
-                              },
-                              model: {
-                                value: _vm.form.name,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.form, "name", $$v)
-                                },
-                                expression: "form.name"
+                                label: _vm.addName + " " + _vm.__("Name"),
+                                prop: "name",
+                                rules: [
+                                  {
+                                    required: true,
+                                    message: _vm.__("name_required")
+                                  }
+                                ],
+                                error: _vm.formErrors.name
                               }
-                            })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ])
+                            },
+                            [
+                              _c("el-input", {
+                                attrs: {
+                                  placeholder:
+                                    _vm.addName + " " + _vm.__("name")
+                                },
+                                model: {
+                                  value: _vm.form.name,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "name", $$v)
+                                  },
+                                  expression: "form.name"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                { form: _vm.form, formErrors: _vm.formErrors }
+              )
             ],
             2
           ),

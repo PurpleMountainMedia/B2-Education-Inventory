@@ -1,4 +1,4 @@
-webpackJsonp([3],{
+webpackJsonp([4],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/CreateTableCell.vue":
 /***/ (function(module, exports, __webpack_require__) {
@@ -251,8 +251,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-//
-//
 
 var clone = __webpack_require__("./node_modules/lodash.clone/index.js");
 
@@ -277,7 +275,13 @@ exports.default = {
   name: 'ItemsCreateTable',
 
   components: {
-    CreateTableCell: _CreateTableCell2.default
+    CreateTableCell: _CreateTableCell2.default,
+    LayoutCenterPage: function LayoutCenterPage() {
+      return __webpack_require__.e/* import() */(15).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
+    },
+    B2Errors: function B2Errors() {
+      return __webpack_require__.e/* import() */(18).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
+    }
   },
 
   props: {
@@ -292,6 +296,7 @@ exports.default = {
       loading: false,
       rows: [clone(row)],
       test: '',
+      errors: {},
       selectedRows: [],
       buildings: [],
       rooms: [],
@@ -507,6 +512,7 @@ exports.default = {
         }
       }).then(function (data) {
         _this8.loading = false;
+        _this8.rows = [clone(row)];
       }).catch(function (error) {
         _this8.loading = false;
         _this8.errors = error;
@@ -3621,156 +3627,174 @@ var render = function() {
       ]
     },
     [
-      _vm.selectedRows.length > 0
-        ? _c(
-            "el-alert",
-            {
-              staticClass: "mb-sm",
-              attrs: { type: "warning", closable: false, title: "" }
-            },
+      _c(
+        "layout-center-page",
+        [
+          _vm.selectedRows.length > 0
+            ? _c(
+                "el-alert",
+                {
+                  staticClass: "mb-sm",
+                  attrs: { type: "warning", closable: false, title: "" }
+                },
+                [
+                  _c(
+                    "el-button",
+                    {
+                      attrs: { type: "danger", size: "mini" },
+                      on: { click: _vm.handelMultipleDelete }
+                    },
+                    [_vm._v(_vm._s(_vm.__("Delete")))]
+                  )
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c("b2-errors", { attrs: { errors: _vm.errors } }),
+          _vm._v(" "),
+          _c(
+            "el-form",
+            { attrs: { model: { rows: _vm.rows }, "label-position": "top" } },
             [
               _c(
-                "el-button",
+                "el-form-item",
+                { attrs: { label: _vm.__("Barcode Start") } },
+                [
+                  _c("el-input", {
+                    staticClass: "short_input",
+                    model: {
+                      value: _vm.barcodeStart,
+                      callback: function($$v) {
+                        _vm.barcodeStart = $$v
+                      },
+                      expression: "barcodeStart"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "el-table",
                 {
-                  attrs: { type: "danger", size: "mini" },
-                  on: { click: _vm.handelMultipleDelete }
+                  attrs: { data: _vm.rows },
+                  on: { "selection-change": _vm.handleSelectionChange }
                 },
-                [_vm._v(_vm._s(_vm.__("Delete")))]
+                [
+                  _c("el-table-column", {
+                    attrs: {
+                      type: "selection",
+                      "class-name": "table_no_padding selection_col",
+                      width: "30"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm._l(_vm.collumns, function(col, key) {
+                    return _c("el-table-column", {
+                      key: key,
+                      attrs: {
+                        "class-name": "table_no_padding",
+                        label: col.label,
+                        prop: col.prop,
+                        width: col.width ? col.width : "100"
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function(scope) {
+                            return [
+                              _c("create-table-cell", {
+                                ref:
+                                  scope.column.property +
+                                  "_cell_" +
+                                  scope.$index,
+                                refInFor: true,
+                                attrs: {
+                                  type: col.type ? col.type : null,
+                                  data: col.data ? col.data : [],
+                                  "new-row": _vm.addRow,
+                                  rows: _vm.rows,
+                                  scope: scope,
+                                  onAutoCompleteSelect: function(value) {
+                                    _vm.handleAutoCompleteSelect(
+                                      col.prop,
+                                      value
+                                    )
+                                  },
+                                  onAutoCompleteChange: function(value) {
+                                    _vm.handleAutoCompleteChange(
+                                      col.prop,
+                                      value
+                                    )
+                                  },
+                                  "left-cell": _vm.collumns[key - 1]
+                                    ? _vm.collumns[key - 1].prop
+                                    : null,
+                                  "right-cell": _vm.collumns[key + 1]
+                                    ? _vm.collumns[key + 1].prop
+                                    : null,
+                                  "on-handle-input-key": _vm.handleInputKey
+                                }
+                              })
+                            ]
+                          }
+                        }
+                      ])
+                    })
+                  }),
+                  _vm._v(" "),
+                  _c("el-table-column", {
+                    attrs: {
+                      "class-name": "table_no_padding",
+                      label: _vm.__("Barcode Range"),
+                      prop: "barcodeRange",
+                      width: 100
+                    },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(scope) {
+                          return [
+                            _c(
+                              "div",
+                              { staticClass: "table_cell_barcode_range" },
+                              [_vm._v(_vm._s(_vm.calculateBarcodeRange(scope)))]
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  })
+                ],
+                2
               )
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "el-form",
-        { attrs: { model: { rows: _vm.rows } } },
-        [
-          _c(
-            "el-form-item",
-            { attrs: { label: _vm.__("Barcode Start") } },
-            [
-              _c("el-input", {
-                model: {
-                  value: _vm.barcodeStart,
-                  callback: function($$v) {
-                    _vm.barcodeStart = $$v
-                  },
-                  expression: "barcodeStart"
-                }
-              })
             ],
             1
           ),
           _vm._v(" "),
           _c(
-            "el-table",
+            "el-button",
             {
-              attrs: { data: _vm.rows },
-              on: { "selection-change": _vm.handleSelectionChange }
+              staticClass: "mt",
+              attrs: { type: "primary", plain: "" },
+              on: { click: _vm.addRow }
             },
-            [
-              _c("el-table-column", {
-                attrs: {
-                  type: "selection",
-                  "class-name": "table_no_padding selection_col",
-                  width: "30"
-                }
-              }),
-              _vm._v(" "),
-              _vm._l(_vm.collumns, function(col, key) {
-                return _c("el-table-column", {
-                  key: key,
-                  attrs: {
-                    "class-name": "table_no_padding",
-                    label: col.label,
-                    prop: col.prop,
-                    width: col.width ? col.width : "100"
-                  },
-                  scopedSlots: _vm._u([
-                    {
-                      key: "default",
-                      fn: function(scope) {
-                        return [
-                          _c("create-table-cell", {
-                            ref:
-                              scope.column.property + "_cell_" + scope.$index,
-                            refInFor: true,
-                            attrs: {
-                              type: col.type ? col.type : null,
-                              data: col.data ? col.data : [],
-                              "new-row": _vm.addRow,
-                              rows: _vm.rows,
-                              scope: scope,
-                              onAutoCompleteSelect: function(value) {
-                                _vm.handleAutoCompleteSelect(col.prop, value)
-                              },
-                              onAutoCompleteChange: function(value) {
-                                _vm.handleAutoCompleteChange(col.prop, value)
-                              },
-                              "left-cell": _vm.collumns[key - 1]
-                                ? _vm.collumns[key - 1].prop
-                                : null,
-                              "right-cell": _vm.collumns[key + 1]
-                                ? _vm.collumns[key + 1].prop
-                                : null,
-                              "on-handle-input-key": _vm.handleInputKey
-                            }
-                          })
-                        ]
-                      }
-                    }
-                  ])
-                })
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: {
-                  "class-name": "table_no_padding",
-                  label: _vm.__("Barcode Range"),
-                  prop: "barcodeRange",
-                  width: 100
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(scope) {
-                      return [
-                        _c("div", { staticClass: "table_cell_barcode_range" }, [
-                          _vm._v(_vm._s(_vm.calculateBarcodeRange(scope)))
-                        ])
-                      ]
-                    }
-                  }
-                ])
-              })
-            ],
-            2
+            [_vm._v(_vm._s(_vm.__("Add More")))]
+          ),
+          _vm._v(" "),
+          _c(
+            "el-button",
+            {
+              staticClass: "mt",
+              attrs: { type: "primary" },
+              on: { click: _vm.createItems }
+            },
+            [_vm._v(_vm._s(_vm.__("Create Items")))]
           )
         ],
         1
-      ),
-      _vm._v(" "),
-      _c(
-        "el-button",
-        {
-          staticClass: "mt",
-          attrs: { type: "primary", plain: "" },
-          on: { click: _vm.addRow }
-        },
-        [_vm._v(_vm._s(_vm.__("Add More")))]
-      ),
-      _vm._v(" "),
-      _c(
-        "el-button",
-        {
-          staticClass: "mt",
-          attrs: { type: "primary" },
-          on: { click: _vm.createItems }
-        },
-        [_vm._v(_vm._s(_vm.__("Create Items")))]
-      ),
-      _vm._v("\n\n  " + _vm._s(_vm.rows) + "\n")
+      )
     ],
     1
   )
