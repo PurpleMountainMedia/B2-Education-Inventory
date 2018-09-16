@@ -1,4 +1,4 @@
-webpackJsonp([25],{
+webpackJsonp([26],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/filters/types/DateFilter.vue":
 /***/ (function(module, exports, __webpack_require__) {
@@ -88,9 +88,9 @@ var render = function() {
   return _c("el-date-picker", {
     ref: "input",
     attrs: {
-      type: "date",
       format: _vm.eiDateFormat,
-      "value-format": _vm.serverDateFormat
+      "value-format": _vm.serverDateFormat,
+      type: "date"
     },
     model: {
       value: _vm.internalValue,

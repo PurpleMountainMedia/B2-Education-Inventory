@@ -1,13 +1,13 @@
 <template lang="html">
   <div :loading="loading">
-    <data-table url="items"
-                type-name="item"
-                :request-params="{schoolId: schoolId, roomId: roomId}"
-                :options="tableOptions"
-                ref="dataTable"
-                :request-includes="['items.extra']"
-                :request-with="['room.building']">
-    </data-table>
+    <data-table
+      ref="dataTable"
+      :request-params="{schoolId: schoolId, roomId: roomId}"
+      :options="tableOptions"
+      :request-includes="['items.extra']"
+      :request-with="['room.building']"
+      url="items"
+      type-name="item"/>
   </div>
 </template>
 
@@ -15,21 +15,25 @@
 export default {
   name: 'ListItems',
 
+  components: {
+    DataTable: () => import(/* webpackChunkName: "data-table" */'../DataTable')
+  },
+
   props: {
     schoolId: {
       type: [Number, String],
-      required: true,
+      required: true
     },
     roomId: {
       type: [Number, String],
       required: false,
       default: () => { return null }
-    },
+    }
   },
 
   data () {
     return {
-      loading: false,
+      loading: false
     }
   },
 
@@ -52,14 +56,10 @@ export default {
           {
             prop: 'room.building.name',
             label: this.ucFirst(this.eiDefaults['building_name'])
-          },
+          }
         ]
       }
     }
-  },
-
-  components: {
-    DataTable: () => import(/* webpackChunkName: "data-table" */'../DataTable'),
   },
 
   methods: {

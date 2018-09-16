@@ -21,21 +21,20 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
-//
 
 exports.default = {
   name: 'ListBuildings',
+
+  components: {
+    DataTable: function DataTable() {
+      return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/components/DataTable.vue"));
+    }
+  },
 
   props: {
     schoolId: {
       type: [Number, String],
       required: true
-    }
-  },
-
-  components: {
-    DataTable: function DataTable() {
-      return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/components/DataTable.vue"));
     }
   },
 
@@ -78,7 +77,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -292,11 +291,11 @@ var render = function() {
       _c("data-table", {
         attrs: {
           url: _vm.buildingsUrl,
-          "type-name": "building",
           "request-params": { schoolId: _vm.schoolId },
           options: _vm.tableOptions,
           "request-includes": ["buildings.extra"],
-          "request-with-count": ["rooms"]
+          "request-with-count": ["rooms"],
+          "type-name": "building"
         }
       })
     ],

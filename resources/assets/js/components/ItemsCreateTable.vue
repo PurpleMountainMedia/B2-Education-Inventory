@@ -1,40 +1,65 @@
 <template lang="html">
   <div v-loading="loading">
     <layout-center-page>
-      <el-alert type="warning" :closable="false" title="" class="mb-sm" v-if="selectedRows.length > 0">
-        <el-button @click="handelMultipleDelete" type="danger" size="mini">{{ __('Delete') }}</el-button>
+      <el-alert
+        v-if="selectedRows.length > 0"
+        :closable="false"
+        type="warning"
+        title=""
+        class="mb-sm">
+        <el-button
+          type="danger"
+          size="mini"
+          @click="handelMultipleDelete">{{ __('Delete') }}</el-button>
       </el-alert>
 
       <b2-errors :errors="errors" />
 
-      <el-form :model="{rows: rows}" label-position="top">
+      <el-form
+        :model="{rows: rows}"
+        label-position="top">
         <el-form-item :label="__('Barcode Start')">
-          <el-input class="short_input" v-model="barcodeStart"></el-input>
+          <el-input
+            v-model="barcodeStart"
+            class="short_input"/>
         </el-form-item>
 
-        <el-table :data="rows" @selection-change="handleSelectionChange">
-          <el-table-column type="selection"
-                           class-name="table_no_padding selection_col"
-                           width="30">
-          </el-table-column>
+        <el-table
+          :data="rows"
+          @selection-change="handleSelectionChange">
+          <el-table-column
+            type="selection"
+            class-name="table_no_padding selection_col"
+            width="30"/>
 
-          <el-table-column v-for="(col, key) in collumns" :key="key" class-name="table_no_padding" :label="col.label" :prop="col.prop" :width="col.width ? col.width : '100'">
+          <el-table-column
+            v-for="(col, key) in collumns"
+            :key="key"
+            :label="col.label"
+            :prop="col.prop"
+            :width="col.width ? col.width : '100'"
+            class-name="table_no_padding">
             <template slot-scope="scope">
-              <create-table-cell :type="col.type ? col.type : null"
-                                 :data="col.data ? col.data : []"
-                                 :new-row="addRow"
-                                 :rows="rows"
-                                 :scope="scope"
-                                 :onAutoCompleteSelect="(value) => { handleAutoCompleteSelect(col.prop, value) }"
-                                 :onAutoCompleteChange="(value) => { handleAutoCompleteChange(col.prop, value) }"
-                                 :left-cell="collumns[key-1] ? collumns[key-1].prop : null"
-                                 :right-cell="collumns[key+1] ? collumns[key+1].prop : null"
-                                 :on-handle-input-key="handleInputKey"
-                                 :ref="`${scope.column.property}_cell_${scope.$index}`"/>
+              <create-table-cell
+                :type="col.type ? col.type : null"
+                :data="col.data ? col.data : []"
+                :new-row="addRow"
+                :rows="rows"
+                :scope="scope"
+                :on-auto-complete-select="(value) => { handleAutoCompleteSelect(col.prop, value) }"
+                :on-auto-complete-change="(value) => { handleAutoCompleteChange(col.prop, value) }"
+                :left-cell="collumns[key-1] ? collumns[key-1].prop : null"
+                :right-cell="collumns[key+1] ? collumns[key+1].prop : null"
+                :on-handle-input-key="handleInputKey"
+                :ref="`${scope.column.property}_cell_${scope.$index}`"/>
             </template>
           </el-table-column>
 
-          <el-table-column class-name="table_no_padding" :label="__('Barcode Range')" prop="barcodeRange" :width="100">
+          <el-table-column
+            :label="__('Barcode Range')"
+            :width="100"
+            class-name="table_no_padding"
+            prop="barcodeRange">
             <template slot-scope="scope">
               <div class="table_cell_barcode_range">{{ calculateBarcodeRange(scope) }}</div>
             </template>
@@ -43,46 +68,53 @@
         </el-table>
       </el-form>
 
-      <el-button class="mt" @click="addRow" type="primary" plain>{{ __('Add More') }}</el-button>
-      <el-button class="mt" @click="createItems" type="primary">{{ __('Create Items') }}</el-button>
+      <el-button
+        class="mt"
+        type="primary"
+        plain
+        @click="addRow">{{ __('Add More') }}</el-button>
+      <el-button
+        class="mt"
+        type="primary"
+        @click="createItems">{{ __('Create Items') }}</el-button>
     </layout-center-page>
   </div>
 </template>
 
 <script>
-var clone = require('lodash.clone')
 import CreateTableCell from 'components/CreateTableCell'
 import api from '../utils/api'
+var clone = require('lodash.clone')
 
 const row = {
-    barcodeStart: 0,
-    barcodeEnd: 0,
-    building: '',
-    room: '',
-    item_type: '',
-    name: '',
-    description: '',
-    make: '',
-    serial: '',
-    purchase_date: '',
-    purchase_price: '',
-    write_off: '',
-    qty: 1,
+  barcodeStart: 0,
+  barcodeEnd: 0,
+  building: '',
+  room: '',
+  item_type: '',
+  name: '',
+  description: '',
+  make: '',
+  serial: '',
+  purchase_date: '',
+  purchase_price: '',
+  write_off: '',
+  qty: 1
 }
 
 export default {
   name: 'ItemsCreateTable',
 
   components: {
-      CreateTableCell: CreateTableCell,
-      LayoutCenterPage: () => import(/* webpackChunkName: "layout-center-page" */'components/layout/LayoutCenterPage'),
-      B2Errors: () => import(/* webpackChunkName: "b2-errors" */'components/B2Errors'),
+    CreateTableCell: CreateTableCell,
+    LayoutCenterPage: () => import(/* webpackChunkName: "layout-center-page" */'components/layout/LayoutCenterPage'),
+    B2Errors: () => import(/* webpackChunkName: "b2-errors" */'components/B2Errors')
   },
 
   props: {
     schoolId: {
       type: [Number, String],
-      required: true,
+      required: true
     }
   },
 
@@ -101,51 +133,41 @@ export default {
     }
   },
 
-  mounted () {
-    this.getBuildings()
-    this.getItemCategories()
-    this.getMakes()
-  },
-
-  watch: {
-
-  },
-
   computed: {
     collumns () {
       return [
         {
           label: this.ucFirst(this.eiDefaults.building_name),
-          prop: "building",
-          width: "100",
-          type: "autocomplete",
+          prop: 'building',
+          width: '100',
+          type: 'autocomplete',
           data: this.buildings
         },
         {
           label: this.ucFirst(this.eiDefaults.room_name),
-          prop: "room",
-          width: "100",
-          type: "autocomplete",
+          prop: 'room',
+          width: '100',
+          type: 'autocomplete',
           data: this.rooms
         },
         {
           label: this.ucFirst(this.eiDefaults.item_type_name),
-          prop: "itemCategory",
-          type: "select",
+          prop: 'itemCategory',
+          type: 'select',
           data: this.itemCategories
         },
         {
           label: this.__('Name'),
-          prop: "name"
+          prop: 'name'
         },
         {
           label: this.__('Description'),
-          prop: "description"
+          prop: 'description'
         },
         {
           label: this.__('Make'),
-          prop: "make",
-          type: "autocomplete",
+          prop: 'make',
+          type: 'autocomplete',
           data: this.makes
         },
         {
@@ -159,7 +181,7 @@ export default {
         },
         {
           label: this.__('Purchase Price'),
-          prop: 'purchasePrice',
+          prop: 'purchasePrice'
         },
         {
           label: this.__('Write Off'),
@@ -174,10 +196,20 @@ export default {
     }
   },
 
+  watch: {
+
+  },
+
+  mounted () {
+    this.getBuildings()
+    this.getItemCategories()
+    this.getMakes()
+  },
+
   methods: {
     addRow () {
       var newRow = clone(row)
-      var rowsLength = this.rows.length-1
+      var rowsLength = this.rows.length - 1
       var colsToDup = ['building', 'room', 'itemCategory']
 
       if (rowsLength >= 0) {
@@ -189,14 +221,14 @@ export default {
       this.rows.push(newRow)
 
       this.$nextTick(() => {
-        if (this.$refs[`itemCategory_cell_${rowsLength+1}`]) {
-          this.$refs[`itemCategory_cell_${rowsLength+1}`][0].focus()
+        if (this.$refs[`itemCategory_cell_${rowsLength + 1}`]) {
+          this.$refs[`itemCategory_cell_${rowsLength + 1}`][0].focus()
         }
       })
     },
 
     handleSelectionChange (val) {
-      this.selectedRows = val;
+      this.selectedRows = val
     },
 
     handelMultipleDelete () {
@@ -214,7 +246,7 @@ export default {
           }
         }
         if (to) {
-          var toRef = this.$refs[to] ? this.$refs[to][0] : null;
+          var toRef = this.$refs[to] ? this.$refs[to][0] : null
           if (toRef && focus) {
             toRef.focus()
           }
@@ -230,12 +262,9 @@ export default {
           limit: 100 * 100
         }
       })
-      .then(data => {
-        this.buildings = data.data
-      })
-      .catch(error => {
-
-      })
+        .then(data => {
+          this.buildings = data.data
+        })
     },
 
     getRooms (buildingId) {
@@ -245,12 +274,9 @@ export default {
           limit: 100 * 100
         }
       })
-      .then(data => {
-        this.rooms = data.data
-      })
-      .catch(error => {
-
-      })
+        .then(data => {
+          this.rooms = data.data
+        })
     },
 
     getItemCategories () {
@@ -260,12 +286,9 @@ export default {
           limit: 100 * 100
         }
       })
-      .then(data => {
-        this.itemCategories = data.data
-      })
-      .catch(error => {
-
-      })
+        .then(data => {
+          this.itemCategories = data.data
+        })
     },
 
     getMakes () {
@@ -275,21 +298,17 @@ export default {
           limit: 100 * 100
         }
       })
-      .then(data => {
-        this.makes = data.data
-      })
-      .catch(error => {
-
-      })
+        .then(data => {
+          this.makes = data.data
+        })
     },
 
     handleAutoCompleteSelect (col, value) {
       switch (col) {
         case 'building':
           this.getRooms(value.id)
-          break;
+          break
         default:
-
       }
     },
 
@@ -298,17 +317,16 @@ export default {
     },
 
     calculateBarcodeRange (row) {
-
       var qty = row.row.qty ? row.row.qty : 1
 
-      if (this.rows[row.$index-1]) {
-        row.row.barcodeStart = parseInt(this.rows[row.$index-1].barcodeEnd)+1
+      if (this.rows[row.$index - 1]) {
+        row.row.barcodeStart = parseInt(this.rows[row.$index - 1].barcodeEnd) + 1
       } else {
         var start = this.barcodeStart ? this.barcodeStart : 1
         row.row.barcodeStart = parseInt(start) + parseInt(row.$index)
       }
 
-      row.row.barcodeEnd = row.row.barcodeStart + (parseInt(qty)-1)
+      row.row.barcodeEnd = row.row.barcodeStart + (parseInt(qty) - 1)
 
       if (row.row.barcodeStart === row.row.barcodeEnd) {
         return row.row.barcodeStart
@@ -318,27 +336,27 @@ export default {
     },
 
     createItems () {
-      this.loading = true;
-      this.errors = {};
+      this.loading = true
+      this.errors = {}
 
-      api.persist("post", {
-            path: "items/bulk",
-            object: {
-              items: this.rows,
-              schoolId: this.schoolId,
-            }
-        })
+      api.persist('post', {
+        path: 'items/bulk',
+        object: {
+          items: this.rows,
+          schoolId: this.schoolId
+        }
+      })
         .then((data) => {
-            this.loading = false;
-            this.rows = [clone(row)]
+          this.loading = false
+          this.rows = [clone(row)]
         })
         .catch((error) => {
-            this.loading = false;
-            this.errors = error;
-        });
+          this.loading = false
+          this.errors = error
+        })
     }
 
-  },
+  }
 }
 </script>
 

@@ -26,6 +26,12 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   name: 'ListItems',
 
+  components: {
+    DataTable: function DataTable() {
+      return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/components/DataTable.vue"));
+    }
+  },
+
   props: {
     schoolId: {
       type: [Number, String],
@@ -64,12 +70,6 @@ exports.default = {
           label: this.ucFirst(this.eiDefaults['building_name'])
         }]
       };
-    }
-  },
-
-  components: {
-    DataTable: function DataTable() {
-      return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/components/DataTable.vue"));
     }
   },
 
@@ -304,12 +304,12 @@ var render = function() {
       _c("data-table", {
         ref: "dataTable",
         attrs: {
-          url: "items",
-          "type-name": "item",
           "request-params": { schoolId: _vm.schoolId, roomId: _vm.roomId },
           options: _vm.tableOptions,
           "request-includes": ["items.extra"],
-          "request-with": ["room.building"]
+          "request-with": ["room.building"],
+          url: "items",
+          "type-name": "item"
         }
       })
     ],

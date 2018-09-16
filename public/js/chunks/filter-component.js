@@ -1,4 +1,4 @@
-webpackJsonp([27],{
+webpackJsonp([28],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/FilterComponent.vue":
 /***/ (function(module, exports, __webpack_require__) {
@@ -19,6 +19,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
   name: 'FilterComponent',
 
+  components: {
+    InputFilter: function InputFilter() {
+      return __webpack_require__.e/* import() */(25).then(__webpack_require__.bind(null, "./resources/assets/js/components/filters/types/InputFilter.vue"));
+    },
+    DateFilter: function DateFilter() {
+      return __webpack_require__.e/* import() */(26).then(__webpack_require__.bind(null, "./resources/assets/js/components/filters/types/DateFilter.vue"));
+    },
+    NumberFilter: function NumberFilter() {
+      return __webpack_require__.e/* import() */(24).then(__webpack_require__.bind(null, "./resources/assets/js/components/filters/types/NumberFilter.vue"));
+    }
+  },
+
   props: {
     filter: {
       type: Object,
@@ -30,18 +42,6 @@ exports.default = {
       default: function _default() {
         return function (filter) {};
       }
-    }
-  },
-
-  components: {
-    InputFilter: function InputFilter() {
-      return __webpack_require__.e/* import() */(24).then(__webpack_require__.bind(null, "./resources/assets/js/components/filters/types/InputFilter.vue"));
-    },
-    DateFilter: function DateFilter() {
-      return __webpack_require__.e/* import() */(25).then(__webpack_require__.bind(null, "./resources/assets/js/components/filters/types/DateFilter.vue"));
-    },
-    NumberFilter: function NumberFilter() {
-      return __webpack_require__.e/* import() */(23).then(__webpack_require__.bind(null, "./resources/assets/js/components/filters/types/NumberFilter.vue"));
     }
   },
 
@@ -112,11 +112,6 @@ exports.default = {
       }]
     };
   },
-  mounted: function mounted() {
-    this.$refs['createFilterWindow'].doShow();
-    this.filter._operatorName = this[this.filterType + 'Options'][0]._operatorName;
-    this.filter.operator = this[this.filterType + 'Options'][0].operator;
-  },
 
 
   computed: {
@@ -131,6 +126,13 @@ exports.default = {
     }
   },
 
+  mounted: function mounted() {
+    this.$refs['createFilterWindow'].doShow();
+    this.filter._operatorName = this[this.filterType + 'Options'][0]._operatorName;
+    this.filter.operator = this[this.filterType + 'Options'][0].operator;
+  },
+
+
   methods: {
     removeFilter: function removeFilter() {
       this.onRemoveFilter(this.filter);
@@ -138,6 +140,29 @@ exports.default = {
     }
   }
 }; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -231,8 +256,8 @@ var render = function() {
                 {
                   staticClass: "item",
                   attrs: {
-                    effect: "dark",
                     content: _vm.__("Delete Filter"),
+                    effect: "dark",
                     placement: "top-start"
                   }
                 },

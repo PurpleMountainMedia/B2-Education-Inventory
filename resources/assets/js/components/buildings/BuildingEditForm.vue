@@ -1,39 +1,66 @@
 <template lang="html">
   <div>
-    <edit-form :data-url="`buildings/${buildingId}`"
-               :index-url="indexUrl"
-               :request-includes="['buildings.extra', 'buildings.timestamps']"
-               :request-with="['createdBy']"
-               :title="(data) => { return data.name }"
-               :tag="(data) => { return data.type }"
-               :breadcrumbs="breadcrumbs"
-               :on-update="(data) => { $refs.listRooms.getData() }">
+    <edit-form
+      :data-url="`buildings/${buildingId}`"
+      :index-url="indexUrl"
+      :request-includes="['buildings.extra', 'buildings.timestamps']"
+      :request-with="['createdBy']"
+      :title="(data) => { return data.name }"
+      :tag="(data) => { return data.type }"
+      :breadcrumbs="breadcrumbs"
+      :on-update="(data) => { $refs.listRooms.getData() }">
 
-
-      <div slot="aboveCard" slot-scope="slotProps" class="mb-sm">
-        <el-button size="mini" plain type="info">{{ __('Generate Report') }}</el-button>
+      <div
+        slot="aboveCard"
+        slot-scope="slotProps"
+        class="mb-sm">
+        <el-button
+          size="mini"
+          plain
+          type="info">{{ __('Generate Report') }}</el-button>
       </div>
 
+      <template
+        slot="form"
+        slot-scope="slotProps">
+        <slot
+          :data="slotProps.data"
+          name="card"/>
 
-      <template slot="form" slot-scope="slotProps">
-        <slot v-bind:data="slotProps.data" name="card"></slot>
+        <object-information
+          :object="slotProps.data"
+          class="mb-sm" />
 
-        <object-information class="mb-sm" :object="slotProps.data" />
-
-        <el-form-item label="Name" class="short_input" prop="name" :rules="{required: true}">
-          <el-input v-model="slotProps.data.name"></el-input>
+        <el-form-item
+          :rules="{required: true}"
+          label="Name"
+          class="short_input"
+          prop="name">
+          <el-input v-model="slotProps.data.name"/>
         </el-form-item>
 
         <el-form-item label="Type">
-          <el-select v-model="slotProps.data.type" prop="type" :rules="{required: true}">
-            <el-option :value="op" v-for="(op, key) in typeOptions" :key="key">{{ op }}</el-option>
+          <el-select
+            v-model="slotProps.data.type"
+            :rules="{required: true}"
+            prop="type">
+            <el-option
+              v-for="(op, key) in typeOptions"
+              :value="op"
+              :key="key">{{ op }}</el-option>
           </el-select>
         </el-form-item>
       </template>
 
-      <el-card slot="belowCard" slot-scope="slotProps" class="mt">
+      <el-card
+        slot="belowCard"
+        slot-scope="slotProps"
+        class="mt">
         <span slot="header">{{ slotProps.data.name }} - <strong>{{ ucFirst(eiDefaults.rooms_name) }}</strong></span>
-        <list-rooms :school-id="eiSchool.id" :building-id="buildingId" ref="listRooms"/>
+        <list-rooms
+          ref="listRooms"
+          :school-id="eiSchool.id"
+          :building-id="buildingId"/>
       </el-card>
 
     </edit-form>
@@ -44,6 +71,13 @@
 <script>
 export default {
   name: 'BuildingEditForm',
+
+  components: {
+    EditForm: () => import(/* webpackChunkName: "edit-form" */'components/EditForm'),
+    ListRooms: () => import(/* webpackChunkName: "list-rooms" */'components/rooms/ListRooms'),
+    LayoutCenterPage: () => import(/* webpackChunkName: "layout-center-page" */'components/layout/LayoutCenterPage'),
+    ObjectInformation: () => import(/* webpackChunkName: "object-information" */'components/ObjectInformation')
+  },
 
   props: {
     buildingId: {
@@ -58,7 +92,7 @@ export default {
       required: false,
       type: Function,
       default: (data) => { return [] }
-    },
+    }
   },
 
   data () {
@@ -66,13 +100,6 @@ export default {
       building: {},
       typeOptions: ['Building', 'Outside']
     }
-  },
-
-  components: {
-    EditForm: () => import(/* webpackChunkName: "edit-form" */'components/EditForm'),
-    ListRooms: () => import(/* webpackChunkName: "list-rooms" */'components/rooms/ListRooms'),
-    LayoutCenterPage: () => import(/* webpackChunkName: "layout-center-page" */'components/layout/LayoutCenterPage'),
-    ObjectInformation: () => import(/* webpackChunkName: "object-information" */'components/ObjectInformation'),
   }
 }
 </script>

@@ -1,4 +1,4 @@
-webpackJsonp([21],{
+webpackJsonp([22],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/reports/AddNewReportFields.vue":
 /***/ (function(module, exports, __webpack_require__) {
@@ -9,6 +9,28 @@ webpackJsonp([21],{
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -106,7 +128,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -142,11 +164,11 @@ var render = function() {
                 {
                   attrs: {
                     label: _vm.__("Report Name"),
-                    prop: "name",
                     rules: [
                       { required: true, message: _vm.__("name_required") }
                     ],
-                    error: _vm.formErrors.name
+                    error: _vm.formErrors.name,
+                    prop: "name"
                   }
                 },
                 [
@@ -185,11 +207,11 @@ var render = function() {
                 {
                   attrs: {
                     label: _vm.__("Report Type"),
-                    prop: "type",
                     rules: [
                       { required: true, message: _vm.__("type_required") }
                     ],
-                    error: _vm.formErrors.type
+                    error: _vm.formErrors.type,
+                    prop: "type"
                   }
                 },
                 [
@@ -234,8 +256,8 @@ var render = function() {
                 {
                   attrs: {
                     label: _vm.__("Report Repeatable"),
-                    prop: "repeatable",
-                    error: _vm.formErrors.repeatable
+                    error: _vm.formErrors.repeatable,
+                    prop: "repeatable"
                   }
                 },
                 [
@@ -272,19 +294,19 @@ var render = function() {
                     {
                       attrs: {
                         label: _vm.__("Repeat Every"),
-                        prop: "repeat_every",
                         rules: [
                           {
                             required: true,
                             message: _vm.__("repeat_every_required")
                           }
                         ],
-                        error: _vm.formErrors.repeat_every
+                        error: _vm.formErrors.repeat_every,
+                        prop: "repeat_every"
                       }
                     },
                     [
                       _c("el-input-number", {
-                        attrs: { "controls-position": "right", min: 1 },
+                        attrs: { min: 1, "controls-position": "right" },
                         model: {
                           value: _vm.form.repeat_every,
                           callback: function($$v) {

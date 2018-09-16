@@ -7,8 +7,12 @@ webpackJsonp([18],{
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
+//
+//
+//
+//
 //
 //
 //
@@ -26,26 +30,26 @@ Object.defineProperty(exports, "__esModule", {
 //
 
 exports.default = {
-    name: 'B2Errors',
+  name: 'B2Errors',
 
-    props: {
-        errors: {
-            type: Object,
-            required: true
-        }
-    },
+  props: {
+    errors: {
+      type: Object,
+      required: true
+    }
+  },
 
-    computed: {
+  computed: {
 
-        /**
+    /**
          * Whether or not to show the errors.
          *
          * @return boolean
          */
-        showErrors: function showErrors() {
-            return Object.keys(this.errors).length > 0;
-        }
+    showErrors: function showErrors() {
+      return Object.keys(this.errors).length > 0;
     }
+  }
 };
 
 /***/ }),
@@ -58,7 +62,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -82,10 +86,12 @@ var render = function() {
         [
           [
             _vm._l(_vm.errors.errors, function(errors) {
-              return _vm._l(errors, function(message) {
-                return _c("p", { staticClass: "el-alert__description" }, [
-                  _vm._v("- " + _vm._s(message))
-                ])
+              return _vm._l(errors, function(message, key) {
+                return _c(
+                  "p",
+                  { key: key, staticClass: "el-alert__description" },
+                  [_vm._v("- " + _vm._s(message))]
+                )
               })
             })
           ]

@@ -1,34 +1,47 @@
 <template lang="html">
   <div v-loading="loading">
 
-    <!-- Open Modal Button  -->
-    <slot name="button" :openModal="openModal">
-      <el-button @click="openModal"
-                 :plain="mergedButton.plain"
-                 :size="mergedButton.size"
-                 :icon="mergedButton.icon"
-                 :class="mergedButton.class"
-                 type="primary">{{ mergedButton.text }}
+    <slot
+      :openModal="openModal"
+      name="button">
+      <el-button
+        :plain="mergedButton.plain"
+        :size="mergedButton.size"
+        :icon="mergedButton.icon"
+        :class="mergedButton.class"
+        type="primary"
+        @click="openModal">{{ mergedButton.text }}
       </el-button>
     </slot>
 
-    <!-- Modal  -->
-    <el-dialog :title="mergedModal.title"
-               :visible.sync="showModal">
-      <el-form :model="form" label-position="top" ref="addNewForm">
-        <slot name="form" v-bind:form="form" v-bind:formErrors="formErrors">
+    <el-dialog
+      :title="mergedModal.title"
+      :visible.sync="showModal">
+      <el-form
+        ref="addNewForm"
+        :model="form"
+        label-position="top">
+        <slot
+          :form="form"
+          :formErrors="formErrors"
+          name="form">
           <el-row :gutter="10">
             <p><strong>{{ __('Information') }}</strong></p>
             <hr>
           </el-row>
 
           <el-row :gutter="10">
-            <el-col :span="18" :offset="4">
-              <el-form-item :label="addName + ' ' + __('Name')"
-                            prop="name"
-                            :rules="[{required: true, message: __('name_required')}]"
-                            :error="formErrors.name">
-                <el-input v-model="form.name" :placeholder="`${addName} ${__('name')}`"></el-input>
+            <el-col
+              :span="18"
+              :offset="4">
+              <el-form-item
+                :label="addName + ' ' + __('Name')"
+                :rules="[{required: true, message: __('name_required')}]"
+                :error="formErrors.name"
+                prop="name">
+                <el-input
+                  v-model="form.name"
+                  :placeholder="`${addName} ${__('name')}`"/>
               </el-form-item>
             </el-col>
           </el-row>
@@ -37,10 +50,18 @@
 
       <b2-errors :errors="formErrors" />
 
-      <span slot="footer" class="dialog-footer">
-        <slot name="footer" :closeModal="closeModal" :handleSave="handleSave">
+      <span
+        slot="footer"
+        class="dialog-footer">
+        <slot
+          :closeModal="closeModal"
+          :handleSave="handleSave"
+          name="footer">
           <el-button @click="closeModal('addNewForm')">{{ __('Cancel') }}</el-button>
-          <el-button :loading="loading" type="primary" @click="handleSave">{{ __('Add') }}</el-button>
+          <el-button
+            :loading="loading"
+            type="primary"
+            @click="handleSave">{{ __('Add') }}</el-button>
         </slot>
       </span>
     </el-dialog>
@@ -55,17 +76,17 @@ export default {
   name: 'AddNewModal',
 
   components: {
-    B2Errors: () => import(/* webpackChunkName: "b2-errors" */'components/B2Errors'),
+    B2Errors: () => import(/* webpackChunkName: "b2-errors" */'components/B2Errors')
   },
 
   props: {
     addName: {
       required: true,
-      type: String,
+      type: String
     },
     dataUrl: {
       required: true,
-      type: String,
+      type: String
     },
     withRequest: {
       required: false,
@@ -97,29 +118,29 @@ export default {
         size: 'small'
       },
       defaultModal: {
-        title: this.__('Add'),
+        title: this.__('Add')
       },
       showModal: false,
       form: {},
       formErrors: {},
-      loading: false,
+      loading: false
     }
   },
 
   computed: {
     mergedButton () {
       return {
-         ...this.defaultButton,
-         ...this.button
+        ...this.defaultButton,
+        ...this.button
       }
     },
 
     mergedModal () {
       return {
-           ...this.defaultModal,
-           ...this.modal
+        ...this.defaultModal,
+        ...this.modal
       }
-    },
+    }
   },
 
   methods: {
@@ -161,27 +182,27 @@ export default {
 
       this.$refs['addNewForm'].validate((valid, errors) => {
         if (valid) {
-          api.persist("post", {
+          api.persist('post', {
             path: this.dataUrl,
             object: object
           })
-          .then((data) => {
-            this.loading = false
-            this.showModal = false
-            this.onUpdate(data.data)
-          })
-          .catch((error) => {
-            this.loading = false
-          })
+            .then((data) => {
+              this.loading = false
+              this.showModal = false
+              this.onUpdate(data.data)
+            })
+            .catch(() => {
+              this.loading = false
+            })
         } else {
           this.loading = false
           this.formErrors = {
             message: validation.getValidationErrorMessage(),
             errors: validation.getValidationMessages(errors)
-          };
+          }
           return false
         }
-      });
+      })
     }
   }
 

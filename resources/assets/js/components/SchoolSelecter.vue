@@ -1,17 +1,35 @@
 <template lang="html">
   <div>
-    <form action="/session" method="POST" ref="schoolSelecterForm">
-      <input type="hidden" name="_token" :value="csrfToken">
-      <input type="hidden" name="school[id]" :value="school.id">
-      <el-select v-model="school" filterable name="school[name]" :class="selecterClass" value-key="id" @change="handleChange" :size="selecterSize">
-        <el-option-group v-for="organisation in data"
-                         :key="organisation.id"
-                         :label="organisation.name"
-                         v-if="organisation.schools.length >= 1">
-          <el-option v-for="school in organisation.schools"
-                     :key="school.id"
-                     :label="school.name"
-                     :value="school">{{ school.name }}
+    <form
+      ref="schoolSelecterForm"
+      action="/session"
+      method="POST">
+      <input
+        :value="csrfToken"
+        type="hidden"
+        name="_token">
+      <input
+        :value="school.id"
+        type="hidden"
+        name="school[id]">
+      <el-select
+        v-model="school"
+        :class="selecterClass"
+        :size="selecterSize"
+        filterable
+        name="school[name]"
+        value-key="id"
+        @change="handleChange">
+        <el-option-group
+          v-for="organisation in data"
+          v-if="organisation.schools.length >= 1"
+          :key="organisation.id"
+          :label="organisation.name">
+          <el-option
+            v-for="school in organisation.schools"
+            :key="school.id"
+            :label="school.name"
+            :value="school">{{ school.name }}
           </el-option>
         </el-option-group>
       </el-select>
@@ -52,9 +70,9 @@ export default {
   },
 
   methods: {
-    handleChange(val) {
+    handleChange (val) {
       this.$nextTick(() => {
-        this.$refs.schoolSelecterForm.submit();
+        this.$refs.schoolSelecterForm.submit()
       })
     }
   }

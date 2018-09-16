@@ -1,4 +1,4 @@
-webpackJsonp([26],{
+webpackJsonp([27],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/FiltersList.vue":
 /***/ (function(module, exports, __webpack_require__) {
@@ -21,7 +21,7 @@ exports.default = {
 
   components: {
     FilterComponent: function FilterComponent() {
-      return __webpack_require__.e/* import() */(27).then(__webpack_require__.bind(null, "./resources/assets/js/components/FilterComponent.vue"));
+      return __webpack_require__.e/* import() */(28).then(__webpack_require__.bind(null, "./resources/assets/js/components/FilterComponent.vue"));
     }
   },
 
@@ -39,33 +39,33 @@ exports.default = {
   data: function data() {
     return {
       options: [{
-        name: "ID",
-        value: "id",
-        type: "string"
+        name: 'ID',
+        value: 'id',
+        type: 'string'
       }, {
-        name: "Name",
-        value: "name",
-        type: "string"
+        name: 'Name',
+        value: 'name',
+        type: 'string'
       }, {
-        name: "Type",
-        value: "type",
-        type: "string"
+        name: 'Type',
+        value: 'type',
+        type: 'string'
       }, {
-        name: "Created At",
-        value: "created_at",
-        type: "date"
+        name: 'Created At',
+        value: 'created_at',
+        type: 'date'
       }, {
-        name: "Updated At",
-        value: "updated_at",
-        type: "date"
+        name: 'Updated At',
+        value: 'updated_at',
+        type: 'date'
       }, {
-        name: "Number of Rooms",
-        value: "rooms_count",
-        type: "relational_count"
+        name: 'Number of Rooms',
+        value: 'rooms_count',
+        type: 'relational_count'
       }, {
-        name: "Created By",
-        value: "created_by",
-        type: "user"
+        name: 'Created By',
+        value: 'created_by',
+        type: 'user'
       }],
       filterBySearch: ''
     };
@@ -76,7 +76,9 @@ exports.default = {
     canAddNew: function canAddNew() {
       var can = true;
       this.filters.forEach(function (filter) {
-        _filters2.default.hasValue(filter) ? '' : can = false;
+        if (_filters2.default.hasValue(filter)) {
+          can = false;
+        }
       });
       return can;
     },
@@ -113,6 +115,15 @@ exports.default = {
     }
   }
 }; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -191,8 +202,8 @@ var render = function() {
         {
           ref: "addFilterWindow",
           attrs: {
-            placement: "bottom",
             title: _vm.__("Add Filter"),
+            placement: "bottom",
             width: "250",
             trigger: "click",
             "popper-class": "add_filter_window"
@@ -205,8 +216,8 @@ var render = function() {
             {
               attrs: {
                 slot: "reference",
-                type: "text",
                 disabled: !_vm.canAddNew,
+                type: "text",
                 icon: "el-icon-circle-plus el-icon-right"
               },
               slot: "reference"
@@ -220,8 +231,8 @@ var render = function() {
             ref: "searchInput",
             staticClass: "mb-sm",
             attrs: {
-              size: "mini",
-              placeholder: _vm.__("Search for attribute")
+              placeholder: _vm.__("Search for attribute"),
+              size: "mini"
             },
             model: {
               value: _vm.filterBySearch,

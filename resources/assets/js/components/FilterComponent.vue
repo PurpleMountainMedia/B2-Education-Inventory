@@ -1,30 +1,53 @@
 <template lang="html">
-  <el-popover placement="bottom"
-              width="250"
-              ref="createFilterWindow"
-              trigger="click"
-              popper-class="filter_list_window">
-    <el-button slot="reference" class="filter_btn" :type="hasValue ? '' : 'danger'" plain>{{ filter._attributeName }} <small>{{ filter._operatorName }}</small> <strong>{{ filter.value }}</strong>
-      <span @click="removeFilter" class="btn_close">
-        <el-tooltip class="item" effect="dark" :content="__('Delete Filter')" placement="top-start">
-          <i class="fal fa-times-circle"></i>
+  <el-popover
+    ref="createFilterWindow"
+    placement="bottom"
+    width="250"
+    trigger="click"
+    popper-class="filter_list_window">
+    <el-button
+      slot="reference"
+      :type="hasValue ? '' : 'danger'"
+      class="filter_btn"
+      plain>{{ filter._attributeName }} <small>{{ filter._operatorName }}</small> <strong>{{ filter.value }}</strong>
+      <span
+        class="btn_close"
+        @click="removeFilter">
+        <el-tooltip
+          :content="__('Delete Filter')"
+          class="item"
+          effect="dark"
+          placement="top-start">
+          <i class="fal fa-times-circle"/>
         </el-tooltip>
       </span>
     </el-button>
 
     <div class="filter_options_list">
-      <div class="filter_options_list_item mt-sm" v-for="(option, key) in filterOptions" :key="key">
-        <el-radio v-model="filter.operator" @change="() => { filter._operatorName = option._operatorName  }" :label="option.operator">{{ option._operatorName }}</el-radio>
+      <div
+        v-for="(option, key) in filterOptions"
+        :key="key"
+        class="filter_options_list_item mt-sm">
+        <el-radio
+          v-model="filter.operator"
+          :label="option.operator"
+          @change="() => { filter._operatorName = option._operatorName }">{{ option._operatorName }}</el-radio>
 
         <template v-if="filter.operator === option.operator">
-          <component :value="filter.value" v-bind:is="ucFirst(option.type) + 'Filter'" :on-value-update="(val) => filter.value = val"></component>
+          <component
+            :value="filter.value"
+            :is="ucFirst(option.type) + 'Filter'"
+            :on-value-update="(val) => filter.value = val"/>
         </template>
 
       </div>
     </div>
 
     <div class="filter_options_done_btn_wrap">
-      <el-button type="primary" @click="$refs['createFilterWindow'].doClose()" class="filter_options_done_btn mt-sm">{{ __('Done') }}</el-button>
+      <el-button
+        type="primary"
+        class="filter_options_done_btn mt-sm"
+        @click="$refs['createFilterWindow'].doClose()">{{ __('Done') }}</el-button>
     </div>
   </el-popover>
 </template>
@@ -34,10 +57,16 @@ import filters from 'utils/filters'
 export default {
   name: 'FilterComponent',
 
+  components: {
+    InputFilter: () => import(/* webpackChunkName: "input-filter" */'components/filters/types/InputFilter'),
+    DateFilter: () => import(/* webpackChunkName: "date-filter" */'components/filters/types/DateFilter'),
+    NumberFilter: () => import(/* webpackChunkName: "number-filter" */'components/filters/types/NumberFilter')
+  },
+
   props: {
     filter: {
       type: Object,
-      required: true,
+      required: true
     },
     onRemoveFilter: {
       type: Function,
@@ -46,12 +75,6 @@ export default {
         return function (filter) {}
       }
     }
-  },
-
-  components: {
-    InputFilter: () => import(/* webpackChunkName: "input-filter" */'components/filters/types/InputFilter'),
-    DateFilter: () => import(/* webpackChunkName: "date-filter" */'components/filters/types/DateFilter'),
-    NumberFilter: () => import(/* webpackChunkName: "number-filter" */'components/filters/types/NumberFilter'),
   },
 
   data () {
@@ -86,29 +109,29 @@ export default {
           _operatorName: 'does not contain',
           operator: 'not_includes',
           type: 'input'
-        },
+        }
       ],
       dateOptions: [
         {
           _operatorName: 'on',
           operator: 'equals',
-          type: 'date',
+          type: 'date'
         },
         {
           _operatorName: 'is not on',
           operator: 'not_equals',
-          type: 'date',
+          type: 'date'
         },
         {
           _operatorName: 'before',
           operator: 'less_than',
-          type: 'date',
+          type: 'date'
         },
         {
           _operatorName: 'after',
           operator: 'greater_than',
-          type: 'date',
-        },
+          type: 'date'
+        }
       ],
       numberOptions: [
         {
@@ -130,21 +153,15 @@ export default {
           _operatorName: 'less than',
           operator: 'less_than',
           type: 'number'
-        },
+        }
       ],
       userOptions: [
         {
           _operatorName: 'is',
           type: 'input'
-        },
+        }
       ]
     }
-  },
-
-  mounted () {
-    this.$refs['createFilterWindow'].doShow()
-    this.filter._operatorName = this[this.filterType + 'Options'][0]._operatorName
-    this.filter.operator = this[this.filterType + 'Options'][0].operator
   },
 
   computed: {
@@ -161,11 +178,17 @@ export default {
     }
   },
 
+  mounted () {
+    this.$refs['createFilterWindow'].doShow()
+    this.filter._operatorName = this[this.filterType + 'Options'][0]._operatorName
+    this.filter.operator = this[this.filterType + 'Options'][0].operator
+  },
+
   methods: {
     removeFilter () {
       this.onRemoveFilter(this.filter)
       this.$emit('remove-filter', this.filter)
-    },
+    }
   }
 }
 </script>

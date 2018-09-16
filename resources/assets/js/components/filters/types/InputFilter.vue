@@ -1,5 +1,7 @@
 <template lang="html">
-  <el-input v-model="internalValue" ref="input"></el-input>
+  <el-input
+    ref="input"
+    v-model="internalValue"/>
 </template>
 
 <script>

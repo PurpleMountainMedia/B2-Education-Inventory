@@ -60,9 +60,13 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
 
 exports.default = {
-  name: "CreateTableCell",
+  name: 'CreateTableCell',
 
   props: {
     scope: {
@@ -167,11 +171,11 @@ exports.default = {
     blur: function blur() {
       var ref = this.$refs[this.scope.column.property + '_cell_' + this.scope.$index];
 
-      if (typeof ref.hidePicker == 'function') {
+      if (typeof ref.hidePicker === 'function') {
         ref.hidePicker();
-      } else if (typeof ref.close == 'function') {
+      } else if (typeof ref.close === 'function') {
         ref.close();
-      } else if (typeof ref.blur == 'function') {
+      } else if (typeof ref.blur === 'function') {
         ref.blur();
       }
     }
@@ -251,9 +255,40 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var clone = __webpack_require__("./node_modules/lodash.clone/index.js");
-
 
 var row = {
   barcodeStart: 0,
@@ -277,7 +312,7 @@ exports.default = {
   components: {
     CreateTableCell: _CreateTableCell2.default,
     LayoutCenterPage: function LayoutCenterPage() {
-      return __webpack_require__.e/* import() */(15).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
+      return __webpack_require__.e/* import() */(16).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
     },
     B2Errors: function B2Errors() {
       return __webpack_require__.e/* import() */(18).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
@@ -305,44 +340,37 @@ exports.default = {
       barcodeStart: 1
     };
   },
-  mounted: function mounted() {
-    this.getBuildings();
-    this.getItemCategories();
-    this.getMakes();
-  },
 
-
-  watch: {},
 
   computed: {
     collumns: function collumns() {
       return [{
         label: this.ucFirst(this.eiDefaults.building_name),
-        prop: "building",
-        width: "100",
-        type: "autocomplete",
+        prop: 'building',
+        width: '100',
+        type: 'autocomplete',
         data: this.buildings
       }, {
         label: this.ucFirst(this.eiDefaults.room_name),
-        prop: "room",
-        width: "100",
-        type: "autocomplete",
+        prop: 'room',
+        width: '100',
+        type: 'autocomplete',
         data: this.rooms
       }, {
         label: this.ucFirst(this.eiDefaults.item_type_name),
-        prop: "itemCategory",
-        type: "select",
+        prop: 'itemCategory',
+        type: 'select',
         data: this.itemCategories
       }, {
         label: this.__('Name'),
-        prop: "name"
+        prop: 'name'
       }, {
         label: this.__('Description'),
-        prop: "description"
+        prop: 'description'
       }, {
         label: this.__('Make'),
-        prop: "make",
-        type: "autocomplete",
+        prop: 'make',
+        type: 'autocomplete',
         data: this.makes
       }, {
         label: this.__('Serial'),
@@ -364,6 +392,15 @@ exports.default = {
       }];
     }
   },
+
+  watch: {},
+
+  mounted: function mounted() {
+    this.getBuildings();
+    this.getItemCategories();
+    this.getMakes();
+  },
+
 
   methods: {
     addRow: function addRow() {
@@ -429,7 +466,7 @@ exports.default = {
         }
       }).then(function (data) {
         _this4.buildings = data.data;
-      }).catch(function (error) {});
+      });
     },
     getRooms: function getRooms(buildingId) {
       var _this5 = this;
@@ -441,7 +478,7 @@ exports.default = {
         }
       }).then(function (data) {
         _this5.rooms = data.data;
-      }).catch(function (error) {});
+      });
     },
     getItemCategories: function getItemCategories() {
       var _this6 = this;
@@ -453,7 +490,7 @@ exports.default = {
         }
       }).then(function (data) {
         _this6.itemCategories = data.data;
-      }).catch(function (error) {});
+      });
     },
     getMakes: function getMakes() {
       var _this7 = this;
@@ -465,7 +502,7 @@ exports.default = {
         }
       }).then(function (data) {
         _this7.makes = data.data;
-      }).catch(function (error) {});
+      });
     },
     handleAutoCompleteSelect: function handleAutoCompleteSelect(col, value) {
       switch (col) {
@@ -473,14 +510,12 @@ exports.default = {
           this.getRooms(value.id);
           break;
         default:
-
       }
     },
     handleAutoCompleteChange: function handleAutoCompleteChange(col, value) {
       console.log(value);
     },
     calculateBarcodeRange: function calculateBarcodeRange(row) {
-
       var qty = row.row.qty ? row.row.qty : 1;
 
       if (this.rows[row.$index - 1]) {
@@ -504,8 +539,8 @@ exports.default = {
       this.loading = true;
       this.errors = {};
 
-      _api2.default.persist("post", {
-        path: "items/bulk",
+      _api2.default.persist('post', {
+        path: 'items/bulk',
         object: {
           items: this.rows,
           schoolId: this.schoolId
@@ -546,7 +581,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -3635,7 +3670,7 @@ var render = function() {
                 "el-alert",
                 {
                   staticClass: "mb-sm",
-                  attrs: { type: "warning", closable: false, title: "" }
+                  attrs: { closable: false, type: "warning", title: "" }
                 },
                 [
                   _c(
@@ -3694,10 +3729,10 @@ var render = function() {
                     return _c("el-table-column", {
                       key: key,
                       attrs: {
-                        "class-name": "table_no_padding",
                         label: col.label,
                         prop: col.prop,
-                        width: col.width ? col.width : "100"
+                        width: col.width ? col.width : "100",
+                        "class-name": "table_no_padding"
                       },
                       scopedSlots: _vm._u([
                         {
@@ -3716,13 +3751,13 @@ var render = function() {
                                   "new-row": _vm.addRow,
                                   rows: _vm.rows,
                                   scope: scope,
-                                  onAutoCompleteSelect: function(value) {
+                                  "on-auto-complete-select": function(value) {
                                     _vm.handleAutoCompleteSelect(
                                       col.prop,
                                       value
                                     )
                                   },
-                                  onAutoCompleteChange: function(value) {
+                                  "on-auto-complete-change": function(value) {
                                     _vm.handleAutoCompleteChange(
                                       col.prop,
                                       value
@@ -3746,10 +3781,10 @@ var render = function() {
                   _vm._v(" "),
                   _c("el-table-column", {
                     attrs: {
-                      "class-name": "table_no_padding",
                       label: _vm.__("Barcode Range"),
-                      prop: "barcodeRange",
-                      width: 100
+                      width: 100,
+                      "class-name": "table_no_padding",
+                      prop: "barcodeRange"
                     },
                     scopedSlots: _vm._u([
                       {
@@ -3825,7 +3860,6 @@ var render = function() {
         "el-form-item",
         {
           attrs: {
-            label: "",
             rules: [
               {
                 required: _vm.required,
@@ -3840,7 +3874,8 @@ var render = function() {
               }
             ],
             "show-message": false,
-            prop: "rows." + _vm.scope.$index + "." + _vm.scope.column.property
+            prop: "rows." + _vm.scope.$index + "." + _vm.scope.column.property,
+            label: ""
           }
         },
         [
@@ -3925,9 +3960,9 @@ var render = function() {
                       _vm.scope.column.property + "_cell_" + _vm.scope.$index,
                     staticClass: "table_input_cell",
                     attrs: {
-                      type: "date",
                       format: _vm.eiDateFormat,
-                      "value-format": _vm.serverDateFormat
+                      "value-format": _vm.serverDateFormat,
+                      type: "date"
                     },
                     nativeOn: {
                       keyup: function($event) {
@@ -4432,7 +4467,7 @@ module.exports = Component.exports
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -4447,127 +4482,127 @@ var has = __webpack_require__("./node_modules/lodash.has/index.js");
 _axios2.default.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 var token = document.head.querySelector('meta[name="csrf-token"]');
 if (token) {
-    _axios2.default.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-    _axios2.default.defaults.withCredentials = true;
+  _axios2.default.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+  _axios2.default.defaults.withCredentials = true;
 } else {
-    console.error('CSRF token not found');
+  console.error('CSRF token not found');
 }
-var BASE_URL = eiDefaults.site_url + '/' + eiDefaults.api_prefix + '/';
-var SERVER_ERROR_MESSAGE = "We could not access the server at this time. Please try again. If the issue persists, please open a support ticket.";
-var SERVER_UNAUTH_MESSAGE = "We could not complete the request, because you are not authorised to do so.";
+var BASE_URL = window.eiDefaults.site_url + '/' + window.eiDefaults.api_prefix + '/';
+var SERVER_ERROR_MESSAGE = 'We could not access the server at this time. Please try again. If the issue persists, please open a support ticket.';
+var SERVER_UNAUTH_MESSAGE = 'We could not complete the request, because you are not authorised to do so.';
 
 exports.default = {
-    get: function get(data) {
-        if (!has(data, 'params')) {
-            data.params = {};
-        }
-
-        if (!has(data, 'url') || has(data, 'url') && !data.url) {
-            data.url = BASE_URL + data.path;
-        }
-
-        data.params.limit = has(data, 'params.limit') ? data.params.limit : 15;
-        data.params.ascending = has(data, 'params.ascending') ? data.params.ascending : 0;
-        data.params.orderBy = has(data, 'params.orderBy') ? data.params.orderBy : 'id';
-
-        console.log('API Get: ' + data.url);
-
-        return new Promise(function (resolve, reject) {
-            _axios2.default.get(data.url, { params: data.params }).then(function (response) {
-                resolve(response.data);
-            }.bind(this)).catch(function (error) {
-                reject(this.errorAdapter(error));
-            }.bind(this));
-        }.bind(this));
-    },
-
-
-    /**
-     * Delete data on the server.
-     *
-     * @param Object data
-     *
-     * @return Promise | resolve() or reject()
-     */
-    delete: function _delete(data) {
-        if (!has(data, 'url') || has(data, 'url') && !data.url) {
-            data.url = BASE_URL + data.path;
-        }
-
-        console.log('API Delete: ' + data.url);
-
-        return new Promise(function (resolve, reject) {
-            _axios2.default.delete(data.url, has(data, 'params') ? { params: data.params } : '').then(function (response) {
-                resolve(response.data);
-            }.bind(this)).catch(function (error) {
-                reject(this.errorAdapter(error));
-            }.bind(this));
-        }.bind(this));
-    },
-
-
-    /**
-     * Persist data to the server using the method supplied.
-     *
-     * @param String method
-     * @param Object data
-     *
-     * @return Promise | resolve() or reject()
-     */
-    persist: function persist(method, data) {
-        if (!has(data, 'params')) {
-            data.params = {};
-        }
-
-        if (!has(data, 'url') || has(data, 'url') && !data.url) {
-            data.url = BASE_URL + data.path;
-        }
-
-        console.log('API ' + method + ': ' + data.url);
-
-        return new Promise(function (resolve, reject) {
-            _axios2.default[method](data.url, data.object, data.params).then(function (response) {
-                resolve(response.data);
-            }.bind(this)).catch(function (error) {
-                reject(this.errorAdapter(error));
-            }.bind(this));
-        }.bind(this));
-    },
-
-
-    /**
-     * Turn the response from the server into something we can work with.
-     *
-     * @param Object error
-     *
-     * @return Object
-     */
-    errorAdapter: function errorAdapter(error) {
-        error = has(error, 'response.status') ? error.response : error;
-        var data = has(error, 'data') ? error.data : error.message;
-
-        console.error('API Error:');
-        console.log(error);
-        console.error('API Error Data');
-        console.log(data);
-
-        return error ? (typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object' && error.status === 422 ? data : error.status === 403 ? {
-            message: SERVER_UNAUTH_MESSAGE,
-            code: error.status
-        } : {
-            message: SERVER_ERROR_MESSAGE,
-            errors: {
-                'server': ['Please use this error code in any suppot queries. Error Code: ' + error.status]
-            },
-            code: error.status
-        } : {
-            message: SERVER_ERROR_MESSAGE,
-            errors: {
-                'server': error.message
-            },
-            code: error.status
-        };
+  get: function get(data) {
+    if (!has(data, 'params')) {
+      data.params = {};
     }
+
+    if (!data.url) {
+      data.url = BASE_URL + data.path;
+    }
+
+    data.params.limit = has(data, 'params.limit') ? data.params.limit : 15;
+    data.params.ascending = has(data, 'params.ascending') ? data.params.ascending : 0;
+    data.params.orderBy = has(data, 'params.orderBy') ? data.params.orderBy : 'id';
+
+    console.log('API Get: ' + data.url);
+
+    return new Promise(function (resolve, reject) {
+      _axios2.default.get(data.url, { params: data.params }).then(function (response) {
+        resolve(response.data);
+      }).catch(function (error) {
+        reject(this.errorAdapter(error));
+      }.bind(this));
+    }.bind(this));
+  },
+
+
+  /**
+   * Delete data on the server.
+   *
+   * @param Object data
+   *
+   * @return Promise | resolve() or reject()
+   */
+  delete: function _delete(data) {
+    if (!data.url) {
+      data.url = BASE_URL + data.path;
+    }
+
+    console.log('API Delete: ' + data.url);
+
+    return new Promise(function (resolve, reject) {
+      _axios2.default.delete(data.url, has(data, 'params') ? { params: data.params } : '').then(function (response) {
+        resolve(response.data);
+      }).catch(function (error) {
+        reject(this.errorAdapter(error));
+      }.bind(this));
+    }.bind(this));
+  },
+
+
+  /**
+   * Persist data to the server using the method supplied.
+   *
+   * @param String method
+   * @param Object data
+   *
+   * @return Promise | resolve() or reject()
+   */
+  persist: function persist(method, data) {
+    if (!has(data, 'params')) {
+      data.params = {};
+    }
+
+    if (!data.url) {
+      data.url = BASE_URL + data.path;
+    }
+
+    console.log('API ' + method + ': ' + data.url);
+
+    return new Promise(function (resolve, reject) {
+      _axios2.default[method](data.url, data.object, data.params).then(function (response) {
+        resolve(response.data);
+      }).catch(function (error) {
+        reject(this.errorAdapter(error));
+      }.bind(this));
+    }.bind(this));
+  },
+
+
+  /**
+   * Turn the response from the server into something we can work with.
+   *
+   * @param Object error
+   *
+   * @return Object
+   */
+  errorAdapter: function errorAdapter(error) {
+    error = has(error, 'response.status') ? error.response : error;
+    var data = has(error, 'data') ? error.data : error.message;
+
+    console.error('API Error:');
+    console.log(error);
+    console.error('API Error Data');
+    console.log(data);
+
+    return error ? (typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object' && error.status === 422 ? data : error.status === 403 ? {
+      message: SERVER_UNAUTH_MESSAGE,
+      code: error.status
+    } : {
+      message: SERVER_ERROR_MESSAGE,
+      errors: {
+        'server': ['Please use this error code in any suppot queries. Error Code: ' + error.status]
+      },
+      code: error.status
+    } : {
+      message: SERVER_ERROR_MESSAGE,
+      errors: {
+        'server': error.message
+      },
+      code: error.status
+    };
+  }
 };
 
 /***/ })

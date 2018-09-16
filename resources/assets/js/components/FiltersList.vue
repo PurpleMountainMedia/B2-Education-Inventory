@@ -1,32 +1,41 @@
 <template lang="html">
   <div class="mt-sm">
-    <filter-component v-for="(filter, key) in filters"
-                      :filter="filter"
-                      v-if="filter"
-                      :key="key"
-                      :on-remove-filter="removeFilter"/>
-    <el-popover placement="bottom"
-                :title="__('Add Filter')"
-                width="250"
-                ref="addFilterWindow"
-                trigger="click"
-                popper-class="add_filter_window"
-                v-on:after-enter="afterWindowEnters">
-      <el-button slot="reference"
-                 type="text"
-                 :disabled="!canAddNew"
-                 icon="el-icon-circle-plus el-icon-right">{{ __('Add Filter') }}
+    <filter-component
+      v-for="(filter, key) in filters"
+      v-if="filter"
+      :filter="filter"
+      :key="key"
+      :on-remove-filter="removeFilter"/>
+    <el-popover
+      ref="addFilterWindow"
+      :title="__('Add Filter')"
+      placement="bottom"
+      width="250"
+      trigger="click"
+      popper-class="add_filter_window"
+      @after-enter="afterWindowEnters">
+      <el-button
+        slot="reference"
+        :disabled="!canAddNew"
+        type="text"
+        icon="el-icon-circle-plus el-icon-right">{{ __('Add Filter') }}
       </el-button>
 
       <p><small>{{ __('Filter By') }}</small></p>
 
-      <el-input class="mb-sm" v-model="filterBySearch" size="mini" ref="searchInput" :placeholder="__('Search for attribute')"></el-input>
+      <el-input
+        ref="searchInput"
+        v-model="filterBySearch"
+        :placeholder="__('Search for attribute')"
+        class="mb-sm"
+        size="mini"/>
 
       <div class="filter_list">
-        <el-button class="filter_list_btn"
-                   @click="addFilter(option, 'addFilterWindow')"
-                   v-for="(option, key) in filteredOptions"
-                   :key="key">{{ option.name }}
+        <el-button
+          v-for="(option, key) in filteredOptions"
+          :key="key"
+          class="filter_list_btn"
+          @click="addFilter(option, 'addFilterWindow')">{{ option.name }}
         </el-button>
       </div>
     </el-popover>
@@ -40,7 +49,7 @@ export default {
   name: 'FiltersList',
 
   components: {
-    FilterComponent: () => import(/* webpackChunkName: "filter-component" */'components/FilterComponent'),
+    FilterComponent: () => import(/* webpackChunkName: "filter-component" */'components/FilterComponent')
   },
 
   props: {
@@ -56,40 +65,40 @@ export default {
     return {
       options: [
         {
-          name: "ID",
-          value: "id",
-          type: "string"
+          name: 'ID',
+          value: 'id',
+          type: 'string'
         },
         {
-          name: "Name",
-          value: "name",
-          type: "string"
+          name: 'Name',
+          value: 'name',
+          type: 'string'
         },
         {
-          name: "Type",
-          value: "type",
-          type: "string"
+          name: 'Type',
+          value: 'type',
+          type: 'string'
         },
         {
-          name: "Created At",
-          value: "created_at",
-          type: "date"
+          name: 'Created At',
+          value: 'created_at',
+          type: 'date'
         },
         {
-          name: "Updated At",
-          value: "updated_at",
-          type: "date"
+          name: 'Updated At',
+          value: 'updated_at',
+          type: 'date'
         },
         {
-          name: "Number of Rooms",
-          value: "rooms_count",
-          type: "relational_count"
+          name: 'Number of Rooms',
+          value: 'rooms_count',
+          type: 'relational_count'
         },
         {
-          name: "Created By",
-          value: "created_by",
-          type: "user"
-        },
+          name: 'Created By',
+          value: 'created_by',
+          type: 'user'
+        }
       ],
       filterBySearch: ''
     }
@@ -99,7 +108,9 @@ export default {
     canAddNew () {
       var can = true
       this.filters.forEach((filter) => {
-        filters.hasValue(filter) ? '' : can = false;
+        if (filters.hasValue(filter)) {
+          can = false
+        }
       })
       return can
     },

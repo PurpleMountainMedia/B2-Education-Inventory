@@ -1,13 +1,12 @@
 <template lang="html">
   <div :loading="loading">
-    <data-table :url="buildingsUrl"
-                type-name="building"
-                :request-params="{schoolId: schoolId}"
-                :options="tableOptions"
-                :request-includes="['buildings.extra']"
-                :request-with-count="['rooms']">
-
-    </data-table>
+    <data-table
+      :url="buildingsUrl"
+      :request-params="{schoolId: schoolId}"
+      :options="tableOptions"
+      :request-includes="['buildings.extra']"
+      :request-with-count="['rooms']"
+      type-name="building"/>
   </div>
 </template>
 
@@ -15,15 +14,15 @@
 export default {
   name: 'ListBuildings',
 
+  components: {
+    DataTable: () => import(/* webpackChunkName: "data-table" */'../DataTable')
+  },
+
   props: {
     schoolId: {
       type: [Number, String],
-      required: true,
+      required: true
     }
-  },
-
-  components: {
-    DataTable: () => import(/* webpackChunkName: "data-table" */'../DataTable'),
   },
 
   data () {

@@ -1,60 +1,61 @@
-require('./bootstrap')
 import 'babel-polyfill'
 import Vue from 'vue'
 import Element from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/en'
 import en from './lang/en.json'
 import moment from 'moment'
+require('./bootstrap')
 
-Vue.use(Element, {locale, size: 'small'})
+Vue.use(Element, { locale, size: 'small' })
 
 Vue.config.productionTip = false
 
 // Mixin
 Vue.mixin({
+
+  computed: {
+    eiDefaults () {
+      return window.eiDefaults
+    },
+
+    eiSchool () {
+      return window.eiSchool
+    },
+
+    eiDateFormat () {
+      return 'dd/MM/yyyy'
+    },
+
+    serverDateFormat () {
+      return 'dd/MM/yyyy'
+    }
+  },
   mounted () {
     if (process.env.NODE_ENV === 'development') {
-        // console.log(`${this.$options.name}.vue mounted!`);
+      // console.log(`${this.$options.name}.vue mounted!`);
     }
   },
 
-  computed: {
-    eiDefaults() {
-      return window.eiDefaults;
-    },
-
-    eiSchool() {
-      return window.eiSchool;
-    },
-
-    eiDateFormat() {
-      return 'dd/MM/yyyy';
-    },
-
-    serverDateFormat() {
-      return 'dd/MM/yyyy';
-    },
-  },
-
   methods: {
-    __(key) {
-      return en[key] ? en[key] : key;
+    __ (key) {
+      return en[key] ? en[key] : key
     },
 
     dateTime (date = '', format = '') {
       return moment(date, format)
     },
 
-    ucFirst(str) {
+    ucFirst (str) {
       var lower = String(str)
       lower = lower.toLowerCase()
-      return lower.replace(/(^| )(\w)/g, function(x) {
-          return x.toUpperCase()
-      });
+      return lower.replace(/(^| )(\w)/g, function (x) {
+        return x.toUpperCase()
+      })
     }
   }
-});
+})
 
+// eslint-disable-next-line
 const app = new Vue({
   el: '#app',
 
@@ -74,5 +75,6 @@ const app = new Vue({
     ItemEditForm: () => import(/* webpackChunkName: "item-edit-form" */'components/items/ItemEditForm'),
     ListReports: () => import(/* webpackChunkName: "list-reports" */'components/reports/ListReports'),
     ReportEditForm: () => import(/* webpackChunkName: "report-edit-form" */'components/reports/ReportEditForm'),
-  },
+    UserLogout: () => import(/* webpackChunkName: "user-logout" */'components/UserLogout')
+  }
 })

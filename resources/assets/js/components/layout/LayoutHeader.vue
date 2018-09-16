@@ -1,14 +1,25 @@
 <template lang="html">
   <div>
-    <el-breadcrumb separator-class="el-icon-arrow-right" v-if="breadcrumbs.length > 0">
-      <el-breadcrumb-item v-for="(breadcrumb, key) in breadcrumbs" :key="key">
-        <a v-if="breadcrumb.url" :href="breadcrumb.url">{{ breadcrumb.title }}</a>
+    <el-breadcrumb
+      v-if="breadcrumbs.length > 0"
+      separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item
+        v-for="(breadcrumb, key) in breadcrumbs"
+        :key="key">
+        <a
+          v-if="breadcrumb.url"
+          :href="breadcrumb.url">{{ breadcrumb.title }}</a>
         <span v-else>{{ breadcrumb.title }}</span>
       </el-breadcrumb-item>
     </el-breadcrumb>
 
-    <h1 class="mb-0" v-if="title">{{ title }}</h1>
-    <el-tag v-if="tag" type="info" size="mini">{{ tag }}</el-tag>
+    <h1
+      v-if="title"
+      class="mb-0">{{ title }}</h1>
+    <el-tag
+      v-if="tag"
+      type="info"
+      size="mini">{{ tag }}</el-tag>
   </div>
 </template>
 

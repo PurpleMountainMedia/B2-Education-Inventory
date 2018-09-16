@@ -1,6 +1,6 @@
-webpackJsonp([10],{
+webpackJsonp([11],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/buildings/BuildingEditForm.vue":
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/UserLogout.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33,100 +33,35 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 exports.default = {
-  name: 'BuildingEditForm',
-
-  components: {
-    EditForm: function EditForm() {
-      return __webpack_require__.e/* import() */(19).then(__webpack_require__.bind(null, "./resources/assets/js/components/EditForm.vue"));
-    },
-    ListRooms: function ListRooms() {
-      return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, "./resources/assets/js/components/rooms/ListRooms.vue"));
-    },
-    LayoutCenterPage: function LayoutCenterPage() {
-      return __webpack_require__.e/* import() */(16).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
-    },
-    ObjectInformation: function ObjectInformation() {
-      return __webpack_require__.e/* import() */(17).then(__webpack_require__.bind(null, "./resources/assets/js/components/ObjectInformation.vue"));
-    }
-  },
+  name: 'UserLogout',
 
   props: {
-    buildingId: {
-      type: String,
-      required: true
-    },
-    indexUrl: {
+    csrfToken: {
       required: true,
       type: String
     },
-    breadcrumbs: {
+    logoutRoute: {
       required: false,
-      type: Function,
-      default: function _default(data) {
-        return [];
+      type: String,
+      default: function _default() {
+        return '/logout';
       }
     }
   },
 
-  data: function data() {
-    return {
-      building: {},
-      typeOptions: ['Building', 'Outside']
-    };
+  methods: {
+    submit: function submit() {
+      console.log('submit');
+      this.$refs.logoutForm.submit();
+    }
   }
 };
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-28d3bf09\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/buildings/BuildingEditForm.vue":
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2b2757a8\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/UserLogout.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
@@ -134,7 +69,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -334,7 +269,7 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-28d3bf09\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/buildings/BuildingEditForm.vue":
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2b2757a8\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/UserLogout.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -344,136 +279,45 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("edit-form", {
-        attrs: {
-          "data-url": "buildings/" + _vm.buildingId,
-          "index-url": _vm.indexUrl,
-          "request-includes": ["buildings.extra", "buildings.timestamps"],
-          "request-with": ["createdBy"],
-          title: function(data) {
-            return data.name
-          },
-          tag: function(data) {
-            return data.type
-          },
-          breadcrumbs: _vm.breadcrumbs,
-          "on-update": function(data) {
-            _vm.$refs.listRooms.getData()
-          }
+      _vm._t(
+        "text",
+        [
+          _c(
+            "a",
+            {
+              staticClass: "dropdown-item",
+              attrs: { href: "#" },
+              on: { click: _vm.submit }
+            },
+            [_vm._v(_vm._s(_vm.__("Logout")))]
+          )
+        ],
+        { submit: _vm.submit }
+      ),
+      _vm._v(" "),
+      _c(
+        "form",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: false,
+              expression: "false"
+            }
+          ],
+          ref: "logoutForm",
+          attrs: { action: _vm.logoutRoute, method: "POST" }
         },
-        scopedSlots: _vm._u([
-          {
-            key: "aboveCard",
-            fn: function(slotProps) {
-              return _c(
-                "div",
-                { staticClass: "mb-sm" },
-                [
-                  _c(
-                    "el-button",
-                    { attrs: { size: "mini", plain: "", type: "info" } },
-                    [_vm._v(_vm._s(_vm.__("Generate Report")))]
-                  )
-                ],
-                1
-              )
-            }
-          },
-          {
-            key: "form",
-            fn: function(slotProps) {
-              return [
-                _vm._t("card", null, { data: slotProps.data }),
-                _vm._v(" "),
-                _c("object-information", {
-                  staticClass: "mb-sm",
-                  attrs: { object: slotProps.data }
-                }),
-                _vm._v(" "),
-                _c(
-                  "el-form-item",
-                  {
-                    staticClass: "short_input",
-                    attrs: {
-                      rules: { required: true },
-                      label: "Name",
-                      prop: "name"
-                    }
-                  },
-                  [
-                    _c("el-input", {
-                      model: {
-                        value: slotProps.data.name,
-                        callback: function($$v) {
-                          _vm.$set(slotProps.data, "name", $$v)
-                        },
-                        expression: "slotProps.data.name"
-                      }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "el-form-item",
-                  { attrs: { label: "Type" } },
-                  [
-                    _c(
-                      "el-select",
-                      {
-                        attrs: { rules: { required: true }, prop: "type" },
-                        model: {
-                          value: slotProps.data.type,
-                          callback: function($$v) {
-                            _vm.$set(slotProps.data, "type", $$v)
-                          },
-                          expression: "slotProps.data.type"
-                        }
-                      },
-                      _vm._l(_vm.typeOptions, function(op, key) {
-                        return _c(
-                          "el-option",
-                          { key: key, attrs: { value: op } },
-                          [_vm._v(_vm._s(op))]
-                        )
-                      })
-                    )
-                  ],
-                  1
-                )
-              ]
-            }
-          },
-          {
-            key: "belowCard",
-            fn: function(slotProps) {
-              return _c(
-                "el-card",
-                { staticClass: "mt" },
-                [
-                  _c("span", { attrs: { slot: "header" }, slot: "header" }, [
-                    _vm._v(_vm._s(slotProps.data.name) + " - "),
-                    _c("strong", [
-                      _vm._v(_vm._s(_vm.ucFirst(_vm.eiDefaults.rooms_name)))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("list-rooms", {
-                    ref: "listRooms",
-                    attrs: {
-                      "school-id": _vm.eiSchool.id,
-                      "building-id": _vm.buildingId
-                    }
-                  })
-                ],
-                1
-              )
-            }
-          }
-        ])
-      })
+        [
+          _c("input", {
+            attrs: { type: "hidden", name: "_token" },
+            domProps: { value: _vm.csrfToken }
+          })
+        ]
+      )
     ],
-    1
+    2
   )
 }
 var staticRenderFns = []
@@ -482,29 +326,29 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-28d3bf09", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-2b2757a8", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-28d3bf09\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/buildings/BuildingEditForm.vue":
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2b2757a8\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/UserLogout.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-28d3bf09\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/buildings/BuildingEditForm.vue");
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2b2757a8\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/UserLogout.vue");
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("9f070b50", content, false, {});
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("15c198c5", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-28d3bf09\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./BuildingEditForm.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-28d3bf09\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./BuildingEditForm.vue");
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2b2757a8\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./UserLogout.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2b2757a8\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./UserLogout.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -778,19 +622,19 @@ module.exports = function listToStyles (parentId, list) {
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/buildings/BuildingEditForm.vue":
+/***/ "./resources/assets/js/components/UserLogout.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-28d3bf09\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/buildings/BuildingEditForm.vue")
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2b2757a8\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/UserLogout.vue")
 }
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/buildings/BuildingEditForm.vue")
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/UserLogout.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-28d3bf09\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/buildings/BuildingEditForm.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2b2757a8\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/UserLogout.vue")
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -807,7 +651,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/buildings/BuildingEditForm.vue"
+Component.options.__file = "resources/assets/js/components/UserLogout.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -816,9 +660,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-28d3bf09", Component.options)
+    hotAPI.createRecord("data-v-2b2757a8", Component.options)
   } else {
-    hotAPI.reload("data-v-28d3bf09", Component.options)
+    hotAPI.reload("data-v-2b2757a8", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

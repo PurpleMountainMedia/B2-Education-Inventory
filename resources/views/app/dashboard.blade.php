@@ -17,17 +17,9 @@
         </el-col>
     </el-row>
 
-
-    <a class="dropdown-item" href="{{ route('logout') }}"
-       onclick="event.preventDefault();
-                     document.getElementById('logout-form').submit();">
-        {{ __('Logout') }}
-    </a>
-
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-        @csrf
-    </form>
-
+    <user-logout csrf-token="{{ csrf_token() }}">
+      <button slot="text" slot-scope="scope" @click="scope.submit">Log Off</button>
+    </user-logout>
     <el-row :gutter="20">
       <el-col :md="{span: 5, offset: 4}">
         <h1 class="text-center"><i class="fal fa-2x fa-building"></i></h1>

@@ -1,4 +1,4 @@
-webpackJsonp([17],{
+webpackJsonp([19],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/EditForm.vue":
 /***/ (function(module, exports, __webpack_require__) {
@@ -18,6 +18,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
   name: 'EditForm',
+
+  components: {
+    LayoutHeader: function LayoutHeader() {
+      return __webpack_require__.e/* import() */(23).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutHeader.vue"));
+    },
+    LayoutCenterPage: function LayoutCenterPage() {
+      return __webpack_require__.e/* import() */(16).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
+    },
+    B2Errors: function B2Errors() {
+      return __webpack_require__.e/* import() */(18).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
+    }
+  },
 
   props: {
     title: {
@@ -86,23 +98,6 @@ exports.default = {
   },
 
 
-  components: {
-    LayoutHeader: function LayoutHeader() {
-      return __webpack_require__.e/* import() */(22).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutHeader.vue"));
-    },
-    LayoutCenterPage: function LayoutCenterPage() {
-      return __webpack_require__.e/* import() */(15).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
-    },
-    B2Errors: function B2Errors() {
-      return __webpack_require__.e/* import() */(18).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
-    }
-  },
-
-  mounted: function mounted() {
-    this.getData();
-  },
-
-
   computed: {
     requestParams: function requestParams() {
       return {
@@ -112,6 +107,11 @@ exports.default = {
       };
     }
   },
+
+  mounted: function mounted() {
+    this.getData();
+  },
+
 
   methods: {
     getData: function getData() {
@@ -139,7 +139,7 @@ exports.default = {
 
       this.$refs.editForm.validate(function (valid) {
         if (valid) {
-          _api2.default.persist("put", {
+          _api2.default.persist('put', {
             path: _this2.dataUrl,
             object: {
               data: _this2.data,
@@ -223,6 +223,34 @@ exports.default = {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /***/ }),
 
@@ -234,7 +262,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1553,7 +1581,7 @@ module.exports = Component.exports
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -1568,127 +1596,127 @@ var has = __webpack_require__("./node_modules/lodash.has/index.js");
 _axios2.default.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 var token = document.head.querySelector('meta[name="csrf-token"]');
 if (token) {
-    _axios2.default.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-    _axios2.default.defaults.withCredentials = true;
+  _axios2.default.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+  _axios2.default.defaults.withCredentials = true;
 } else {
-    console.error('CSRF token not found');
+  console.error('CSRF token not found');
 }
-var BASE_URL = eiDefaults.site_url + '/' + eiDefaults.api_prefix + '/';
-var SERVER_ERROR_MESSAGE = "We could not access the server at this time. Please try again. If the issue persists, please open a support ticket.";
-var SERVER_UNAUTH_MESSAGE = "We could not complete the request, because you are not authorised to do so.";
+var BASE_URL = window.eiDefaults.site_url + '/' + window.eiDefaults.api_prefix + '/';
+var SERVER_ERROR_MESSAGE = 'We could not access the server at this time. Please try again. If the issue persists, please open a support ticket.';
+var SERVER_UNAUTH_MESSAGE = 'We could not complete the request, because you are not authorised to do so.';
 
 exports.default = {
-    get: function get(data) {
-        if (!has(data, 'params')) {
-            data.params = {};
-        }
-
-        if (!has(data, 'url') || has(data, 'url') && !data.url) {
-            data.url = BASE_URL + data.path;
-        }
-
-        data.params.limit = has(data, 'params.limit') ? data.params.limit : 15;
-        data.params.ascending = has(data, 'params.ascending') ? data.params.ascending : 0;
-        data.params.orderBy = has(data, 'params.orderBy') ? data.params.orderBy : 'id';
-
-        console.log('API Get: ' + data.url);
-
-        return new Promise(function (resolve, reject) {
-            _axios2.default.get(data.url, { params: data.params }).then(function (response) {
-                resolve(response.data);
-            }.bind(this)).catch(function (error) {
-                reject(this.errorAdapter(error));
-            }.bind(this));
-        }.bind(this));
-    },
-
-
-    /**
-     * Delete data on the server.
-     *
-     * @param Object data
-     *
-     * @return Promise | resolve() or reject()
-     */
-    delete: function _delete(data) {
-        if (!has(data, 'url') || has(data, 'url') && !data.url) {
-            data.url = BASE_URL + data.path;
-        }
-
-        console.log('API Delete: ' + data.url);
-
-        return new Promise(function (resolve, reject) {
-            _axios2.default.delete(data.url, has(data, 'params') ? { params: data.params } : '').then(function (response) {
-                resolve(response.data);
-            }.bind(this)).catch(function (error) {
-                reject(this.errorAdapter(error));
-            }.bind(this));
-        }.bind(this));
-    },
-
-
-    /**
-     * Persist data to the server using the method supplied.
-     *
-     * @param String method
-     * @param Object data
-     *
-     * @return Promise | resolve() or reject()
-     */
-    persist: function persist(method, data) {
-        if (!has(data, 'params')) {
-            data.params = {};
-        }
-
-        if (!has(data, 'url') || has(data, 'url') && !data.url) {
-            data.url = BASE_URL + data.path;
-        }
-
-        console.log('API ' + method + ': ' + data.url);
-
-        return new Promise(function (resolve, reject) {
-            _axios2.default[method](data.url, data.object, data.params).then(function (response) {
-                resolve(response.data);
-            }.bind(this)).catch(function (error) {
-                reject(this.errorAdapter(error));
-            }.bind(this));
-        }.bind(this));
-    },
-
-
-    /**
-     * Turn the response from the server into something we can work with.
-     *
-     * @param Object error
-     *
-     * @return Object
-     */
-    errorAdapter: function errorAdapter(error) {
-        error = has(error, 'response.status') ? error.response : error;
-        var data = has(error, 'data') ? error.data : error.message;
-
-        console.error('API Error:');
-        console.log(error);
-        console.error('API Error Data');
-        console.log(data);
-
-        return error ? (typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object' && error.status === 422 ? data : error.status === 403 ? {
-            message: SERVER_UNAUTH_MESSAGE,
-            code: error.status
-        } : {
-            message: SERVER_ERROR_MESSAGE,
-            errors: {
-                'server': ['Please use this error code in any suppot queries. Error Code: ' + error.status]
-            },
-            code: error.status
-        } : {
-            message: SERVER_ERROR_MESSAGE,
-            errors: {
-                'server': error.message
-            },
-            code: error.status
-        };
+  get: function get(data) {
+    if (!has(data, 'params')) {
+      data.params = {};
     }
+
+    if (!data.url) {
+      data.url = BASE_URL + data.path;
+    }
+
+    data.params.limit = has(data, 'params.limit') ? data.params.limit : 15;
+    data.params.ascending = has(data, 'params.ascending') ? data.params.ascending : 0;
+    data.params.orderBy = has(data, 'params.orderBy') ? data.params.orderBy : 'id';
+
+    console.log('API Get: ' + data.url);
+
+    return new Promise(function (resolve, reject) {
+      _axios2.default.get(data.url, { params: data.params }).then(function (response) {
+        resolve(response.data);
+      }).catch(function (error) {
+        reject(this.errorAdapter(error));
+      }.bind(this));
+    }.bind(this));
+  },
+
+
+  /**
+   * Delete data on the server.
+   *
+   * @param Object data
+   *
+   * @return Promise | resolve() or reject()
+   */
+  delete: function _delete(data) {
+    if (!data.url) {
+      data.url = BASE_URL + data.path;
+    }
+
+    console.log('API Delete: ' + data.url);
+
+    return new Promise(function (resolve, reject) {
+      _axios2.default.delete(data.url, has(data, 'params') ? { params: data.params } : '').then(function (response) {
+        resolve(response.data);
+      }).catch(function (error) {
+        reject(this.errorAdapter(error));
+      }.bind(this));
+    }.bind(this));
+  },
+
+
+  /**
+   * Persist data to the server using the method supplied.
+   *
+   * @param String method
+   * @param Object data
+   *
+   * @return Promise | resolve() or reject()
+   */
+  persist: function persist(method, data) {
+    if (!has(data, 'params')) {
+      data.params = {};
+    }
+
+    if (!data.url) {
+      data.url = BASE_URL + data.path;
+    }
+
+    console.log('API ' + method + ': ' + data.url);
+
+    return new Promise(function (resolve, reject) {
+      _axios2.default[method](data.url, data.object, data.params).then(function (response) {
+        resolve(response.data);
+      }).catch(function (error) {
+        reject(this.errorAdapter(error));
+      }.bind(this));
+    }.bind(this));
+  },
+
+
+  /**
+   * Turn the response from the server into something we can work with.
+   *
+   * @param Object error
+   *
+   * @return Object
+   */
+  errorAdapter: function errorAdapter(error) {
+    error = has(error, 'response.status') ? error.response : error;
+    var data = has(error, 'data') ? error.data : error.message;
+
+    console.error('API Error:');
+    console.log(error);
+    console.error('API Error Data');
+    console.log(data);
+
+    return error ? (typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object' && error.status === 422 ? data : error.status === 403 ? {
+      message: SERVER_UNAUTH_MESSAGE,
+      code: error.status
+    } : {
+      message: SERVER_ERROR_MESSAGE,
+      errors: {
+        'server': ['Please use this error code in any suppot queries. Error Code: ' + error.status]
+      },
+      code: error.status
+    } : {
+      message: SERVER_ERROR_MESSAGE,
+      errors: {
+        'server': error.message
+      },
+      code: error.status
+    };
+  }
 };
 
 /***/ })

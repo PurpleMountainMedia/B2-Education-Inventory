@@ -1,10 +1,10 @@
 <template lang="html">
-  <el-date-picker v-model="internalValue"
-                  ref="input"
-                  type="date"
-                  :format="eiDateFormat"
-                  :value-format="serverDateFormat">
-  </el-date-picker>
+  <el-date-picker
+    ref="input"
+    v-model="internalValue"
+    :format="eiDateFormat"
+    :value-format="serverDateFormat"
+    type="date"/>
 </template>
 
 <script>

@@ -1,4 +1,4 @@
-webpackJsonp([12],{
+webpackJsonp([13],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/MainMenu.vue":
 /***/ (function(module, exports, __webpack_require__) {
@@ -7,8 +7,12 @@ webpackJsonp([12],{
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
+//
+//
+//
+//
 //
 //
 //
@@ -18,20 +22,20 @@ Object.defineProperty(exports, "__esModule", {
 //
 
 exports.default = {
-    name: 'MainMenu',
+  name: 'MainMenu',
 
-    data: function data() {
-        return {
-            showNav: false
-        };
-    },
+  data: function data() {
+    return {
+      showNav: false
+    };
+  },
 
 
-    methods: {
-        openMenu: function openMenu() {
-            this.showNav = !this.showNav;
-        }
+  methods: {
+    openMenu: function openMenu() {
+      this.showNav = !this.showNav;
     }
+  }
 };
 
 /***/ }),

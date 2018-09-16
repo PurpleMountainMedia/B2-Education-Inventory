@@ -1,14 +1,13 @@
 <template lang="html">
   <div :loading="loading">
-    <data-table :url="roomsUrl"
-                type-name="room"
-                :request-params="{schoolId: schoolId, buildingId: buildingId}"
-                :options="tableOptions"
-                ref="dataTable"
-                :request-includes="['rooms.extra']"
-                :request-with="['building']">
-
-    </data-table>
+    <data-table
+      ref="dataTable"
+      :url="roomsUrl"
+      :request-params="{schoolId: schoolId, buildingId: buildingId}"
+      :options="tableOptions"
+      :request-includes="['rooms.extra']"
+      :request-with="['building']"
+      type-name="room"/>
   </div>
 </template>
 
@@ -16,10 +15,14 @@
 export default {
   name: 'ListRooms',
 
+  components: {
+    DataTable: () => import(/* webpackChunkName: "data-table" */'../DataTable')
+  },
+
   props: {
     schoolId: {
       type: [Number, String],
-      required: true,
+      required: true
     },
     buildingId: {
       type: [String],
@@ -30,7 +33,7 @@ export default {
 
   data () {
     return {
-      loading: false,
+      loading: false
     }
   },
 
@@ -56,11 +59,7 @@ export default {
 
     roomsUrl () {
       return `rooms`
-    },
-  },
-
-  components: {
-    DataTable: () => import(/* webpackChunkName: "data-table" */'../DataTable'),
+    }
   },
 
   methods: {

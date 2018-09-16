@@ -45,9 +45,37 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
   name: 'BuildingEditForm',
+
+  components: {
+    EditForm: function EditForm() {
+      return __webpack_require__.e/* import() */(19).then(__webpack_require__.bind(null, "./resources/assets/js/components/EditForm.vue"));
+    },
+    LayoutCenterPage: function LayoutCenterPage() {
+      return __webpack_require__.e/* import() */(16).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
+    },
+    ObjectInformation: function ObjectInformation() {
+      return __webpack_require__.e/* import() */(17).then(__webpack_require__.bind(null, "./resources/assets/js/components/ObjectInformation.vue"));
+    }
+  },
 
   props: {
     itemId: {
@@ -71,19 +99,6 @@ exports.default = {
     return {
       item: {}
     };
-  },
-
-
-  components: {
-    EditForm: function EditForm() {
-      return __webpack_require__.e/* import() */(17).then(__webpack_require__.bind(null, "./resources/assets/js/components/EditForm.vue"));
-    },
-    LayoutCenterPage: function LayoutCenterPage() {
-      return __webpack_require__.e/* import() */(15).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
-    },
-    ObjectInformation: function ObjectInformation() {
-      return __webpack_require__.e/* import() */(16).then(__webpack_require__.bind(null, "./resources/assets/js/components/ObjectInformation.vue"));
-    }
   }
 };
 
@@ -97,7 +112,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -355,9 +370,9 @@ var render = function() {
                   {
                     staticClass: "short_input",
                     attrs: {
+                      rules: { required: true },
                       label: "Name",
-                      prop: "name",
-                      rules: { required: true }
+                      prop: "name"
                     }
                   },
                   [

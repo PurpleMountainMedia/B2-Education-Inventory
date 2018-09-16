@@ -4,10 +4,10 @@ export default {
     console.log(this.filterType(filter.type))
     if (this.filterType(filter.type) !== 'number') {
       var value = filter.value ? filter.value : ''
-      return value.length == 0 ? false : true
+      return value.length !== 0
     } else {
-      var value = parseInt(filter.value)
-      return value >= 0 ? true : false
+      value = parseInt(filter.value)
+      return value >= 0
     }
   },
 
@@ -16,10 +16,10 @@ export default {
     switch (filter.type) {
       case 'relational_count':
         type = 'number'
-        break;
+        break
       default:
         type = filter.type
     }
     return type
-  },
+  }
 }

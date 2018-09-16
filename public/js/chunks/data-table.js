@@ -28,7 +28,31 @@ var _vueUrlParameters2 = _interopRequireDefault(_vueUrlParameters);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var findIndex = __webpack_require__("./node_modules/lodash.findindex/index.js"); //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -105,20 +129,22 @@ var findIndex = __webpack_require__("./node_modules/lodash.findindex/index.js");
 //
 //
 
+var findIndex = __webpack_require__("./node_modules/lodash.findindex/index.js");
 var throttle = __webpack_require__("./node_modules/lodash.throttle/index.js");
+
 exports.default = {
   name: 'DataTable',
 
-  mixins: [_vueUrlParameters2.default],
-
   components: {
     FiltersList: function FiltersList() {
-      return __webpack_require__.e/* import() */(26).then(__webpack_require__.bind(null, "./resources/assets/js/components/FiltersList.vue"));
+      return __webpack_require__.e/* import() */(27).then(__webpack_require__.bind(null, "./resources/assets/js/components/FiltersList.vue"));
     },
     B2Errors: function B2Errors() {
       return __webpack_require__.e/* import() */(18).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
     }
   },
+
+  mixins: [_vueUrlParameters2.default],
 
   props: {
     typeName: {
@@ -252,6 +278,32 @@ exports.default = {
     }
   },
 
+  watch: {
+    search: function search(value) {
+      if (this.server) {
+        this.getData();
+      }
+
+      this.urlFilters[this.typeName + '_search'] = value;
+      window.location.hash = _url2.default.serialize(this.urlFilters);
+    },
+
+    filters: {
+      handler: function handler(newValue) {
+        var hasValues = true;
+        newValue.forEach(function (filter) {
+          if (_filters2.default.hasValue(filter)) {
+            hasValues = false;
+          }
+        });
+        if (hasValues) {
+          this.getData();
+        }
+      },
+      deep: true
+    }
+  },
+
   mounted: function mounted() {
     Object.assign(this.mergedOptions, this.defaultOptions, this.options);
 
@@ -270,28 +322,6 @@ exports.default = {
     }
   },
 
-
-  watch: {
-    search: function search(value) {
-      if (this.server) {
-        this.getData();
-      }
-
-      this.urlFilters[this.typeName + '_search'] = value;
-      window.location.hash = _url2.default.serialize(this.urlFilters);
-    },
-
-    filters: {
-      handler: function handler(newValue) {
-        var has_values = true;
-        newValue.forEach(function (filter) {
-          _filters2.default.hasValue(filter) ? '' : has_values = false;
-        });
-        has_values ? this.getData() : null;
-      },
-      deep: true
-    }
-  },
 
   methods: {
     getData: throttle(function () {
@@ -336,13 +366,13 @@ exports.default = {
         path: this.deleteUrl + '/' + row.id
       }).then(function (data) {
         _this2.getData();
-      }).catch(function (error) {});
+      });
     },
     listen: function listen() {
       var _this3 = this;
 
-      if (typeof Echo != 'undefined') {
-        Echo.private('items.1').listen('ItemUpdated', function (e) {
+      if (typeof window.Echo !== 'undefined') {
+        window.Echo.private('items.1').listen('ItemUpdated', function (e) {
           console.log(e.item);
 
           var index = findIndex(_this3.internalData, ['id', e.item.id]);
@@ -354,11 +384,11 @@ exports.default = {
 
 
     /**
-     * Handle a size change event on the table.
-     *
-     * @param Int perPage
-     * @return void
-     */
+       * Handle a size change event on the table.
+       *
+       * @param Int perPage
+       * @return void
+       */
     handleSizeChange: function handleSizeChange(perPage) {
       this.paginationMeta.perPage = perPage;
       if (this.server) {
@@ -368,11 +398,11 @@ exports.default = {
 
 
     /**
-     * Handle a page change event on the table.
-     *
-     * @param Int page
-     * @return void
-     */
+       * Handle a page change event on the table.
+       *
+       * @param Int page
+       * @return void
+       */
     handlePageChange: function handlePageChange(page) {
       this.paginationMeta.currentPage = page;
       if (this.server) {
@@ -4761,8 +4791,8 @@ var render = function() {
                 attrs: {
                   "page-sizes": _vm.perPages,
                   "page-size": _vm.paginationMeta.perPage,
-                  layout: "sizes, prev, pager, next",
-                  total: _vm.paginationMeta.total
+                  total: _vm.paginationMeta.total,
+                  layout: "sizes, prev, pager, next"
                 },
                 on: {
                   "size-change": _vm.handleSizeChange,
@@ -5324,7 +5354,7 @@ module.exports = Component.exports
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -5339,127 +5369,127 @@ var has = __webpack_require__("./node_modules/lodash.has/index.js");
 _axios2.default.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 var token = document.head.querySelector('meta[name="csrf-token"]');
 if (token) {
-    _axios2.default.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-    _axios2.default.defaults.withCredentials = true;
+  _axios2.default.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+  _axios2.default.defaults.withCredentials = true;
 } else {
-    console.error('CSRF token not found');
+  console.error('CSRF token not found');
 }
-var BASE_URL = eiDefaults.site_url + '/' + eiDefaults.api_prefix + '/';
-var SERVER_ERROR_MESSAGE = "We could not access the server at this time. Please try again. If the issue persists, please open a support ticket.";
-var SERVER_UNAUTH_MESSAGE = "We could not complete the request, because you are not authorised to do so.";
+var BASE_URL = window.eiDefaults.site_url + '/' + window.eiDefaults.api_prefix + '/';
+var SERVER_ERROR_MESSAGE = 'We could not access the server at this time. Please try again. If the issue persists, please open a support ticket.';
+var SERVER_UNAUTH_MESSAGE = 'We could not complete the request, because you are not authorised to do so.';
 
 exports.default = {
-    get: function get(data) {
-        if (!has(data, 'params')) {
-            data.params = {};
-        }
-
-        if (!has(data, 'url') || has(data, 'url') && !data.url) {
-            data.url = BASE_URL + data.path;
-        }
-
-        data.params.limit = has(data, 'params.limit') ? data.params.limit : 15;
-        data.params.ascending = has(data, 'params.ascending') ? data.params.ascending : 0;
-        data.params.orderBy = has(data, 'params.orderBy') ? data.params.orderBy : 'id';
-
-        console.log('API Get: ' + data.url);
-
-        return new Promise(function (resolve, reject) {
-            _axios2.default.get(data.url, { params: data.params }).then(function (response) {
-                resolve(response.data);
-            }.bind(this)).catch(function (error) {
-                reject(this.errorAdapter(error));
-            }.bind(this));
-        }.bind(this));
-    },
-
-
-    /**
-     * Delete data on the server.
-     *
-     * @param Object data
-     *
-     * @return Promise | resolve() or reject()
-     */
-    delete: function _delete(data) {
-        if (!has(data, 'url') || has(data, 'url') && !data.url) {
-            data.url = BASE_URL + data.path;
-        }
-
-        console.log('API Delete: ' + data.url);
-
-        return new Promise(function (resolve, reject) {
-            _axios2.default.delete(data.url, has(data, 'params') ? { params: data.params } : '').then(function (response) {
-                resolve(response.data);
-            }.bind(this)).catch(function (error) {
-                reject(this.errorAdapter(error));
-            }.bind(this));
-        }.bind(this));
-    },
-
-
-    /**
-     * Persist data to the server using the method supplied.
-     *
-     * @param String method
-     * @param Object data
-     *
-     * @return Promise | resolve() or reject()
-     */
-    persist: function persist(method, data) {
-        if (!has(data, 'params')) {
-            data.params = {};
-        }
-
-        if (!has(data, 'url') || has(data, 'url') && !data.url) {
-            data.url = BASE_URL + data.path;
-        }
-
-        console.log('API ' + method + ': ' + data.url);
-
-        return new Promise(function (resolve, reject) {
-            _axios2.default[method](data.url, data.object, data.params).then(function (response) {
-                resolve(response.data);
-            }.bind(this)).catch(function (error) {
-                reject(this.errorAdapter(error));
-            }.bind(this));
-        }.bind(this));
-    },
-
-
-    /**
-     * Turn the response from the server into something we can work with.
-     *
-     * @param Object error
-     *
-     * @return Object
-     */
-    errorAdapter: function errorAdapter(error) {
-        error = has(error, 'response.status') ? error.response : error;
-        var data = has(error, 'data') ? error.data : error.message;
-
-        console.error('API Error:');
-        console.log(error);
-        console.error('API Error Data');
-        console.log(data);
-
-        return error ? (typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object' && error.status === 422 ? data : error.status === 403 ? {
-            message: SERVER_UNAUTH_MESSAGE,
-            code: error.status
-        } : {
-            message: SERVER_ERROR_MESSAGE,
-            errors: {
-                'server': ['Please use this error code in any suppot queries. Error Code: ' + error.status]
-            },
-            code: error.status
-        } : {
-            message: SERVER_ERROR_MESSAGE,
-            errors: {
-                'server': error.message
-            },
-            code: error.status
-        };
+  get: function get(data) {
+    if (!has(data, 'params')) {
+      data.params = {};
     }
+
+    if (!data.url) {
+      data.url = BASE_URL + data.path;
+    }
+
+    data.params.limit = has(data, 'params.limit') ? data.params.limit : 15;
+    data.params.ascending = has(data, 'params.ascending') ? data.params.ascending : 0;
+    data.params.orderBy = has(data, 'params.orderBy') ? data.params.orderBy : 'id';
+
+    console.log('API Get: ' + data.url);
+
+    return new Promise(function (resolve, reject) {
+      _axios2.default.get(data.url, { params: data.params }).then(function (response) {
+        resolve(response.data);
+      }).catch(function (error) {
+        reject(this.errorAdapter(error));
+      }.bind(this));
+    }.bind(this));
+  },
+
+
+  /**
+   * Delete data on the server.
+   *
+   * @param Object data
+   *
+   * @return Promise | resolve() or reject()
+   */
+  delete: function _delete(data) {
+    if (!data.url) {
+      data.url = BASE_URL + data.path;
+    }
+
+    console.log('API Delete: ' + data.url);
+
+    return new Promise(function (resolve, reject) {
+      _axios2.default.delete(data.url, has(data, 'params') ? { params: data.params } : '').then(function (response) {
+        resolve(response.data);
+      }).catch(function (error) {
+        reject(this.errorAdapter(error));
+      }.bind(this));
+    }.bind(this));
+  },
+
+
+  /**
+   * Persist data to the server using the method supplied.
+   *
+   * @param String method
+   * @param Object data
+   *
+   * @return Promise | resolve() or reject()
+   */
+  persist: function persist(method, data) {
+    if (!has(data, 'params')) {
+      data.params = {};
+    }
+
+    if (!data.url) {
+      data.url = BASE_URL + data.path;
+    }
+
+    console.log('API ' + method + ': ' + data.url);
+
+    return new Promise(function (resolve, reject) {
+      _axios2.default[method](data.url, data.object, data.params).then(function (response) {
+        resolve(response.data);
+      }).catch(function (error) {
+        reject(this.errorAdapter(error));
+      }.bind(this));
+    }.bind(this));
+  },
+
+
+  /**
+   * Turn the response from the server into something we can work with.
+   *
+   * @param Object error
+   *
+   * @return Object
+   */
+  errorAdapter: function errorAdapter(error) {
+    error = has(error, 'response.status') ? error.response : error;
+    var data = has(error, 'data') ? error.data : error.message;
+
+    console.error('API Error:');
+    console.log(error);
+    console.error('API Error Data');
+    console.log(data);
+
+    return error ? (typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object' && error.status === 422 ? data : error.status === 403 ? {
+      message: SERVER_UNAUTH_MESSAGE,
+      code: error.status
+    } : {
+      message: SERVER_ERROR_MESSAGE,
+      errors: {
+        'server': ['Please use this error code in any suppot queries. Error Code: ' + error.status]
+      },
+      code: error.status
+    } : {
+      message: SERVER_ERROR_MESSAGE,
+      errors: {
+        'server': error.message
+      },
+      code: error.status
+    };
+  }
 };
 
 /***/ }),
@@ -5478,10 +5508,10 @@ exports.default = {
     console.log(this.filterType(filter.type));
     if (this.filterType(filter.type) !== 'number') {
       var value = filter.value ? filter.value : '';
-      return value.length == 0 ? false : true;
+      return value.length !== 0;
     } else {
-      var value = parseInt(filter.value);
-      return value >= 0 ? true : false;
+      value = parseInt(filter.value);
+      return value >= 0;
     }
   },
   filterType: function filterType(filter) {
@@ -5521,18 +5551,20 @@ exports.default = {
    * @return string
    */
   serialize: function serialize(obj, prefix) {
-    var str = [],
-        p;
+    var str = [];
+
+    var p;
     for (p in obj) {
       if (obj.hasOwnProperty(p)) {
-        var k = prefix ? prefix + "[" + p + "]" : p,
-            v = obj[p];
-        if (v != undefined) {
-          str.push(v !== null && (typeof v === "undefined" ? "undefined" : _typeof(v)) === "object" ? this.serialize(v, k) : encodeURIComponent(k) + "=" + encodeURIComponent(v));
+        var k = prefix ? prefix + '[' + p + ']' : p;
+
+        var v = obj[p];
+        if (v !== undefined) {
+          str.push(v !== null && (typeof v === 'undefined' ? 'undefined' : _typeof(v)) === 'object' ? this.serialize(v, k) : encodeURIComponent(k) + '=' + encodeURIComponent(v));
         }
       }
     }
-    return str.join("&");
+    return str.join('&');
   },
 
 
@@ -5543,8 +5575,9 @@ exports.default = {
    * @return string
    */
   unserialize: function unserialize(obj) {
-    var newObj = {},
-        p;
+    var newObj = {};
+
+    var p;
 
     for (p in obj) {
       var pathDots = decodeURIComponent(p).replace(/\[(\w+)\]/g, '.$1');
@@ -5563,17 +5596,22 @@ exports.default = {
    * @return object
    */
   buildObjectFromString: function buildObjectFromString(path, value, root) {
-    var segments = path.split('.'),
-        cursor = root || window,
-        segment,
-        i;
+    var segments = path.split('.');
+
+    var cursor = root || window;
+
+    var segment;
+
+    var i;
 
     for (i = 0; i < segments.length - 1; ++i) {
       segment = segments[i];
       cursor = cursor[segment] = cursor[segment] || {};
     }
 
-    return cursor[segments[i]] = value;
+    cursor[segments[i]] = value;
+
+    return cursor;
   }
 };
 

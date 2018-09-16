@@ -7,18 +7,30 @@
     </el-row>
     <el-row align="middle">
       <el-col :sm="12">
-          <el-input :placeholder="__('Search')"
-                    v-model="search"
-                    v-if="mergedOptions.display ? mergedOptions.display.search : false"
-                    :disabled="filters.length >= 1">
-                    <i slot="prefix" class="el-input__icon el-icon-search"></i>
-          </el-input>
+        <el-input
+          v-if="mergedOptions.display ? mergedOptions.display.search : false"
+          :placeholder="__('Search')"
+          v-model="search"
+          :disabled="filters.length >= 1">
+          <i
+            slot="prefix"
+            class="el-input__icon el-icon-search"/>
+        </el-input>
       </el-col>
       <el-col :sm="12">
         <slot name="createButton">
-            <el-button class="create_btn" v-if="mergedOptions.display ? mergedOptions.display.new : false" type="primary" plain>{{ __('Add New') }}</el-button>
+          <el-button
+            v-if="mergedOptions.display ? mergedOptions.display.new : false"
+            class="create_btn"
+            type="primary"
+            plain>{{ __('Add New') }}</el-button>
         </slot>
-        <el-button class="refresh_btn" v-if="mergedOptions.display ? mergedOptions.display.refresh : false" @click="getData" type="info" plain><i class="el-icon-refresh"></i></el-button>
+        <el-button
+          v-if="mergedOptions.display ? mergedOptions.display.refresh : false"
+          class="refresh_btn"
+          type="info"
+          plain
+          @click="getData"><i class="el-icon-refresh"/></el-button>
       </el-col>
     </el-row>
 
@@ -26,29 +38,41 @@
       <filters-list :filters="filters" />
     </el-row>
 
-    <el-table :data="tableData" class="mt-sm">
-      <el-table-column v-for="(column, key) in mergedOptions.columns"
-                       :key="key"
-                       :prop="column.prop"
-                       :width="column.width"
-                       :formatter="column.formatter"
-                       :label="column.label">
-      </el-table-column>
+    <el-table
+      :data="tableData"
+      class="mt-sm">
+      <el-table-column
+        v-for="(column, key) in mergedOptions.columns"
+        :key="key"
+        :prop="column.prop"
+        :width="column.width"
+        :formatter="column.formatter"
+        :label="column.label"/>
 
-      <el-table-column :label="__('Actions')" v-if="mergedOptions.display ? mergedOptions.display.actions : false">
+      <el-table-column
+        v-if="mergedOptions.display ? mergedOptions.display.actions : false"
+        :label="__('Actions')">
         <template slot-scope="scope">
-          <slot name="actionButtons" :row="scope.row" :delete="deleteData">
-            <a v-for="(btn, btnKey) in mergedOptions.actionLinks"
-               :key="btnKey"
-               :href="btn.urlCallback(scope.row)">
-              <el-button :size="btn.size ? btn.size : 'mini'"
-                         class="action_btn view_btn">{{ btn.textCallback(scope.row) }} <i v-if="btn.icon" :class="btn.icon"></i>
+          <slot
+            :row="scope.row"
+            :delete="deleteData"
+            name="actionButtons">
+            <a
+              v-for="(btn, btnKey) in mergedOptions.actionLinks"
+              :key="btnKey"
+              :href="btn.urlCallback(scope.row)">
+              <el-button
+                :size="btn.size ? btn.size : 'mini'"
+                class="action_btn view_btn">{{ btn.textCallback(scope.row) }} <i
+                  v-if="btn.icon"
+                  :class="btn.icon"/>
               </el-button>
             </a>
-            <el-button size="mini"
-                       type="danger"
-                       class="action_btn delete_btn"
-                       @click="deleteData(scope.row)">{{ __('Delete') }}
+            <el-button
+              size="mini"
+              type="danger"
+              class="action_btn delete_btn"
+              @click="deleteData(scope.row)">{{ __('Delete') }}
             </el-button>
           </slot>
         </template>
@@ -61,13 +85,13 @@
 
     <el-row class="table_footer">
       <el-col>
-        <el-pagination :page-sizes="perPages"
-                       :page-size="paginationMeta.perPage"
-                       layout="sizes, prev, pager, next"
-                       :total="paginationMeta.total"
-                       v-on:size-change="handleSizeChange"
-                       v-on:current-change="handlePageChange">
-        </el-pagination>
+        <el-pagination
+          :page-sizes="perPages"
+          :page-size="paginationMeta.perPage"
+          :total="paginationMeta.total"
+          layout="sizes, prev, pager, next"
+          @size-change="handleSizeChange"
+          @current-change="handlePageChange"/>
       </el-col>
     </el-row>
 
@@ -78,198 +102,202 @@
 import api from 'utils/api'
 import url from 'utils/url'
 import filters from 'utils/filters'
-var findIndex = require('lodash.findindex');
-var throttle = require('lodash.throttle');
 import vueUrlParameters from 'vue-url-parameters'
+var findIndex = require('lodash.findindex')
+var throttle = require('lodash.throttle')
 
 export default {
-    name: 'DataTable',
+  name: 'DataTable',
 
-    mixins: [vueUrlParameters],
+  components: {
+    FiltersList: () => import(/* webpackChunkName: "filters-list" */'components/FiltersList'),
+    B2Errors: () => import(/* webpackChunkName: "b2-errors" */'components/B2Errors')
+  },
 
-    components: {
-      FiltersList: () => import(/* webpackChunkName: "filters-list" */'components/FiltersList'),
-      B2Errors: () => import(/* webpackChunkName: "b2-errors" */'components/B2Errors'),
+  mixins: [vueUrlParameters],
+
+  props: {
+    typeName: {
+      type: String,
+      required: true
     },
-
-    props: {
-      typeName: {
-        type: String,
-        required: true
-      },
-      options: {
-        type: Object,
-        required: false,
-        default: () => { return {} }
-      },
-      requestWith: {
-        type: [String, Array],
-        required: false,
-        default: () => { return []}
-      },
-      requestWithCount: {
-        type: [String, Array],
-        required: false,
-        default: () => { return []}
-      },
-      requestIncludes: {
-        type: [String, Array],
-        required: false,
-        default: () => { return [] }
-      },
-      requestParams: {
-        type: [Object],
-        required: false,
-        default: () => { return {} }
-      },
-      url: {
-        type: String,
-        required: false,
-        default: () => { return null }
-      },
-      deleteUrl: {
-        type: String,
-        required: false,
-        default: () => { return null }
-      },
-      data: {
-        type: Array,
-        required: false,
-        default: () => { return [] }
-      },
-      server: {
-        type: Boolean,
-        required: false,
-        default: () => { return true }
-      }
+    options: {
+      type: Object,
+      required: false,
+      default: () => { return {} }
     },
+    requestWith: {
+      type: [String, Array],
+      required: false,
+      default: () => { return [] }
+    },
+    requestWithCount: {
+      type: [String, Array],
+      required: false,
+      default: () => { return [] }
+    },
+    requestIncludes: {
+      type: [String, Array],
+      required: false,
+      default: () => { return [] }
+    },
+    requestParams: {
+      type: [Object],
+      required: false,
+      default: () => { return {} }
+    },
+    url: {
+      type: String,
+      required: false,
+      default: () => { return null }
+    },
+    deleteUrl: {
+      type: String,
+      required: false,
+      default: () => { return null }
+    },
+    data: {
+      type: Array,
+      required: false,
+      default: () => { return [] }
+    },
+    server: {
+      type: Boolean,
+      required: false,
+      default: () => { return true }
+    }
+  },
 
-    data () {
-      return {
-        loading: false,
-        internalData: [],
-        mergedOptions: {},
-        urlFilters: {},
-        defaultOptions: {
-          columns: [
-            {
-              prop: 'id',
-              label: this.__('ID'),
-            },
-            {
-              prop: 'name',
-              label: this.__('Name')
-            }
-          ],
-          actionLinks: [
-            {
-              urlCallback: function (row) {
-                var links = row.links ? row.links : {}
-                if (links.self) {
-                  return links.url
-                }
-                return '/'
-              },
-              textCallback: function () { return this.__('View') }.bind(this),
-            }
-          ],
-          display: {
-            filters: true,
-            search: true,
-            new: true,
-            refresh: true,
-            actions: true
+  data () {
+    return {
+      loading: false,
+      internalData: [],
+      mergedOptions: {},
+      urlFilters: {},
+      defaultOptions: {
+        columns: [
+          {
+            prop: 'id',
+            label: this.__('ID')
+          },
+          {
+            prop: 'name',
+            label: this.__('Name')
           }
-        },
-        paginationMeta: {
-          total: 0,
-          perPage: 0,
-          orderBy: 'id',
-          ascending: 0,
-          currentPage: 1,
-        },
-        search: null,
-        filters: [],
-        errors: {}
-      }
-    },
-
-    computed: {
-      perPages () {
-        var total = this.paginationMeta.total;
-        return  (total <= 15 ) ? [15] : (total <= 30 ) ? [15, 30] : (total <= 100 ) ?  [15, 30, 100] : [15, 30, 100, 250];
-      },
-
-      tableData () {
-        if (this.server) {
-          return this.internalData
-        } else {
-          return this.internalData.slice(0, this.paginationMeta.perPage)
+        ],
+        actionLinks: [
+          {
+            urlCallback: function (row) {
+              var links = row.links ? row.links : {}
+              if (links.self) {
+                return links.url
+              }
+              return '/'
+            },
+            textCallback: function () { return this.__('View') }.bind(this)
+          }
+        ],
+        display: {
+          filters: true,
+          search: true,
+          new: true,
+          refresh: true,
+          actions: true
         }
-      }
+      },
+      paginationMeta: {
+        total: 0,
+        perPage: 0,
+        orderBy: 'id',
+        ascending: 0,
+        currentPage: 1
+      },
+      search: null,
+      filters: [],
+      errors: {}
+    }
+  },
+
+  computed: {
+    perPages () {
+      var total = this.paginationMeta.total
+      return (total <= 15) ? [15] : (total <= 30) ? [15, 30] : (total <= 100) ? [15, 30, 100] : [15, 30, 100, 250]
     },
 
-    mounted () {
-      Object.assign(this.mergedOptions,this.defaultOptions,this.options);
-
-      var filters = this.getFiltersFromUrl({})
-      filters = url.unserialize(filters)
-
-      this.search = filters[`${this.typeName}_search`]
-
+    tableData () {
       if (this.server) {
-        this.getData();
+        return this.internalData
       } else {
-        this.internalData = this.data
-        this.paginationMeta.total = this.internalData.length
-        this.paginationMeta.perPage = 15
-        this.paginationMeta.perPage = 15
+        return this.internalData.slice(0, this.paginationMeta.perPage)
       }
+    }
+  },
+
+  watch: {
+    search: function (value) {
+      if (this.server) {
+        this.getData()
+      }
+
+      this.urlFilters[`${this.typeName}_search`] = value
+      window.location.hash = url.serialize(this.urlFilters)
     },
 
-    watch: {
-      search: function (value) {
-        if (this.server) {
+    filters: {
+      handler: function (newValue) {
+        var hasValues = true
+        newValue.forEach((filter) => {
+          if (filters.hasValue(filter)) {
+            hasValues = false
+          }
+        })
+        if (hasValues) {
           this.getData()
         }
-
-        this.urlFilters[`${this.typeName}_search`] = value
-        window.location.hash = url.serialize(this.urlFilters)
       },
+      deep: true
+    }
+  },
 
-      filters: {
-          handler: function(newValue) {
-            var has_values = true
-            newValue.forEach((filter) => {
-              filters.hasValue(filter) ? '' : has_values = false
-            })
-            has_values ? this.getData() : null
-          },
-          deep: true
-      }
-    },
+  mounted () {
+    Object.assign(this.mergedOptions, this.defaultOptions, this.options)
 
-    methods: {
-      getData: throttle (function () {
-        this.loading = true;
-        const params = Object.assign(this.requestParams, {
-            with: this.requestWith,
-            withCount: this.requestWithCount,
-            include: this.requestIncludes,
-            limit: this.paginationMeta.perPage,
-            ascending: this.paginationMeta.ascending,
-            orderBy: this.paginationMeta.orderBy,
-            page: this.paginationMeta.currentPage,
-            search: this.search,
-            filters: this.filters
-        });
+    var filters = this.getFiltersFromUrl({})
+    filters = url.unserialize(filters)
 
-        api.get({
-          path: this.url,
-          params: params
-        })
+    this.search = filters[`${this.typeName}_search`]
+
+    if (this.server) {
+      this.getData()
+    } else {
+      this.internalData = this.data
+      this.paginationMeta.total = this.internalData.length
+      this.paginationMeta.perPage = 15
+      this.paginationMeta.perPage = 15
+    }
+  },
+
+  methods: {
+    getData: throttle(function () {
+      this.loading = true
+      const params = Object.assign(this.requestParams, {
+        with: this.requestWith,
+        withCount: this.requestWithCount,
+        include: this.requestIncludes,
+        limit: this.paginationMeta.perPage,
+        ascending: this.paginationMeta.ascending,
+        orderBy: this.paginationMeta.orderBy,
+        page: this.paginationMeta.currentPage,
+        search: this.search,
+        filters: this.filters
+      })
+
+      api.get({
+        path: this.url,
+        params: params
+      })
         .then(data => {
-          this.loading = false;
+          this.loading = false
           this.internalData = data.data
           this.paginationMeta = {
             total: data.meta.total,
@@ -280,62 +308,59 @@ export default {
           this.listen()
         })
         .catch(errors => {
-          this.loading = false;
-          this.errors = errors;
+          this.loading = false
+          this.errors = errors
         })
-      }, 1000),
+    }, 1000),
 
-      deleteData (row) {
-        api.delete({
-          path: `${this.deleteUrl}/${row.id}`
-        })
+    deleteData (row) {
+      api.delete({
+        path: `${this.deleteUrl}/${row.id}`
+      })
         .then((data) => {
           this.getData()
         })
-        .catch((error) => {
+    },
 
-        })
-      },
+    listen () {
+      if (typeof window.Echo !== 'undefined') {
+        window.Echo.private(`items.1`)
+          .listen('ItemUpdated', (e) => {
+            console.log(e.item)
 
-      listen () {
-        if (typeof Echo != 'undefined') {
-          Echo.private(`items.1`)
-              .listen('ItemUpdated', (e) => {
-                  console.log(e.item)
+            var index = findIndex(this.internalData, ['id', e.item.id])
 
-                  var index = findIndex(this.internalData, ['id', e.item.id])
+            this.$set(this.internalData, index, e.item)
+          })
+      }
+    },
 
-                  this.$set(this.internalData, index, e.item)
-              });
-        }
-      },
-
-      /**
+    /**
        * Handle a size change event on the table.
        *
        * @param Int perPage
        * @return void
        */
-      handleSizeChange (perPage) {
-        this.paginationMeta.perPage = perPage;
-        if (this.server) {
-          this.getData();
-        }
-      },
+    handleSizeChange (perPage) {
+      this.paginationMeta.perPage = perPage
+      if (this.server) {
+        this.getData()
+      }
+    },
 
-      /**
+    /**
        * Handle a page change event on the table.
        *
        * @param Int page
        * @return void
        */
-      handlePageChange (page) {
-        this.paginationMeta.currentPage = page;
-        if (this.server) {
-          this.getData();
-        }
-      },
+    handlePageChange (page) {
+      this.paginationMeta.currentPage = page
+      if (this.server) {
+        this.getData()
+      }
     }
+  }
 }
 </script>
 

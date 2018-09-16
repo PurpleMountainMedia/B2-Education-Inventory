@@ -1,10 +1,11 @@
 <template lang="html">
   <div class="mt">
-    <data-table v-if="report.content"
-                :data="report.content"
-                type-name="report"
-                :server="false"
-                :options="tableOptions"/>
+    <data-table
+      v-if="report.content"
+      :data="report.content"
+      :server="false"
+      :options="tableOptions"
+      type-name="report"/>
     <el-card v-else>
       <h1 class="text-center">{{ __('Sorry, No Data') }}</h1>
     </el-card>
@@ -16,7 +17,7 @@ export default {
   name: 'ReportDataTable',
 
   components: {
-    DataTable: () => import(/* webpackChunkName: "data-table" */'components/DataTable'),
+    DataTable: () => import(/* webpackChunkName: "data-table" */'components/DataTable')
   },
 
   props: {
@@ -56,7 +57,7 @@ export default {
           {
             prop: 'room.building.name',
             label: this.ucFirst(this.eiDefaults['building_name'])
-          },
+          }
         ]
       }
     }
@@ -72,7 +73,7 @@ export default {
 
   methods: {
 
-  },
+  }
 }
 </script>
 
