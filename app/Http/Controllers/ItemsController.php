@@ -38,7 +38,7 @@ class ItemsController extends Controller
      * @var App\Room $room
      * @return Response
      */
-    public function showGroup(Request $request, Item $item, ItemCategory $itemCategory, Room $room)
+    public function showGroup(ItemCategory $itemCategory, Room $room, $itemName)
     {
         return 'Hi';
     }
