@@ -26,6 +26,21 @@ class Room extends Model
     protected $fillable = ['id', 'building_id', 'name', 'created_by', 'type', 'meta', 'created_at', 'updated_at'];
 
     /**
+     * Which scopes to use for filter.
+     *
+     * @return array
+     */
+    private function responsableFilterScopeAlias()
+    {
+        return [
+            'items_count.equals' => 'filterItemsCountEquals',
+            'items_count.not_equals' => 'filterItemsCountNotEquals',
+            'items_count.greater_than' => 'filterItemsCountGreaterThan',
+            'items_count.less_than' => 'filterItemsCountLessThan',
+        ];
+    }
+
+    /**
     * The building that the room belongs to.
     *
     * @return collection
@@ -76,5 +91,32 @@ class Room extends Model
         }
 
         return $query;
+    }
+
+    /**
+    * The items inside the rooms in this building.
+    *
+    * @param \Illuminate\Database\Eloquent\Builder $query
+    * @param JSON $filter
+    * @return \Illuminate\Database\Eloquent\Builder
+    */
+    public function scopeFilterItemsCountEquals($query, $filter)
+    {
+        return $query->has('items', '=', $filter->value)->with('items');
+    }
+
+    public function scopeFilterItemsCountNotEquals($query, $filter)
+    {
+        return $query->has('items', '!=', $filter->value)->with('items');
+    }
+
+    public function scopeFilterItemsCountGreaterThan($query, $filter)
+    {
+        return $query->has('items', '>', $filter->value)->with('items');
+    }
+
+    public function scopeFilterItemsCountLessThan($query, $filter)
+    {
+        return $query->has('items', '<', $filter->value)->with('items');
     }
 }

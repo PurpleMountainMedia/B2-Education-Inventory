@@ -7,6 +7,8 @@
       :options="tableOptions"
       :request-includes="['rooms.extra']"
       :request-with="['building']"
+      :request-with-count="['items']"
+      :filter-options="filterOptions"
       type-name="room"/>
   </div>
 </template>
@@ -51,7 +53,12 @@ export default {
           },
           {
             prop: 'building.name',
-            label: this.ucFirst(this.eiDefaults['building_name'])
+            label: this.ucFirst(this.eiDefaults['building_name']),
+            formatter: (row) => { return <a href={row.building.links.url}>{row.building.name}</a> }
+          },
+          {
+            prop: 'items_count',
+            label: this.__('Number of Items')
           }
         ]
       }
@@ -59,6 +66,31 @@ export default {
 
     roomsUrl () {
       return `rooms`
+    },
+
+    filterOptions () {
+      return [
+        {
+          name: this.__('ID'),
+          value: 'id',
+          type: 'string'
+        },
+        {
+          name: this.__('Name'),
+          value: 'name',
+          type: 'string'
+        },
+        {
+          name: this.__('Type'),
+          value: 'type',
+          type: 'string'
+        },
+        {
+          name: this.__('Number of Items'),
+          value: 'items_count',
+          type: 'relational_count'
+        }
+      ]
     }
   },
 

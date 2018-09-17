@@ -1,10 +1,9 @@
 export default {
 
   hasValue (filter) {
-    console.log(this.filterType(filter.type))
     if (this.filterType(filter.type) !== 'number') {
       var value = filter.value ? filter.value : ''
-      return value.length !== 0
+      return parseInt(value.length) !== 0
     } else {
       value = parseInt(filter.value)
       return value >= 0

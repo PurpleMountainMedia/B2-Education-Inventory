@@ -51,11 +51,13 @@ export default {
           },
           {
             prop: 'room.name',
-            label: this.ucFirst(this.eiDefaults['room_name'])
+            label: this.ucFirst(this.eiDefaults['room_name']),
+            formatter: (row) => { return <a href={row.room.links.url}>{row.room.name}</a> }
           },
           {
             prop: 'room.building.name',
-            label: this.ucFirst(this.eiDefaults['building_name'])
+            label: this.ucFirst(this.eiDefaults['building_name']),
+            formatter: (row) => { return <a href={row.room.building.links.url}>{row.room.building.name}</a> }
           }
         ]
       }

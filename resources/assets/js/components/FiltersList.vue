@@ -57,49 +57,18 @@ export default {
       type: Array,
       required: false,
       default: () => { return [] }
-
+    },
+    options: {
+      type: Array,
+      required: false,
+      default: () => {
+        return []
+      }
     }
   },
 
   data () {
     return {
-      options: [
-        {
-          name: 'ID',
-          value: 'id',
-          type: 'string'
-        },
-        {
-          name: 'Name',
-          value: 'name',
-          type: 'string'
-        },
-        {
-          name: 'Type',
-          value: 'type',
-          type: 'string'
-        },
-        {
-          name: 'Created At',
-          value: 'created_at',
-          type: 'date'
-        },
-        {
-          name: 'Updated At',
-          value: 'updated_at',
-          type: 'date'
-        },
-        {
-          name: 'Number of Rooms',
-          value: 'rooms_count',
-          type: 'relational_count'
-        },
-        {
-          name: 'Created By',
-          value: 'created_by',
-          type: 'user'
-        }
-      ],
       filterBySearch: ''
     }
   },

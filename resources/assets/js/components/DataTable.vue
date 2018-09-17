@@ -35,7 +35,9 @@
     </el-row>
 
     <el-row v-if="mergedOptions.display ? mergedOptions.display.filters : false">
-      <filters-list :filters="filters" />
+      <filters-list
+        :filters="filters"
+        :options="filterOptions" />
     </el-row>
 
     <el-table
@@ -165,6 +167,24 @@ export default {
       type: Boolean,
       required: false,
       default: () => { return true }
+    },
+    filterOptions: {
+      type: Array,
+      required: false,
+      default: () => {
+        return [
+          {
+            name: 'ID',
+            value: 'id',
+            type: 'string'
+          },
+          {
+            name: 'Name',
+            value: 'name',
+            type: 'string'
+          }
+        ]
+      }
     }
   },
 
@@ -235,7 +255,7 @@ export default {
 
   watch: {
     search: function (value) {
-      if (this.server) {
+      if (this.server && value) {
         this.getData()
       }
 
@@ -245,10 +265,10 @@ export default {
 
     filters: {
       handler: function (newValue) {
-        var hasValues = true
+        var hasValues = false
         newValue.forEach((filter) => {
           if (filters.hasValue(filter)) {
-            hasValues = false
+            hasValues = true
           }
         })
         if (hasValues) {
