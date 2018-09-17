@@ -94,12 +94,33 @@ class Item extends Model
      * @param string $schoolId
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeInSchool($query, $schoolId)
+    public function scopeInSchool($query, $schoolId, $select = 'items.*')
     {
         return $query->join('rooms', 'items.room_id', '=', 'rooms.id')
                      ->leftJoin('buildings', 'rooms.building_id', '=', 'buildings.id')
                      ->where('buildings.school_id', $schoolId)
-                     ->select('items.*');
+                     ->selectRaw($select);
+    }
+
+    /**
+     * Scope items by a school ID and group.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $schoolId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeInSchoolGrouped($query, $schoolId)
+    {
+        return $query->inSchool(
+            $schoolId,
+            'rooms.id AS room_id, rooms.name AS room_name, buildings.id AS building_id, buildings.name AS building_name'
+        )
+        ->join('item_categories', 'items.item_category_id', '=', 'item_categories.id')
+        ->selectRaw(
+            'items.name, item_categories.name AS item_category_name,
+            item_categories.id AS item_category_id, count(*) AS item_count'
+        )
+        ->groupBy(['item_categories.id', 'items.name', 'rooms.id']);
     }
 
     public function scopeInRoom($query, $roomId)

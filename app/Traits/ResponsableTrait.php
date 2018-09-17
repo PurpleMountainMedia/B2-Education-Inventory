@@ -14,7 +14,7 @@ trait ResponsableTrait
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeBasicResponse($query)
+    public function scopeBasicResponse($query, $orderBy = null)
     {
         $request = request();
 
@@ -26,7 +26,7 @@ trait ResponsableTrait
             });
         }
 
-        $query = $query->responseAdapter();
+        $query = $query->responseAdapter($orderBy);
 
         return $query;
     }
@@ -37,14 +37,16 @@ trait ResponsableTrait
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeResponseAdapter($query)
+    public function scopeResponseAdapter($query, $orderBy = null)
     {
         $request = request();
 
-        if ($request->filled('orderBy') && array_key_exists($request->orderBy, $this->responsableOrderByAlias())) {
-            $orderBy = $this->responsableOrderByAlias()[$request->orderBy];
-        } else {
-            $orderBy = $this->responsableOrderBy();
+        if (!$orderBy) {
+            if ($request->filled('orderBy') && array_key_exists($request->orderBy, $this->responsableOrderByAlias())) {
+                $orderBy = $this->responsableOrderByAlias()[$request->orderBy];
+            } else {
+                $orderBy = $this->responsableOrderBy();
+            }
         }
 
         $direction = $request->filled('ascending') ?

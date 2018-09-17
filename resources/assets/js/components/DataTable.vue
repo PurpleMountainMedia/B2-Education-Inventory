@@ -40,6 +40,11 @@
         :options="filterOptions" />
     </el-row>
 
+    <el-row>
+      <slot
+        name="aboveTableRow" />
+    </el-row>
+
     <el-table
       :data="tableData"
       class="mt-sm">
@@ -192,7 +197,6 @@ export default {
     return {
       loading: false,
       internalData: [],
-      mergedOptions: {},
       urlFilters: {},
       defaultOptions: {
         columns: [
@@ -250,6 +254,13 @@ export default {
       } else {
         return this.internalData.slice(0, this.paginationMeta.perPage)
       }
+    },
+
+    mergedOptions () {
+      return {
+        ...this.defaultOptions,
+        ...this.options
+      }
     }
   },
 
@@ -280,8 +291,6 @@ export default {
   },
 
   mounted () {
-    Object.assign(this.mergedOptions, this.defaultOptions, this.options)
-
     var filters = this.getFiltersFromUrl({})
     filters = url.unserialize(filters)
 

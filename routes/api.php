@@ -27,6 +27,7 @@ Route::namespace('Api')->middleware('auth:api')->group(function () {
 
     Route::apiResource('reports', 'ApiReportsController');
 
+    Route::get('items/grouped', 'ApiItemsController@indexGrouped');
     Route::apiResource('items', 'ApiItemsController');
     Route::post('items/bulk', 'ApiItemsController@bulkAdd');
 

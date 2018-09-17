@@ -6,6 +6,7 @@ use App\Item;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Item as ItemResource;
+use App\Http\Resources\GroupedItem as GroupedItemResource;
 use App\Services\BuildingService;
 use App\Services\ItemCategoryService;
 use App\Services\RoomService;
@@ -42,6 +43,14 @@ class ApiItemsController extends Controller
                 ->with($request->with ?: [])
                 ->filterable()
                 ->basicResponse()
+        );
+    }
+
+    public function indexGrouped(Request $request)
+    {
+        return GroupedItemResource::collection(
+            Item::inSchoolGrouped($request->schoolId)
+                ->basicResponse('items.name')
         );
     }
 

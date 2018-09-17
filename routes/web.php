@@ -34,6 +34,7 @@ Route::middleware('needs_school')->group(function () {
     Route::get('items', 'ItemsController@index')->name('web.items.index');
     Route::get('items/{item}', 'ItemsController@show')->name('web.items.show');
     Route::get('items/create/table', 'ItemsController@createTable')->name('web.items.create.table');
+    Route::get('items/group/{item}/{itemCategory}/{room}', 'ItemsController@showGroup')->name('web.items.show_group');
 
     // Reports
     Route::get('reports', 'ReportsController@index')->name('web.reports.index');
