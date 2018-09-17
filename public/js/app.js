@@ -1,4 +1,4 @@
-webpackJsonp([14],{
+webpackJsonp([15],{
 
 /***/ "./node_modules/after/index.js":
 /***/ (function(module, exports) {
@@ -34764,7 +34764,7 @@ var app = new _vue2.default({
 
   components: {
     MainMenu: function MainMenu() {
-      return __webpack_require__.e/* import() */(13).then(__webpack_require__.bind(null, "./resources/assets/js/components/MainMenu.vue"));
+      return __webpack_require__.e/* import() */(14).then(__webpack_require__.bind(null, "./resources/assets/js/components/MainMenu.vue"));
     },
     AddNewModal: function AddNewModal() {
       return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, "./resources/assets/js/components/AddNewModal.vue"));
@@ -34776,25 +34776,25 @@ var app = new _vue2.default({
       return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/components/DataTable.vue"));
     },
     SchoolSelecter: function SchoolSelecter() {
-      return __webpack_require__.e/* import() */(12).then(__webpack_require__.bind(null, "./resources/assets/js/components/SchoolSelecter.vue"));
+      return __webpack_require__.e/* import() */(13).then(__webpack_require__.bind(null, "./resources/assets/js/components/SchoolSelecter.vue"));
     },
     ListBuildings: function ListBuildings() {
-      return __webpack_require__.e/* import() */(9).then(__webpack_require__.bind(null, "./resources/assets/js/components/buildings/ListBuildings.vue"));
+      return __webpack_require__.e/* import() */(10).then(__webpack_require__.bind(null, "./resources/assets/js/components/buildings/ListBuildings.vue"));
     },
     ListRooms: function ListRooms() {
-      return __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, "./resources/assets/js/components/rooms/ListRooms.vue"));
+      return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, "./resources/assets/js/components/rooms/ListRooms.vue"));
     },
     ListItems: function ListItems() {
-      return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, "./resources/assets/js/components/items/ListItems.vue"));
+      return __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, "./resources/assets/js/components/items/ListItems.vue"));
     },
     BuildingEditForm: function BuildingEditForm() {
-      return __webpack_require__.e/* import() */(10).then(__webpack_require__.bind(null, "./resources/assets/js/components/buildings/BuildingEditForm.vue"));
+      return __webpack_require__.e/* import() */(11).then(__webpack_require__.bind(null, "./resources/assets/js/components/buildings/BuildingEditForm.vue"));
     },
     RoomEditForm: function RoomEditForm() {
       return __webpack_require__.e/* import() */(5).then(__webpack_require__.bind(null, "./resources/assets/js/components/rooms/RoomEditForm.vue"));
     },
     ItemEditForm: function ItemEditForm() {
-      return __webpack_require__.e/* import() */(8).then(__webpack_require__.bind(null, "./resources/assets/js/components/items/ItemEditForm.vue"));
+      return __webpack_require__.e/* import() */(9).then(__webpack_require__.bind(null, "./resources/assets/js/components/items/ItemEditForm.vue"));
     },
     ListReports: function ListReports() {
       return __webpack_require__.e/* import() */(6).then(__webpack_require__.bind(null, "./resources/assets/js/components/reports/ListReports.vue"));
@@ -34803,7 +34803,10 @@ var app = new _vue2.default({
       return __webpack_require__.e/* import() */(7).then(__webpack_require__.bind(null, "./resources/assets/js/components/reports/ReportEditForm.vue"));
     },
     UserLogout: function UserLogout() {
-      return __webpack_require__.e/* import() */(11).then(__webpack_require__.bind(null, "./resources/assets/js/components/UserLogout.vue"));
+      return __webpack_require__.e/* import() */(12).then(__webpack_require__.bind(null, "./resources/assets/js/components/UserLogout.vue"));
+    },
+    ShowItemGroup: function ShowItemGroup() {
+      return __webpack_require__.e/* import() */(8).then(__webpack_require__.bind(null, "./resources/assets/js/components/items/ShowItemGroup.vue"));
     }
   }
 });

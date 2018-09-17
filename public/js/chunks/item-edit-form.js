@@ -1,4 +1,4 @@
-webpackJsonp([8],{
+webpackJsonp([9],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/items/ItemEditForm.vue":
 /***/ (function(module, exports, __webpack_require__) {
@@ -67,13 +67,13 @@ exports.default = {
 
   components: {
     EditForm: function EditForm() {
-      return __webpack_require__.e/* import() */(19).then(__webpack_require__.bind(null, "./resources/assets/js/components/EditForm.vue"));
+      return __webpack_require__.e/* import() */(20).then(__webpack_require__.bind(null, "./resources/assets/js/components/EditForm.vue"));
     },
     LayoutCenterPage: function LayoutCenterPage() {
-      return __webpack_require__.e/* import() */(16).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
+      return __webpack_require__.e/* import() */(17).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
     },
     ObjectInformation: function ObjectInformation() {
-      return __webpack_require__.e/* import() */(17).then(__webpack_require__.bind(null, "./resources/assets/js/components/ObjectInformation.vue"));
+      return __webpack_require__.e/* import() */(18).then(__webpack_require__.bind(null, "./resources/assets/js/components/ObjectInformation.vue"));
     }
   },
 

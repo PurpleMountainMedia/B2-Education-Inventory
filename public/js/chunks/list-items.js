@@ -1,4 +1,4 @@
-webpackJsonp([2],{
+webpackJsonp([3],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/items/ListItems.vue":
 /***/ (function(module, exports, __webpack_require__) {
@@ -9,6 +9,12 @@ webpackJsonp([2],{
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
 //
 //
 //
@@ -73,6 +79,48 @@ exports.default = {
       default: function _default() {
         return null;
       }
+    },
+    requestParams: {
+      required: false,
+      type: Object,
+      default: function _default() {
+        return {};
+      }
+    },
+    groupedUrl: {
+      required: false,
+      type: String,
+      default: function _default() {
+        return 'items/grouped';
+      }
+    },
+    url: {
+      required: false,
+      type: String,
+      default: function _default() {
+        return 'items';
+      }
+    },
+    groupedOptions: {
+      required: false,
+      type: Object,
+      default: function _default() {
+        return {};
+      }
+    },
+    options: {
+      required: false,
+      type: Object,
+      default: function _default() {
+        return {};
+      }
+    },
+    allowGrouped: {
+      required: false,
+      type: Boolean,
+      default: function _default() {
+        return true;
+      }
     }
   },
 
@@ -90,7 +138,7 @@ exports.default = {
       var h = this.$createElement;
 
       if (this.grouped) {
-        return {
+        var groupedOptions = {
           columns: [{
             prop: 'name',
             label: this.__('Name')
@@ -123,8 +171,9 @@ exports.default = {
             }
           }]
         };
+        return _extends({}, groupedOptions, this.groupedOptions);
       }
-      return {
+      var options = {
         columns: [{
           prop: 'name',
           label: this.__('Name')
@@ -157,12 +206,20 @@ exports.default = {
           }
         }]
       };
+      return _extends({}, options, this.options);
+    },
+    mergedRequestParams: function mergedRequestParams() {
+      var params = {
+        schoolId: this.schoolId,
+        roomId: this.roomId
+      };
+      return _extends({}, params, this.requestParams);
     },
     tableUrl: function tableUrl() {
       if (this.grouped) {
-        return 'items/grouped';
+        return this.groupedUrl;
       }
-      return 'items';
+      return this.url;
     }
   },
 
@@ -193,7 +250,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -409,7 +466,7 @@ var render = function() {
         {
           ref: "dataTable",
           attrs: {
-            "request-params": { schoolId: _vm.schoolId, roomId: _vm.roomId },
+            "request-params": _vm.mergedRequestParams,
             options: _vm.tableOptions,
             "request-includes": ["items.extra"],
             "request-with": ["room.building"],
@@ -492,19 +549,21 @@ var render = function() {
             "template",
             { slot: "aboveTableRow" },
             [
-              _c(
-                "el-checkbox",
-                {
-                  model: {
-                    value: _vm.grouped,
-                    callback: function($$v) {
-                      _vm.grouped = $$v
+              _vm.allowGrouped
+                ? _c(
+                    "el-checkbox",
+                    {
+                      model: {
+                        value: _vm.grouped,
+                        callback: function($$v) {
+                          _vm.grouped = $$v
+                        },
+                        expression: "grouped"
+                      }
                     },
-                    expression: "grouped"
-                  }
-                },
-                [_vm._v(_vm._s(_vm.__("Grouped")))]
-              )
+                    [_vm._v(_vm._s(_vm.__("Grouped")) + "\n      ")]
+                  )
+                : _vm._e()
             ],
             1
           )

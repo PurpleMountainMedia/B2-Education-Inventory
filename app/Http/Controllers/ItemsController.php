@@ -40,7 +40,7 @@ class ItemsController extends Controller
      */
     public function showGroup(ItemCategory $itemCategory, Room $room, $itemName)
     {
-        return 'Hi';
+        return view('app.items.show-group', compact('itemCategory', 'room', 'itemName'));
     }
 
     /**

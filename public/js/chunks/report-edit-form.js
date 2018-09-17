@@ -62,16 +62,16 @@ exports.default = {
 
   components: {
     EditForm: function EditForm() {
-      return __webpack_require__.e/* import() */(19).then(__webpack_require__.bind(null, "./resources/assets/js/components/EditForm.vue"));
+      return __webpack_require__.e/* import() */(20).then(__webpack_require__.bind(null, "./resources/assets/js/components/EditForm.vue"));
     },
     LayoutCenterPage: function LayoutCenterPage() {
-      return __webpack_require__.e/* import() */(16).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
+      return __webpack_require__.e/* import() */(17).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
     },
     ObjectInformation: function ObjectInformation() {
-      return __webpack_require__.e/* import() */(17).then(__webpack_require__.bind(null, "./resources/assets/js/components/ObjectInformation.vue"));
+      return __webpack_require__.e/* import() */(18).then(__webpack_require__.bind(null, "./resources/assets/js/components/ObjectInformation.vue"));
     },
     ReportDataTable: function ReportDataTable() {
-      return __webpack_require__.e/* import() */(20).then(__webpack_require__.bind(null, "./resources/assets/js/components/reports/ReportDataTable.vue"));
+      return __webpack_require__.e/* import() */(21).then(__webpack_require__.bind(null, "./resources/assets/js/components/reports/ReportDataTable.vue"));
     }
   },
 

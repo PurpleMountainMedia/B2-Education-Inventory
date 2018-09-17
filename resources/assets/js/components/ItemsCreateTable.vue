@@ -197,10 +197,18 @@ export default {
   },
 
   watch: {
-
+    rows: {
+      handler () {
+        localStorage.setItem('itemAddRows', JSON.stringify(this.rows))
+      },
+      deep: true
+    }
   },
 
   mounted () {
+    if (localStorage.getItem('itemAddRows')) {
+      this.rows = JSON.parse(localStorage.getItem('itemAddRows'))
+    }
     this.getBuildings()
     this.getItemCategories()
     this.getMakes()

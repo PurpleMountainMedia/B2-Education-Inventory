@@ -41,7 +41,7 @@ class GroupedItem extends JsonResource
             ],
 
             'links' => [
-                'url' => route('web.items.show_group', [$this->name, $this->item_category_id, $room->id])
+                'url' => route('web.items.show_group', [$this->item_category_id, $room->id, $this->name])
             ],
         ];
     }

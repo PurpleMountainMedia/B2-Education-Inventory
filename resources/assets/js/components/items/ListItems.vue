@@ -2,14 +2,17 @@
   <div :loading="loading">
     <data-table
       ref="dataTable"
-      :request-params="{schoolId: schoolId, roomId: roomId}"
+      :request-params="mergedRequestParams"
       :options="tableOptions"
       :request-includes="['items.extra']"
       :request-with="['room.building']"
       :url="tableUrl"
       type-name="item">
       <template slot="aboveTableRow">
-        <el-checkbox v-model="grouped">{{ __('Grouped') }}</el-checkbox>
+        <el-checkbox
+          v-if="allowGrouped"
+          v-model="grouped">{{ __('Grouped') }}
+        </el-checkbox>
       </template>
       <template
         slot="actionButtons"
@@ -58,6 +61,38 @@ export default {
       type: [Number, String],
       required: false,
       default: () => { return null }
+    },
+    requestParams: {
+      required: false,
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
+    groupedUrl: {
+      required: false,
+      type: String,
+      default: () => { return 'items/grouped' }
+    },
+    url: {
+      required: false,
+      type: String,
+      default: () => { return 'items' }
+    },
+    groupedOptions: {
+      required: false,
+      type: Object,
+      default: () => { return {} }
+    },
+    options: {
+      required: false,
+      type: Object,
+      default: () => { return {} }
+    },
+    allowGrouped: {
+      required: false,
+      type: Boolean,
+      default: () => { return true }
     }
   },
 
@@ -72,7 +107,7 @@ export default {
   computed: {
     tableOptions () {
       if (this.grouped) {
-        return {
+        var groupedOptions = {
           columns: [
             {
               prop: 'name',
@@ -94,8 +129,12 @@ export default {
             }
           ]
         }
+        return {
+          ...groupedOptions,
+          ...this.groupedOptions
+        }
       }
-      return {
+      var options = {
         columns: [
           {
             prop: 'name',
@@ -117,13 +156,28 @@ export default {
           }
         ]
       }
+      return {
+        ...options,
+        ...this.options
+      }
+    },
+
+    mergedRequestParams () {
+      var params = {
+        schoolId: this.schoolId,
+        roomId: this.roomId
+      }
+      return {
+        ...params,
+        ...this.requestParams
+      }
     },
 
     tableUrl () {
       if (this.grouped) {
-        return 'items/grouped'
+        return this.groupedUrl
       }
-      return 'items'
+      return this.url
     }
   },
 

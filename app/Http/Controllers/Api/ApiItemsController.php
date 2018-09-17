@@ -54,6 +54,26 @@ class ApiItemsController extends Controller
         );
     }
 
+    public function group(Request $request)
+    {
+        $this->validate($request, [
+            'categoryId' => 'required',
+            'roomId' => 'required',
+            'itemName' => 'required',
+            'schoolId' => 'required'
+        ]);
+
+        return ItemResource::collection(
+            Item::inSchool($this->schoolId)
+                ->inRoom($request->roomId)
+                ->where('items.item_category_id', $request->categoryId)
+                ->where('items.name', $request->itemName)
+                ->with($request->with ?: [])
+                ->filterable()
+                ->basicResponse()
+        );
+    }
+
     /**
      * Store a newly created resource in storage.
      *

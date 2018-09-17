@@ -312,10 +312,10 @@ exports.default = {
   components: {
     CreateTableCell: _CreateTableCell2.default,
     LayoutCenterPage: function LayoutCenterPage() {
-      return __webpack_require__.e/* import() */(16).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
+      return __webpack_require__.e/* import() */(17).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
     },
     B2Errors: function B2Errors() {
-      return __webpack_require__.e/* import() */(18).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
+      return __webpack_require__.e/* import() */(19).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
     }
   },
 
@@ -393,9 +393,20 @@ exports.default = {
     }
   },
 
-  watch: {},
+  watch: {
+    rows: {
+      handler: function handler() {
+        localStorage.setItem('itemAddRows', JSON.stringify(this.rows));
+      },
+
+      deep: true
+    }
+  },
 
   mounted: function mounted() {
+    if (localStorage.getItem('itemAddRows')) {
+      this.rows = JSON.parse(localStorage.getItem('itemAddRows'));
+    }
     this.getBuildings();
     this.getItemCategories();
     this.getMakes();

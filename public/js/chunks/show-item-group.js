@@ -1,6 +1,6 @@
-webpackJsonp([5],{
+webpackJsonp([8],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/rooms/RoomEditForm.vue":
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/items/ShowItemGroup.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17,39 +17,41 @@ var _api2 = _interopRequireDefault(_api);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-  name: 'RoomEditForm',
+  name: 'ShowItemGroup',
 
   components: {
-    EditForm: function EditForm() {
-      return __webpack_require__.e/* import() */(20).then(__webpack_require__.bind(null, "./resources/assets/js/components/EditForm.vue"));
-    },
     ListItems: function ListItems() {
       return __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, "./resources/assets/js/components/items/ListItems.vue"));
     },
     LayoutCenterPage: function LayoutCenterPage() {
       return __webpack_require__.e/* import() */(17).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
     },
-    B2Errors: function B2Errors() {
-      return __webpack_require__.e/* import() */(19).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
-    },
-    ObjectInformation: function ObjectInformation() {
-      return __webpack_require__.e/* import() */(18).then(__webpack_require__.bind(null, "./resources/assets/js/components/ObjectInformation.vue"));
+    LayoutHeader: function LayoutHeader() {
+      return __webpack_require__.e/* import() */(17).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutHeader.vue"));
     }
   },
 
   props: {
-    roomId: {
-      type: String,
-      required: true
+    category: {
+      required: true,
+      type: Object
     },
-    indexUrl: {
+    room: {
+      required: true,
+      type: Object
+    },
+    itemName: {
+      required: true,
+      type: String
+    },
+    schoolId: {
       required: true,
       type: String
     },
     breadcrumbs: {
       required: false,
-      type: Function,
-      default: function _default(data) {
+      type: Array,
+      default: function _default() {
         return [];
       }
     }
@@ -57,30 +59,55 @@ exports.default = {
 
   data: function data() {
     return {
-      room: {},
-      buildings: []
+      errors: {},
+      data: []
     };
   },
+
+
+  computed: {
+    requestParams: function requestParams() {
+      return {
+        categoryId: this.category.id,
+        roomId: this.room.id,
+        itemName: this.itemName,
+        schoolId: this.schoolId
+      };
+    },
+    title: function title() {
+      return this.__('Showing') + ': ' + this.itemName + ' ' + this.__('group') + ' ' + this.__('in') + ' ' + this.room.name;
+    },
+    options: function options() {
+      return {
+        display: {
+          search: true
+        }
+      };
+    }
+  },
+
   mounted: function mounted() {
-    this.getBuildings();
+    this.getGroupItems();
   },
 
 
   methods: {
-    getBuildings: function getBuildings() {
+    getGroupItems: function getGroupItems() {
       var _this = this;
 
-      this.buildingErrors = {};
-
       _api2.default.get({
-        path: 'buildings',
+        path: 'items/group',
         params: {
-          schoolId: this.eiSchool.id
+          categoryId: this.category.id,
+          roomId: this.room.id,
+          itemName: this.itemName,
+          schoolId: this.schoolId
         }
       }).then(function (data) {
-        _this.buildings = data.data;
+        _this.data = data.data;
+        _this.errors = {};
       }).catch(function (error) {
-        _this.buildingErrors = error;
+        _this.errors = error;
       });
     }
   }
@@ -102,51 +129,10 @@ exports.default = {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6652b7d2\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/rooms/RoomEditForm.vue":
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-81afb18e\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/items/ShowItemGroup.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
@@ -154,7 +140,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1451,7 +1437,7 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6652b7d2\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/rooms/RoomEditForm.vue":
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-81afb18e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/items/ShowItemGroup.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -1459,106 +1445,31 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
+    "layout-center-page",
     [
-      _c("edit-form", {
+      _c(
+        "el-card",
+        { staticClass: "mb" },
+        [
+          _c("layout-header", {
+            attrs: {
+              title: _vm.title,
+              tag: _vm.category.name,
+              breadcrumbs: _vm.breadcrumbs
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("list-items", {
         attrs: {
-          "data-url": "rooms/" + _vm.roomId,
-          "index-url": _vm.indexUrl,
-          "request-includes": ["rooms.extra", "rooms.timestamps"],
-          "request-with": ["createdBy"],
-          title: function(data) {
-            return data.name
-          },
-          breadcrumbs: _vm.breadcrumbs,
-          "on-update": function(data) {
-            _vm.$refs.listItems.getData()
-          }
-        },
-        scopedSlots: _vm._u([
-          {
-            key: "aboveCard",
-            fn: function(slotProps) {
-              return _c(
-                "div",
-                { staticClass: "mb-sm" },
-                [
-                  _c(
-                    "el-button",
-                    { attrs: { size: "mini", plain: "", type: "info" } },
-                    [_vm._v(_vm._s(_vm.__("Generate Report")))]
-                  )
-                ],
-                1
-              )
-            }
-          },
-          {
-            key: "form",
-            fn: function(slotProps) {
-              return [
-                _vm._t("card", null, { data: slotProps.data }),
-                _vm._v(" "),
-                _c("object-information", {
-                  staticClass: "mb-sm",
-                  attrs: { object: slotProps.data }
-                }),
-                _vm._v(" "),
-                _c(
-                  "el-form-item",
-                  {
-                    staticClass: "short_input",
-                    attrs: {
-                      rules: { required: true },
-                      label: "Name",
-                      prop: "name"
-                    }
-                  },
-                  [
-                    _c("el-input", {
-                      model: {
-                        value: slotProps.data.name,
-                        callback: function($$v) {
-                          _vm.$set(slotProps.data, "name", $$v)
-                        },
-                        expression: "slotProps.data.name"
-                      }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c("b2-errors", { attrs: { errors: _vm.buildingErrors } })
-              ]
-            }
-          },
-          {
-            key: "belowCard",
-            fn: function(slotProps) {
-              return _c(
-                "el-card",
-                { staticClass: "mt" },
-                [
-                  _c("span", { attrs: { slot: "header" }, slot: "header" }, [
-                    _vm._v(_vm._s(slotProps.data.name) + " - "),
-                    _c("strong", [
-                      _vm._v(_vm._s(_vm.ucFirst(_vm.eiDefaults.items_name)))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("list-items", {
-                    ref: "listItems",
-                    attrs: {
-                      "school-id": _vm.eiSchool.id,
-                      "room-id": _vm.roomId
-                    }
-                  })
-                ],
-                1
-              )
-            }
-          }
-        ])
+          "school-id": _vm.schoolId,
+          "request-params": _vm.requestParams,
+          "allow-grouped": false,
+          options: _vm.options,
+          url: "items/group"
+        }
       })
     ],
     1
@@ -1570,29 +1481,29 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6652b7d2", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-81afb18e", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6652b7d2\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/rooms/RoomEditForm.vue":
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-81afb18e\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/items/ShowItemGroup.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6652b7d2\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/rooms/RoomEditForm.vue");
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-81afb18e\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/items/ShowItemGroup.vue");
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("9fb13ba2", content, false, {});
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("f46974b2", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6652b7d2\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./RoomEditForm.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6652b7d2\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./RoomEditForm.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-81afb18e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ShowItemGroup.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-81afb18e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ShowItemGroup.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -1866,19 +1777,19 @@ module.exports = function listToStyles (parentId, list) {
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/rooms/RoomEditForm.vue":
+/***/ "./resources/assets/js/components/items/ShowItemGroup.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6652b7d2\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/rooms/RoomEditForm.vue")
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-81afb18e\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/items/ShowItemGroup.vue")
 }
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/rooms/RoomEditForm.vue")
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/items/ShowItemGroup.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6652b7d2\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/rooms/RoomEditForm.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-81afb18e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/items/ShowItemGroup.vue")
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -1895,7 +1806,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/rooms/RoomEditForm.vue"
+Component.options.__file = "resources/assets/js/components/items/ShowItemGroup.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -1904,9 +1815,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6652b7d2", Component.options)
+    hotAPI.createRecord("data-v-81afb18e", Component.options)
   } else {
-    hotAPI.reload("data-v-6652b7d2", Component.options)
+    hotAPI.reload("data-v-81afb18e", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

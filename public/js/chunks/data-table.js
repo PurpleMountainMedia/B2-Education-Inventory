@@ -144,10 +144,10 @@ exports.default = {
 
   components: {
     FiltersList: function FiltersList() {
-      return __webpack_require__.e/* import() */(27).then(__webpack_require__.bind(null, "./resources/assets/js/components/FiltersList.vue"));
+      return __webpack_require__.e/* import() */(28).then(__webpack_require__.bind(null, "./resources/assets/js/components/FiltersList.vue"));
     },
     B2Errors: function B2Errors() {
-      return __webpack_require__.e/* import() */(18).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
+      return __webpack_require__.e/* import() */(19).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
     }
   },
 

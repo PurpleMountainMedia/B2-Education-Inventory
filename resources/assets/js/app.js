@@ -75,6 +75,7 @@ const app = new Vue({
     ItemEditForm: () => import(/* webpackChunkName: "item-edit-form" */'components/items/ItemEditForm'),
     ListReports: () => import(/* webpackChunkName: "list-reports" */'components/reports/ListReports'),
     ReportEditForm: () => import(/* webpackChunkName: "report-edit-form" */'components/reports/ReportEditForm'),
-    UserLogout: () => import(/* webpackChunkName: "user-logout" */'components/UserLogout')
+    UserLogout: () => import(/* webpackChunkName: "user-logout" */'components/UserLogout'),
+    ShowItemGroup: () => import(/* webpackChunkName: "show-item-group" */'components/items/ShowItemGroup')
   }
 })

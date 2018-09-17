@@ -34,7 +34,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		29: 0
+/******/ 		30: 0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -91,7 +91,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "js/chunks/" + ({"0":"data-table","1":"add-new-modal","2":"list-items","3":"list-rooms","4":"items-create-table","5":"room-edit-form","6":"list-reports","7":"report-edit-form","8":"item-edit-form","9":"list-buildings","10":"building-edit-form","11":"user-logout","12":"school-selecter","13":"main-menu","16":"layout-center-page","17":"object-information","18":"b2-errors","19":"edit-form","20":"report-data-table","21":"report-card","22":"add-new-report-fields","23":"layout-header","24":"number-filter","25":"input-filter","26":"date-filter","27":"filters-list","28":"filter-component"}[chunkId]||chunkId) + ".js";
+/******/ 		script.src = __webpack_require__.p + "js/chunks/" + ({"0":"data-table","1":"add-new-modal","2":"list-rooms","3":"list-items","4":"items-create-table","5":"room-edit-form","6":"list-reports","7":"report-edit-form","8":"show-item-group","9":"item-edit-form","10":"list-buildings","11":"building-edit-form","12":"user-logout","13":"school-selecter","14":"main-menu","17":"layout-center-page","18":"object-information","19":"b2-errors","20":"edit-form","21":"report-data-table","22":"report-card","23":"add-new-report-fields","24":"layout-header","25":"number-filter","26":"input-filter","27":"date-filter","28":"filters-list","29":"filter-component"}[chunkId]||chunkId) + ".js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {

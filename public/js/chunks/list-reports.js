@@ -21,16 +21,16 @@ exports.default = {
 
   components: {
     ReportCard: function ReportCard() {
-      return __webpack_require__.e/* import() */(21).then(__webpack_require__.bind(null, "./resources/assets/js/components/reports/ReportCard.vue"));
+      return __webpack_require__.e/* import() */(22).then(__webpack_require__.bind(null, "./resources/assets/js/components/reports/ReportCard.vue"));
     },
     LayoutCenterPage: function LayoutCenterPage() {
-      return __webpack_require__.e/* import() */(16).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
+      return __webpack_require__.e/* import() */(17).then(__webpack_require__.bind(null, "./resources/assets/js/components/layout/LayoutCenterPage.vue"));
     },
     AddNewModal: function AddNewModal() {
       return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, "./resources/assets/js/components/AddNewModal.vue"));
     },
     AddNewReportFields: function AddNewReportFields() {
-      return __webpack_require__.e/* import() */(22).then(__webpack_require__.bind(null, "./resources/assets/js/components/reports/AddNewReportFields.vue"));
+      return __webpack_require__.e/* import() */(23).then(__webpack_require__.bind(null, "./resources/assets/js/components/reports/AddNewReportFields.vue"));
     }
   },
 

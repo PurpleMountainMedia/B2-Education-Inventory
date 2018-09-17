@@ -96,7 +96,7 @@ exports.default = {
 
   components: {
     B2Errors: function B2Errors() {
-      return __webpack_require__.e/* import() */(18).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
+      return __webpack_require__.e/* import() */(19).then(__webpack_require__.bind(null, "./resources/assets/js/components/B2Errors.vue"));
     }
   },
 
