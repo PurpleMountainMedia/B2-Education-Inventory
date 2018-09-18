@@ -23,6 +23,13 @@ class Make extends Model
      */
     protected $fillable = ['id', 'name', 'school_id', 'description', 'created_by'];
 
+    public function responsableOrderByAlias()
+    {
+        return [
+          'name' => 'name'
+        ];
+    }
+
     /**
      * The Item Types that have this make.
      *

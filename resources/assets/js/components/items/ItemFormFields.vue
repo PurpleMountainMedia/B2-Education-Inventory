@@ -1,68 +1,167 @@
 <template lang="html">
   <div>
-    <el-form-item
-      label="Description"
-      class="short_input"
-      prop="description">
-      <el-input v-model="item.description"/>
-    </el-form-item>
 
-    <el-form-item
-      :rules="{required: true}"
-      label="Category"
-      class="short_input"
-      prop="category.name">
-      <el-input v-model="item.category.name"/>
-    </el-form-item>
+    <form-row>
+      <p>
+        <strong>{{ __('Basic Information') }}
+        </strong>
+      </p>
+      <hr>
+    </form-row>
 
-    <el-form-item
-      label="Serial"
-      class="short_input"
-      prop="serial_number">
-      <el-input v-model="item.serial_number"/>
-    </el-form-item>
+    <form-row>
+      <form-col :span="9">
+        <el-form-item
+          :label="__('Name')"
+          prop="name">
+          <el-input v-model="item.name"/>
+        </el-form-item>
+      </form-col>
+      <form-col
+        :span="9"
+        :first="false">
+        <el-form-item
+          :label="__('Description')"
+          prop="description">
+          <el-input v-model="item.description"/>
+        </el-form-item>
+      </form-col>
+    </form-row>
 
-    <el-form-item
-      label="Make"
-      class="short_input"
-      prop="make.name">
-      <el-input v-model="item.make.name"/>
-    </el-form-item>
+    <form-row>
+      <form-col :span="9">
+        <el-form-item
+          :rules="{required: true}"
+          :label="__('Category')"
+          prop="category">
+          <el-select
+            v-model="item.category"
+            filterable
+            value-key="id">
+            <el-option
+              v-for="cat in categories"
+              :value="cat"
+              :label="cat.name"
+              :key="cat.id" />
+          </el-select>
+        </el-form-item>
+      </form-col>
+    </form-row>
 
-    <el-form-item
-      label="Cost"
-      class="short_input"
-      prop="purchase_price">
-      <el-input v-model="item.purchase_price"/>
-    </el-form-item>
+    <form-row>
+      <p>
+        <strong>{{ __('Extended Information') }}
+        </strong>
+      </p>
+      <hr>
+    </form-row>
 
-    <el-form-item
-      label="Room"
-      class="short_input"
-      prop="room.name">
-      <el-input v-model="item.room.name"/>
-    </el-form-item>
+    <form-row>
+      <form-col :span="9">
+        <el-form-item
+          label="Make"
+          class="short_input"
+          prop="make">
+          <el-select
+            v-model="item.make"
+            filterable
+            allow-create
+            value-key="id">
+            <el-option
+              v-for="make in makes"
+              :value="make"
+              :label="make.name"
+              :key="make.id" />
+          </el-select>
+        </el-form-item>
+      </form-col>
+
+      <form-col
+        :span="9"
+        :first="false">
+        <el-form-item
+          :label="__('Serial Number')"
+          prop="serial_number">
+          <el-input v-model="item.serial_number"/>
+        </el-form-item>
+      </form-col>
+    </form-row>
+
+    <form-row>
+      <form-col :span="9">
+        <el-form-item
+          label="Cost"
+          class="short_input"
+          prop="purchase_price">
+          <el-input v-model="item.purchase_price"/>
+        </el-form-item>
+      </form-col>
+    </form-row>
+
+    <form-row>
+      <p>
+        <strong>{{ __('Location') }}
+        </strong>
+      </p>
+      <hr>
+    </form-row>
+
+    <form-row>
+      <form-col :span="9">
+        <el-form-item
+          label="Room"
+          class="short_input"
+          prop="room">
+          <el-select
+            v-model="item.room"
+            value-key="id"
+            filterable>
+            <el-option-group
+              v-for="location in locations"
+              v-if="location.rooms.data.length > 0"
+              :key="location.id"
+              :label="location.name">
+              <el-option
+                v-for="room in location.rooms.data"
+                :key="room.id"
+                :label="room.name"
+                :value="room" />
+            </el-option-group>
+          </el-select>
+        </el-form-item>
+      </form-col>
+    </form-row>
+
   </div>
 </template>
 
 <script>
+import api from 'utils/api'
+
 export default {
   name: 'ItemFormFields',
 
   components: {
-
+    FormRow: () => import(/* webpackChunkName: "form-row" */'components/layout/FormRow'),
+    FormCol: () => import(/* webpackChunkName: "form-col" */'components/layout/FormCol')
   },
 
   props: {
     item: {
       required: true,
       type: Object
+    },
+    schoolId: {
+      type: String,
+      required: true
     }
   },
 
   data () {
     return {
-
+      categories: [],
+      makes: [],
+      locations: []
     }
   },
 
@@ -75,11 +174,55 @@ export default {
   },
 
   mounted () {
-
+    this.getCategories()
+    this.getMakes()
+    this.getLocations()
   },
 
   methods: {
+    getCategories () {
+      api.get({
+        path: 'item-categories',
+        params: {
+          orderBy: 'name',
+          limit: 1000 * 1000,
+          ascending: 1
+        }
+      })
+        .then((data) => {
+          this.categories = data.data
+        })
+    },
 
+    getMakes () {
+      api.get({
+        path: 'makes',
+        params: {
+          orderBy: 'name',
+          limit: 1000 * 1000,
+          ascending: 1
+        }
+      })
+        .then((data) => {
+          this.makes = data.data
+        })
+    },
+
+    getLocations () {
+      api.get({
+        path: 'buildings',
+        params: {
+          orderBy: 'name',
+          limit: 1000 * 1000,
+          ascending: 1,
+          with: ['rooms'],
+          schoolId: this.schoolId
+        }
+      })
+        .then((data) => {
+          this.locations = data.data
+        })
+    }
   }
 }
 </script>

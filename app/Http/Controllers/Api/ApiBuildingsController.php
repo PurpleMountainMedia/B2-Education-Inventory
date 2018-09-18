@@ -39,9 +39,21 @@ class ApiBuildingsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Building $building)
     {
-        //
+        $this->validate($request, [
+            'data.name' => 'required',
+            'schoolId' => 'required',
+            'data.type' => 'required',
+        ]);
+
+        $building = $building->create([
+            'name' => $request->input('data.name'),
+            'type' => $request->input('data.type'),
+            'school_id' => $request->schoolId,
+        ]);
+
+        return new BuildingResource($building->load($request->with ?: []));
     }
 
     /**
@@ -66,7 +78,7 @@ class ApiBuildingsController extends Controller
     {
         $this->validate($request, [
             'data.name' => 'required',
-            'data.type' => 'required'
+            'data.type' => 'required',
         ]);
 
         $building->update([

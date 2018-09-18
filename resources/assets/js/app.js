@@ -76,6 +76,9 @@ const app = new Vue({
     ListReports: () => import(/* webpackChunkName: "list-reports" */'components/reports/ListReports'),
     ReportEditForm: () => import(/* webpackChunkName: "report-edit-form" */'components/reports/ReportEditForm'),
     UserLogout: () => import(/* webpackChunkName: "user-logout" */'components/UserLogout'),
-    ShowItemGroup: () => import(/* webpackChunkName: "show-item-group" */'components/items/ShowItemGroup')
+    ShowItemGroup: () => import(/* webpackChunkName: "show-item-group" */'components/items/ShowItemGroup'),
+    AddNewBuildingButton: () => import(/* webpackChunkName: "add-new-building-button" */'components/buildings/AddNewBuildingButton'),
+    AddNewRoomButton: () => import(/* webpackChunkName: "add-new-room-button" */'components/rooms/AddNewRoomButton'),
+    AddNewItemButton: () => import(/* webpackChunkName: "add-new-item-button" */'components/items/AddNewItemButton')
   }
 })

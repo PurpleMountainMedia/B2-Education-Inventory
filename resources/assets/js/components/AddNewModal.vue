@@ -24,7 +24,7 @@
         <slot
           :form="form"
           :formErrors="formErrors"
-          name="form">
+          name="formFields">
           <el-row :gutter="10">
             <p><strong>{{ __('Information') }}</strong></p>
             <hr>
@@ -158,7 +158,6 @@ export default {
     closeModal (ref) {
       this.showModal = false
       this.$refs[ref].resetFields()
-      this.form = {}
       this.formErrors = {}
     },
 
@@ -195,9 +194,15 @@ export default {
               this.loading = false
               this.showModal = false
               this.onUpdate(data.data)
+
+              this.$message({
+                message: `${this.addName}, ${this.__('added!')}`,
+                type: 'success'
+              })
             })
-            .catch(() => {
+            .catch((error) => {
               this.loading = false
+              this.formErrors = error
             })
         } else {
           this.loading = false

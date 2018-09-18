@@ -41,7 +41,19 @@ class ApiRoomsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'schoolId' => 'required',
+            'data.name' => 'required',
+            'data.building.id' => 'required'
+        ]);
+
+        $room = Room::create([
+            'name' => $request->input('data.name'),
+            'type' => $request->input('data.type'),
+            'building_id' => $request->input('data.building.id')
+        ]);
+
+        return new RoomResource($room->load($request->with ?: []));
     }
 
     /**

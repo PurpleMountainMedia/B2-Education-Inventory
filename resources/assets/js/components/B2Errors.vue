@@ -7,10 +7,10 @@
     show-icon>
     <template>
       <template
-        v-for="errors in errors.errors">
+        v-for="(errors, errorKey) in errors.errors">
         <p
           v-for="(message, key) in errors"
-          :key="key"
+          :key="`${errorKey}_${key}`"
           class="el-alert__description">- {{ message }}</p>
       </template>
     </template>

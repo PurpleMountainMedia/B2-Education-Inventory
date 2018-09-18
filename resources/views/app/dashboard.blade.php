@@ -24,11 +24,7 @@
       <el-col :md="{span: 5, offset: 4}">
         <h1 class="text-center"><i class="fal fa-2x fa-building"></i></h1>
 
-        <add-new-modal add-name="@buildingName(true)"
-                       data-url="buildings"
-                       :button="{text: 'New @buildingName(true)', size: 'large', class: 'w-100'}"
-                       :modal="{title: 'New @buildingName(true)'}">
-        </add-new-modal>
+        <add-new-building-button school-id="{{ session('school')['id'] }}"></add-new-building-button>
 
         <a href="{{ route('web.buildings.index') }}" title="@buildingsName()">
           <el-button icon="el-icon-view" class="w-100 mt-sm">@lang('dashboard.view_all') @buildingsName()</el-button>
@@ -37,11 +33,9 @@
 
       <el-col :md="{span: 5}">
         <h1 class="text-center"><i class="fal fa-2x fa-door-open"></i></h1>
-        <add-new-modal add-name="@roomName(true)"
-                       data-url="rooms"
-                       :button="{text: 'New @roomName(true)', size: 'large', class: 'w-100'}"
-                       :modal="{title: 'New @roomName(true)'}">
-        </add-new-modal>
+
+        <add-new-room-button school-id="{{ session('school')['id'] }}"></add-new-room-button>
+
         <a href="{{ route('web.rooms.index') }}" title="@roomsName()">
           <el-button icon="el-icon-view" class="w-100 mt-sm">@lang('dashboard.view_all') @roomsName()</el-button>
         </a>
@@ -49,10 +43,8 @@
 
         <el-col :md="{span: 5}">
             <h1 class="text-center"><i class="fal fa-2x fa-laptop"></i></h1>
-            <add-new-modal add-name="@itemName(true)"
-                           data-url="items"
-                           :button="{text: 'New @itemName(true)', size: 'large', class: 'w-100'}"
-                           :modal="{title: 'New @itemName(true)'}"></add-new-modal>
+            <add-new-item-button school-id="{{ session('school')['id'] }}"></add-new-item-button>
+
             <a href="{{ route('web.items.index') }}" title="@itemsName()">
                 <el-button icon="el-icon-view" class="w-100 mt-sm">@lang('dashboard.view_all') @itemsName()</el-button>
             </a>

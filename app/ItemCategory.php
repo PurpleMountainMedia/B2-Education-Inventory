@@ -25,6 +25,13 @@ class ItemCategory extends Model
         return $this->hasMany('App\Item');
     }
 
+    public function responsableOrderByAlias()
+    {
+        return [
+          'name' => 'name'
+        ];
+    }
+
     /**
      * The make of the item category.
      *

@@ -83,8 +83,18 @@ class ApiItemsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required'
+            'data.name' => 'required',
+            'data.category.id' => 'required',
+            'data.room.id' => 'required',
         ]);
+
+        $item = Item::create([
+            'name' => $request->input('data.name'),
+            'item_category_id' => $request->input('data.category.id'),
+            'room_id' => $request->input('data.room.id'),
+        ]);
+
+        return new ItemResource($item->load($request->with ?: []));
     }
 
     /**

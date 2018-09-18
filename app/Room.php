@@ -40,6 +40,13 @@ class Room extends Model
         ];
     }
 
+    public function responsableOrderByAlias()
+    {
+        return [
+          'name' => 'name'
+        ];
+    }
+
     /**
     * The building that the room belongs to.
     *

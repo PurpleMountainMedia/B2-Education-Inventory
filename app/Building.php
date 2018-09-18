@@ -40,6 +40,13 @@ class Building extends Model
         ];
     }
 
+    public function responsableOrderByAlias()
+    {
+        return [
+          'name' => 'name'
+        ];
+    }
+
     /**
     * Scope buildings by a school ID.
     *

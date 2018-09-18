@@ -20,5 +20,6 @@
     "Delete Filter": "Delete Filter",
     "Filter By": "Filter By",
     "Search for attribute": "Search for attribute",
-    "delete_confirm": "Confirm delete?"
+    "delete_confirm": "Confirm delete?",
+    "type_required": "Type is required."
 }
