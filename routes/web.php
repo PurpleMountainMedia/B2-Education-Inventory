@@ -39,6 +39,7 @@ Route::middleware('needs_school')->group(function () {
     // Reports
     Route::get('reports', 'ReportsController@index')->name('web.reports.index');
     Route::get('reports/{report}', 'ReportsController@show')->name('web.reports.show');
+    Route::get('reports/{report}/print', 'ReportsController@print')->name('web.reports.print');
 
     // School Session
     Route::post('session', 'SessionController@change')->name('web.session');

@@ -1,13 +1,15 @@
 <template lang="html">
   <div>
     <edit-form
+      :form="item"
       :data-url="`items/${itemId}`"
       :index-url="indexUrl"
       :request-includes="['items.extra', 'items.timestamps']"
-      :request-with="['createdBy']"
+      :request-with="['createdBy', 'itemCategory', 'make', 'room.building']"
       :title="(data) => { return data.name }"
       :tag="(data) => { return data.description }"
-      :breadcrumbs="breadcrumbs">
+      :breadcrumbs="breadcrumbs"
+      :format-data="formatData">
 
       <div
         slot="aboveCard"
@@ -43,7 +45,18 @@
       <el-card
         slot="belowCard"
         slot-scope="slotProps"
-        class="mt"/>
+        class="mt">
+        <el-form
+          ref="editForm"
+          :model="slotProps.data"
+          label-position="top">
+          <item-form-fields :item="slotProps.data"/>
+          <el-button
+            type="primary"
+            @click="slotProps.save">{{ __('Save') }}
+          </el-button>
+        </el-form>
+      </el-card>
 
     </edit-form>
 
@@ -57,7 +70,8 @@ export default {
   components: {
     EditForm: () => import(/* webpackChunkName: "edit-form" */'components/EditForm'),
     LayoutCenterPage: () => import(/* webpackChunkName: "layout-center-page" */'components/layout/LayoutCenterPage'),
-    ObjectInformation: () => import(/* webpackChunkName: "object-information" */'components/ObjectInformation')
+    ObjectInformation: () => import(/* webpackChunkName: "object-information" */'components/ObjectInformation'),
+    ItemFormFields: () => import(/* webpackChunkName: "item-form-fields" */'components/items/ItemFormFields')
   },
 
   props: {
@@ -78,7 +92,21 @@ export default {
 
   data () {
     return {
-      item: {}
+      item: {
+        category: {},
+        make: {},
+        room: {},
+        building: {}
+      }
+    }
+  },
+
+  methods: {
+    formatData (data, cb) {
+      if (!data.make) {
+        data.make = {}
+      }
+      cb(data)
     }
   }
 }

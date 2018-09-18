@@ -21,7 +21,9 @@
       </el-col>
     </el-row>
 
-    <el-row :gutter="10">
+    <el-row
+      v-if="!hideType"
+      :gutter="10">
       <el-col
         :span="18"
         :offset="4">
@@ -34,7 +36,8 @@
             <el-option
               v-for="(type, key) in reportTypes"
               :key="key"
-              :value="type"/>
+              :value="type.value"
+              :label="type.label" />
           </el-select>
         </el-form-item>
       </el-col>
@@ -61,15 +64,15 @@
         :offset="4">
         <el-form-item
           :label="__('Repeat Every')"
-          :rules="[{required: true, message: __('repeat_every_required')}]"
-          :error="formErrors.repeat_every"
-          prop="repeat_every">
+          :rules="[{required: true, message: __('repeatEvery_required')}]"
+          :error="formErrors.repeatEvery"
+          prop="repeatEvery">
           <el-input-number
-            v-model="form.repeat_every"
+            v-model="form.repeatEvery"
             :min="1"
             controls-position="right"/>
 
-          <el-select v-model="form.repeat_every_unit">
+          <el-select v-model="form.repeatEveryUnit">
             <el-option
               v-for="(unit, key) in repeatUnits"
               :key="key"
@@ -94,12 +97,30 @@ export default {
     formErrors: {
       required: true,
       type: Object
+    },
+    hideType: {
+      required: false,
+      type: Boolean,
+      default: () => { return false }
     }
   },
 
   computed: {
     reportTypes () {
-      return ['Item', 'Room', 'Building']
+      return [
+        {
+          label: 'Item',
+          value: 'items'
+        },
+        {
+          label: 'Room',
+          value: 'rooms'
+        },
+        {
+          label: 'Building',
+          value: 'buildings'
+        }
+      ]
     },
 
     repeatUnits () {

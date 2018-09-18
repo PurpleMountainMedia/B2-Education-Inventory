@@ -48,6 +48,7 @@
       </el-card>
       <slot
         :data="data"
+        :save="persistData"
         name="belowCard"/>
     </layout-center-page>
   </div>
@@ -108,6 +109,16 @@ export default {
       type: Function,
       required: false,
       default: (data) => {}
+    },
+    form: {
+      type: Object,
+      required: false,
+      default: () => { return {} }
+    },
+    formatData: {
+      type: Function,
+      required: false,
+      default: (data, cb) => { cb(data) }
     }
   },
 
@@ -130,6 +141,7 @@ export default {
   },
 
   mounted () {
+    this.data = this.form
     this.getData()
   },
 
@@ -144,7 +156,9 @@ export default {
       })
         .then((data) => {
           this.loading = false
-          this.data = data.data
+          this.formatData(data.data, (data) => {
+            this.data = data
+          })
         })
         .catch((error) => {
           this.loading = false
@@ -169,7 +183,9 @@ export default {
           })
             .then((data) => {
               this.loading = false
-              this.data = data.data
+              this.formatData(data.data, (data) => {
+                this.data = data
+              })
               this.onUpdate(this.data)
 
               this.$message({

@@ -8,6 +8,7 @@ use App\Item;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Report as ReportResource;
+use App\Services\ReportService;
 
 class ApiReportsController extends Controller
 {
@@ -38,7 +39,7 @@ class ApiReportsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, ReportService $reportService)
     {
         $this->validate($request, [
             'data.name' => 'required',
@@ -48,11 +49,14 @@ class ApiReportsController extends Controller
         $report = Report::create([
             'name' => $request->input('data.name'),
             'type' => $request->input('data.type'),
+            'template' => 'standard',
             'school_id' => $request->schoolId,
-            'data' => Item::inSchool($request->schoolId)->with(['room.building', 'createdBy', 'itemCategory'])->get(),
+            'data' => $reportService->getDataFromQuery($request->input('data.type'), $request->reportQuery),
+            'query' => $request->reportQuery,
             'created_by' => Auth::user()->id,
             'notifications' => true,
-            'repeat_every' => 0
+            'repeat_every' => $request->input('data.repeatEvery'),
+            'repeat_every_unit' => 'Days'
         ]);
 
         return new ReportResource($report->load($request->with ?: []));

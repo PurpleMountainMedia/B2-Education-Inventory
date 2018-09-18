@@ -9,7 +9,7 @@
         :size="mergedButton.size"
         :icon="mergedButton.icon"
         :class="mergedButton.class"
-        type="primary"
+        :type="mergedButton.type"
         @click="openModal">{{ mergedButton.text }}
       </el-button>
     </slot>
@@ -107,6 +107,11 @@ export default {
       type: Function,
       required: false,
       default: (data) => {}
+    },
+    form: {
+      type: Object,
+      required: false,
+      default: () => { return {} }
     }
   },
 
@@ -115,13 +120,13 @@ export default {
       defaultButton: {
         text: this.__('Add'),
         icon: 'el-icon-circle-plus',
-        size: 'small'
+        size: 'small',
+        type: 'primary'
       },
       defaultModal: {
         title: this.__('Add')
       },
       showModal: false,
-      form: {},
       formErrors: {},
       loading: false
     }

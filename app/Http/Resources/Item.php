@@ -27,7 +27,8 @@ class Item extends JsonResource
             'missing_at' => $this->when(requestIncludes('items.extra'), $this->missing_at),
 
             'room' => new Room($this->whenLoaded('room')),
-
+            'make' => new Make($this->whenLoaded('make')),
+            'category' => new ItemCategory($this->whenLoaded('itemCategory')),
             'created_by' => new User($this->whenLoaded('createdBy')),
 
             'created_at' => $this->when(requestIncludes('items.timestamps'), $this->created_at),

@@ -5,14 +5,17 @@
       :request-params="mergedRequestParams"
       :options="tableOptions"
       :request-includes="['items.extra']"
-      :request-with="['room.building']"
+      :request-with="['room.building', 'itemCategory', 'make']"
       :url="tableUrl"
+      report-type="items"
       type-name="item">
       <template slot="aboveTableRow">
-        <el-checkbox
+        <el-button
           v-if="allowGrouped"
-          v-model="grouped">{{ __('Grouped') }}
-        </el-checkbox>
+          :icon="grouped ? 'el-icon-remove' : 'el-icon-circle-plus'"
+          type="text"
+          @click="grouped = !grouped">{{ grouped ? __('Un-Group Items') : __('Group Items') }}
+        </el-button>
       </template>
       <template
         slot="actionButtons"
@@ -141,8 +144,24 @@ export default {
             label: this.__('Name')
           },
           {
+            prop: 'make.name',
+            label: this.__('Make')
+          },
+          {
             prop: 'description',
             label: this.__('Description')
+          },
+          {
+            prop: 'category.name',
+            label: this.__('Category')
+          },
+          {
+            prop: 'serial_number',
+            label: this.__('Serial')
+          },
+          {
+            prop: 'purchase_price',
+            label: this.__('Cost')
           },
           {
             prop: 'room.name',
@@ -153,6 +172,14 @@ export default {
             prop: 'room.building.name',
             label: this.ucFirst(this.eiDefaults['building_name']),
             formatter: (row) => { return <a href={row.room.building ? row.room.building.links.url : null}>{row.room.building ? row.room.building.name : null}</a> }
+          },
+          {
+            prop: 'missing_at',
+            label: this.__('Missing')
+          },
+          {
+            prop: 'write_off',
+            label: this.__('Write Off')
           }
         ]
       }

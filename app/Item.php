@@ -16,7 +16,7 @@ class Item extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at', 'missing_at'];
+    protected $dates = ['deleted_at', 'missing_at', 'write_off'];
 
     /**
      * The attributes that are mass assignable.

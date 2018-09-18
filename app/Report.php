@@ -18,8 +18,8 @@ class Report extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'created_by', 'school_id', 'type', 'name', 'repeat_every',
-        'notifications', 'data', 'created_at', 'updated_at'
+        'id', 'created_by', 'school_id', 'type', 'name', 'repeat_every', 'repeat_every_unit',
+        'notifications', 'data', 'created_at', 'updated_at', 'query', 'template'
     ];
 
     /**
@@ -28,8 +28,16 @@ class Report extends Model
       * @var array
       */
     protected $casts = [
-         'data' => 'collection',
+        'data' => 'collection',
+        'query' => 'array',
     ];
+
+    public function additionalLinks()
+    {
+        return [
+            'print' => route('web.reports.print', $this)
+        ];
+    }
 
     /**
      * Scope items by a school ID.

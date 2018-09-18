@@ -5,6 +5,17 @@
         <b2-errors :errors="errors" />
       </el-col>
     </el-row>
+    <el-row
+      v-if="reportType"
+      class="mb-sm">
+      <el-col>
+        <add-new-report-button
+          :query="internalRequestParams"
+          :on-update="handleReportCreation"
+          :type="reportType"
+          button-type="lowProfile"/>
+      </el-col>
+    </el-row>
     <el-row align="middle">
       <el-col :sm="12">
         <el-input
@@ -118,7 +129,8 @@ export default {
 
   components: {
     FiltersList: () => import(/* webpackChunkName: "filters-list" */'components/FiltersList'),
-    B2Errors: () => import(/* webpackChunkName: "b2-errors" */'components/B2Errors')
+    B2Errors: () => import(/* webpackChunkName: "b2-errors" */'components/B2Errors'),
+    AddNewReportButton: () => import(/* webpackChunkName: "add-new-report-button" */'components/reports/AddNewReportButton')
   },
 
   mixins: [vueUrlParameters],
@@ -190,6 +202,11 @@ export default {
           }
         ]
       }
+    },
+    reportType: {
+      required: false,
+      type: String,
+      default: () => { return null }
     }
   },
 
@@ -261,6 +278,24 @@ export default {
         ...this.defaultOptions,
         ...this.options
       }
+    },
+
+    internalRequestParams () {
+      var params = {
+        with: this.requestWith,
+        withCount: this.requestWithCount,
+        include: this.requestIncludes,
+        limit: this.paginationMeta.perPage,
+        ascending: this.paginationMeta.ascending,
+        orderBy: this.paginationMeta.orderBy,
+        page: this.paginationMeta.currentPage,
+        search: this.search,
+        filters: this.filters
+      }
+      return {
+        ...params,
+        ...this.requestParams
+      }
     }
   },
 
@@ -309,21 +344,10 @@ export default {
   methods: {
     getData: throttle(function () {
       this.loading = true
-      const params = Object.assign(this.requestParams, {
-        with: this.requestWith,
-        withCount: this.requestWithCount,
-        include: this.requestIncludes,
-        limit: this.paginationMeta.perPage,
-        ascending: this.paginationMeta.ascending,
-        orderBy: this.paginationMeta.orderBy,
-        page: this.paginationMeta.currentPage,
-        search: this.search,
-        filters: this.filters
-      })
 
       api.get({
         path: this.url,
-        params: params
+        params: this.internalRequestParams
       })
         .then(data => {
           this.loading = false
@@ -361,6 +385,13 @@ export default {
 
             this.$set(this.internalData, index, e.item)
           })
+      }
+    },
+
+    handleReportCreation (data) {
+      var url = data.links ? data.links.url : null
+      if (url) {
+        window.location = url
       }
     },
 

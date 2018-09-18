@@ -13,10 +13,9 @@
         slot="aboveCard"
         slot-scope="slotProps"
         class="mb-sm">
-        <el-button
-          size="mini"
-          plain
-          type="info">{{ __('Print Report') }}</el-button>
+        <print-button
+          v-if="slotProps.data.links"
+          :url="slotProps.data.links.print"/>
       </div>
 
       <template
@@ -53,7 +52,8 @@ export default {
     EditForm: () => import(/* webpackChunkName: "edit-form" */'components/EditForm'),
     LayoutCenterPage: () => import(/* webpackChunkName: "layout-center-page" */'components/layout/LayoutCenterPage'),
     ObjectInformation: () => import(/* webpackChunkName: "object-information" */'components/ObjectInformation'),
-    ReportDataTable: () => import(/* webpackChunkName: "report-data-table" */'components/reports/ReportDataTable')
+    ReportDataTable: () => import(/* webpackChunkName: "report-data-table" */'components/reports/ReportDataTable'),
+    PrintButton: () => import(/* webpackChunkName: "print-button" */'components/PrintButton')
   },
 
   props: {

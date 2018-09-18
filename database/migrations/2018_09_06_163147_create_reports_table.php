@@ -19,8 +19,11 @@ class CreateReportsTable extends Migration
             $table->uuid('school_id')->nullable()->default(null);
             $table->uuid('parent_id')->nullable()->default(null);
             $table->string('type')->nullable()->default(null);
+            $table->string('template')->nullable()->default(null);
+            $table->json('query')->nullable()->default(null);
             $table->string('name')->nullable()->default(null);
             $table->integer('repeat_every');
+            $table->string('repeat_every_unit');
             $table->boolean('notifications');
             $table->json('data');
             $table->softDeletes();

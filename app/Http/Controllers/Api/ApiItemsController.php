@@ -112,7 +112,10 @@ class ApiItemsController extends Controller
         ]);
 
         $item->update([
-            'name' => $request->input('data.name')
+            'name' => $request->input('data.name'),
+            'description' => $request->input('data.description'),
+            'serial' => $request->input('data.serial'),
+            'purchase_price' => $request->input('data.purchase_price'),
         ]);
 
         return new ItemResource($item->load($request->with ?: []));

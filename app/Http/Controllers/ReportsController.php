@@ -34,4 +34,16 @@ class ReportsController extends Controller
     {
         return view('app.reports.show', compact('report'));
     }
+
+    /**
+     * Print a specific report
+     *
+     * @var Request $request
+     * @var App\Report $report
+     * @return Response
+     */
+    public function print(Request $request, Report $report)
+    {
+        return view('app.reports.print', compact('report'));
+    }
 }

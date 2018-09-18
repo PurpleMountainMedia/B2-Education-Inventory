@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Traits;
+
 use Carbon\Carbon;
+use App\Resources\Filter;
 
 trait ResponsableTrait
 {
@@ -14,19 +16,24 @@ trait ResponsableTrait
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeBasicResponse($query, $orderBy = null)
+    public function scopeBasicResponse($query, $orderBy = null, $useResponseAdapter = true, $requestSearch = null)
     {
-        $request = request();
+        if (!$requestSearch) {
+            $request = request();
+            $requestSearch = $request->search;
+        }
 
-        if ($request->filled('search') && !empty($this->responsableSearch())) {
-            $query->where(function ($query) use ($request) {
+        if (!empty($requestSearch) && !empty($this->responsableSearch())) {
+            $query->where(function ($query) use ($requestSearch) {
                 foreach ($this->responsableSearch() as $key => $search) {
-                    $query->orWhere("{$this->getTable()}.{$search}", 'like', '%' . $request->search . '%');
+                    $query->orWhere("{$this->getTable()}.{$search}", 'like', '%' . $requestSearch . '%');
                 }
             });
         }
 
-        $query = $query->responseAdapter($orderBy);
+        if ($useResponseAdapter) {
+            $query = $query->responseAdapter($orderBy);
+        }
 
         return $query;
     }
@@ -60,14 +67,21 @@ trait ResponsableTrait
                      ->paginate($limit);
     }
 
-    public function scopeFilterable($query)
+    public function scopeFilterable($query, $filters = null)
     {
         $this->self = str_plural(strtolower(str_replace("App\\", "", static::class))) ?? '';
         $request = request();
-        $filters = ($request->filters && is_array($request->filters)) ? $request->filters : [];
+        if (!$filters) {
+            $filters = ($request->filters && is_array($request->filters)) ? $request->filters : [];
+        }
 
         foreach ($filters ?? [] as $key => $filter) {
-            $filter = json_decode($filter);
+            if (is_array($filter)) {
+                $filter = new Filter($filter);
+            } else {
+                $filter = json_decode($filter);
+            }
+
             $operator = camel_case($filter->operator);
             $capsOperator = ucFirst($operator);
             $methodName = "filter{$capsOperator}";
