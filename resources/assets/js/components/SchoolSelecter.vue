@@ -16,6 +16,7 @@
         v-model="school"
         :class="selecterClass"
         :size="selecterSize"
+        :placeholder="selecterPlaceholder"
         filterable
         name="school[name]"
         value-key="id"
@@ -55,6 +56,11 @@ export default {
       type: String,
       required: false,
       default: () => { return 'small' }
+    },
+    selecterPlaceholder: {
+      type: String,
+      required: false,
+      default: () => { return 'Select' }
     },
     selecterClass: {
       type: String,

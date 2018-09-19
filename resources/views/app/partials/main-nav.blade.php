@@ -1,6 +1,13 @@
 <div class="main_menu_wrap" id="main_menu">
     <div class="main_menu_left">
         <main-menu>
+
+            <template slot="logo" slot-scope="props">
+                <div class="main_menu_logo">
+                    <img src="./img/combined_logo.png">
+                </div>
+            </template>
+
             <template slot="links" slot-scope="props">
                 <ul :class="props.showNav ? 'main_menu_nav' : 'main_menu_nav --hide'">
                     <li class="main_nav_link @if(Request::url() === route('web.dashboard.index'))--active @endif">
@@ -37,28 +44,37 @@
                 </ul>
             </template>
 
+            <template slot="user" slot-scope="props">
+                <div :class="props.showNav ? 'main_menu_account' : 'main_menu_account --hide'">
+                    <img src="http://via.placeholder.com/350x350" alt="{{ Auth::user()->name }}" class="account_img">
+                    <a class="account_link" href="#">{{ Auth::user()->name }}</a>
+
+                    <a class="account_logout" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
+                        <i class="far fa-power-off"></i> {{ __('Logout') }}
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+
+                    <school-selecter :data='@json(Auth::User()->organisationsWithSchools())'
+                                     csrf-token='{{ csrf_token() }}'
+                                     selecter-placeholder='Switch Schools'
+                                     selecter-size="small"
+                                     form-url='{{ route('web.session') }}'>
+                    </school-selecter>
+
+                </div>
+            </template>
+
             <template slot="button" slot-scope="props">
                 <div class="mobile_nav_burger">
                     <i class="far fa-bars" @click="props.openMenu"></i>
                 </div>
             </template>
 
-
-            {{-- <div class="main_menu_account">
-                <img src="http://via.placeholder.com/350x350" alt="{{ Auth::user()->name }}" class="account_img">
-                <a class="account_link" href="#">{{ Auth::user()->name }}</a>
-
-
-                <a class="account_logout" href="{{ route('logout') }}"
-                   onclick="event.preventDefault();
-                                 document.getElementById('logout-form').submit();">
-                    <i class="far fa-power-off"></i> {{ __('Logout') }}
-                </a>
-
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            </div> --}}
         </main-menu>
     </div>
 </div>

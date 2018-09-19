@@ -1,11 +1,15 @@
 <template>
-  <div>
+  <div class="main_menu_drop">
+    <slot name="logo"/>
     <slot
       :showNav="showNav"
       name="links"/>
     <slot
       :openMenu="openMenu"
       name="button"/>
+    <slot
+      :showNav="showNav"
+      name="user"/>
   </div>
 </template>
 

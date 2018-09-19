@@ -23,7 +23,7 @@
   <body>
 
       <div id="app" class="wrap">
-          @component('app.components.main-nav')
+          @component('app.partials.main-nav')
           @endcomponent
 
           <div class="app_inner">
