@@ -38,6 +38,12 @@
     <button slot="text" slot-scope="scope" @click="scope.submit">Log Off</button>
   </user-logout> --}}
 
+  {{-- <school-selecter :data='@json(Auth::User()->organisationsWithSchools())'
+                   csrf-token='{{ csrf_token() }}'
+                   selecter-size="medium"
+                   form-url='{{ route('web.session') }}'>
+  </school-selecter> --}}
+
   <layout-center-page class="mt">
     <el-row :gutter="10">
       <el-col :md="{span: 8}">
