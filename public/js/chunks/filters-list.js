@@ -54,7 +54,7 @@ exports.default = {
       var can = true;
       this.filters.forEach(function (filter) {
         if (_filters2.default.hasValue(filter)) {
-          can = false;
+          // can = false
         }
       });
       return can;

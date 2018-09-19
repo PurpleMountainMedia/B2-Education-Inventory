@@ -18,7 +18,19 @@
 
   <layout-center-page class="mt">
     <help-card title="@lang('dashboard.introduction')"
-               help-id="general_help">
+               help-id="general_help"
+               video-link="https://www.youtube.com/embed/TiMVsHwji_w"
+               :list="[
+                 {
+                   text: 'View user information and switch schools.',
+                 },
+                 {
+                   text: 'Create Buildings, Rooms, Items and Reports.',
+                 },
+                 {
+                   text: 'Click through to view resources.',
+                 }
+               ]">
     </help-card>
   </layout-center-page>
 

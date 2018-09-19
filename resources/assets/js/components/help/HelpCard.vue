@@ -15,9 +15,9 @@
         <el-col :md="12">
           <iframe
             v-if="videoLink"
-            :src="videoLink"
+            :src="`${videoLink}?rel=0&amp;showinfo=0`"
             width="100%"
-            height="200"
+            height="220"
             frameborder="0"
             allow="autoplay; encrypted-media"/>
         </el-col>
@@ -29,9 +29,9 @@
               :key="key">
               <a
                 v-if="item.link"
-                :href="item.link">{{ item.text }}
+                :href="item.link"><strong>{{ key+1 }}.</strong> {{ item.text }}
               </a>
-              <span v-else>{{ item.text }}</span>
+              <span v-else><strong>{{ key+1 }}.</strong> {{ item.text }}</span>
             </li>
           </ul>
         </el-col>

@@ -78,7 +78,7 @@ export default {
       var can = true
       this.filters.forEach((filter) => {
         if (filters.hasValue(filter)) {
-          can = false
+          // can = false
         }
       })
       return can

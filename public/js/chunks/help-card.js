@@ -393,9 +393,9 @@ var render = function() {
                 _vm.videoLink
                   ? _c("iframe", {
                       attrs: {
-                        src: _vm.videoLink,
+                        src: _vm.videoLink + "?rel=0&showinfo=0",
                         width: "100%",
-                        height: "200",
+                        height: "220",
                         frameborder: "0",
                         allow: "autoplay; encrypted-media"
                       }
@@ -415,9 +415,13 @@ var render = function() {
                     return _c("li", { key: key }, [
                       item.link
                         ? _c("a", { attrs: { href: item.link } }, [
-                            _vm._v(_vm._s(item.text) + "\n            ")
+                            _c("strong", [_vm._v(_vm._s(key + 1) + ".")]),
+                            _vm._v(" " + _vm._s(item.text) + "\n            ")
                           ])
-                        : _c("span", [_vm._v(_vm._s(item.text))])
+                        : _c("span", [
+                            _c("strong", [_vm._v(_vm._s(key + 1) + ".")]),
+                            _vm._v(" " + _vm._s(item.text))
+                          ])
                     ])
                   })
                 )
