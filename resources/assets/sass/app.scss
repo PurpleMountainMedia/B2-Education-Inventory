@@ -130,14 +130,13 @@ a:visited {
             width: auto;
         }
     }
-
     ul.main_menu_nav {
         list-style: none;
         -webkit-padding-start: 0;
         -webkit-margin-before: 0;
         -webkit-margin-after: 0;
         height: 100vh;
-        padding-top: $mobile_nav_height;
+        border-top: $mobile_nav_height solid $accent;
         background: $primary;
     }
     ul.main_menu_nav.--hide {
