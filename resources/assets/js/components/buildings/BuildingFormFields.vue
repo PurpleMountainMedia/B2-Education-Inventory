@@ -1,9 +1,7 @@
 <template lang="html">
   <div>
-    <el-row :gutter="10">
-      <el-col
-        :span="18"
-        :offset="4">
+    <form-row>
+      <form-col>
         <el-form-item
           :rules="[{required: true, message: __('name_required')}]"
           :error="errors.name"
@@ -13,13 +11,11 @@
             ref="buildingName"
             v-model="form.name"/>
         </el-form-item>
-      </el-col>
-    </el-row>
+      </form-col>
+    </form-row>
 
-    <el-row :gutter="10">
-      <el-col
-        :span="18"
-        :offset="4">
+    <form-row>
+      <form-col>
         <el-form-item
           :rules="[{required: true, message: __('type_required')}]"
           :error="errors.type"
@@ -33,17 +29,21 @@
               :key="key" />
           </el-select>
         </el-form-item>
-      </el-col>
-    </el-row>
+      </form-col>
+    </form-row>
   </div>
 </template>
 
 <script>
+import FormRow from 'components/layout/FormRow'
+import FormCol from 'components/layout/FormCol'
+
 export default {
   name: 'BuildingFormFields',
 
   components: {
-
+    FormRow,
+    FormCol
   },
 
   props: {

@@ -14,16 +14,21 @@
         <el-form-item
           :label="__('Name')"
           prop="name">
-          <el-input v-model="item.name"/>
+          <el-input
+            ref="itemName"
+            v-model="item.name"
+            :placeholder="__('Laptop')"/>
         </el-form-item>
       </form-col>
       <form-col
         :span="9"
         :first="false">
         <el-form-item
-          :label="__('Description')"
+          :label="__('Description / Model')"
           prop="description">
-          <el-input v-model="item.description"/>
+          <el-input
+            v-model="item.description"
+            :placeholder="__('EliteBook 850')"/>
         </el-form-item>
       </form-col>
     </form-row>
@@ -36,6 +41,7 @@
           prop="category">
           <el-select
             v-model="item.category"
+            :placeholder="__('IT Equipment')"
             filterable
             value-key="id">
             <el-option
@@ -93,7 +99,9 @@
           label="Cost"
           class="short_input"
           prop="purchase_price">
-          <el-input v-model="item.purchase_price"/>
+          <el-input v-model="item.purchase_price">
+            <template slot="prepend">£</template>
+          </el-input>
         </el-form-item>
       </form-col>
     </form-row>
@@ -137,13 +145,15 @@
 
 <script>
 import api from 'utils/api'
+import FormRow from 'components/layout/FormRow'
+import FormCol from 'components/layout/FormCol'
 
 export default {
   name: 'ItemFormFields',
 
   components: {
-    FormRow: () => import(/* webpackChunkName: "form-row" */'components/layout/FormRow'),
-    FormCol: () => import(/* webpackChunkName: "form-col" */'components/layout/FormCol')
+    FormRow,
+    FormCol
   },
 
   props: {
@@ -177,6 +187,7 @@ export default {
     this.getCategories()
     this.getMakes()
     this.getLocations()
+    this.$refs.itemName.focus()
   },
 
   methods: {

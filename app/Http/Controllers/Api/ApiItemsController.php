@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Item;
+use App\Make;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Item as ItemResource;
@@ -86,12 +87,34 @@ class ApiItemsController extends Controller
             'data.name' => 'required',
             'data.category.id' => 'required',
             'data.room.id' => 'required',
+            'data.purchase_price' => 'integer'
         ]);
+
+        $make_id = null;
+        if ($request->has('data.make')) {
+            if ($request->has('data.make.id')) {
+                $make_id = $request->input('data.make.id');
+            } else {
+                $make = Make::where('name', 'LIKE', '%' . $request->input('data.make') . '%')->first();
+                if (!$make) {
+                    $make = Make::create([
+                        'name' => $request->input('data.make'),
+                        'created_by' => $request->user()->id
+                    ]);
+                }
+                if ($make) {
+                    $make_id = $make->id;
+                }
+            }
+        }
 
         $item = Item::create([
             'name' => $request->input('data.name'),
             'item_category_id' => $request->input('data.category.id'),
             'room_id' => $request->input('data.room.id'),
+            'make_id' => $make_id,
+            'serial_number' => $request->input('data.serial_number'),
+            'purchase_price' => $request->input('data.purchase_price')
         ]);
 
         return new ItemResource($item->load($request->with ?: []));

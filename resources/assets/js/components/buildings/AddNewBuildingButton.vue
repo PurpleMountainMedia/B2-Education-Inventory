@@ -39,6 +39,7 @@ export default {
       return {
         text: `${this.__('New')} ${this.ucFirst(this.eiDefaults['building_name'])}`,
         size: 'large',
+        plain: true,
         class: 'w-100'
       }
     }

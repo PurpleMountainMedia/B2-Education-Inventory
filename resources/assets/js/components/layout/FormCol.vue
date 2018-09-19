@@ -1,7 +1,6 @@
 <template lang="html">
   <el-col
-    :span="span"
-    :offset="first ? 4 : 0">
+    :md="{ offset: first ? 4 : 0, span: span }">
     <slot />
   </el-col>
 </template>

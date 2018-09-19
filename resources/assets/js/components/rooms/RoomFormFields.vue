@@ -65,13 +65,15 @@
 
 <script>
 import api from 'utils/api'
+import FormRow from 'components/layout/FormRow'
+import FormCol from 'components/layout/FormCol'
 
 export default {
   name: 'RoomFormFields',
 
   components: {
-    FormRow: () => import(/* webpackChunkName: "form-row" */'components/layout/FormRow'),
-    FormCol: () => import(/* webpackChunkName: "form-col" */'components/layout/FormCol')
+    FormRow,
+    FormCol
   },
 
   props: {
@@ -118,7 +120,6 @@ export default {
 
   mounted () {
     this.getBuildings()
-    this.getMakes()
     this.$refs.roomName.focus()
   },
 

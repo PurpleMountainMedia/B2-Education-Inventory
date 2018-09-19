@@ -44,6 +44,7 @@ export default {
     button () {
       return {
         text: `${this.__('New')} ${this.ucFirst(this.eiDefaults['item_name'])}`,
+        plain: true,
         size: 'large',
         class: 'w-100'
       }

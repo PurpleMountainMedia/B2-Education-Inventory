@@ -39,6 +39,7 @@ export default {
     button () {
       return {
         text: `${this.__('New')} ${this.ucFirst(this.eiDefaults['room_name'])}`,
+        plain: true,
         size: 'large',
         class: 'w-100'
       }

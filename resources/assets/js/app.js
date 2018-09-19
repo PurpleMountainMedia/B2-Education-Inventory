@@ -79,6 +79,8 @@ const app = new Vue({
     ShowItemGroup: () => import(/* webpackChunkName: "show-item-group" */'components/items/ShowItemGroup'),
     AddNewBuildingButton: () => import(/* webpackChunkName: "add-new-building-button" */'components/buildings/AddNewBuildingButton'),
     AddNewRoomButton: () => import(/* webpackChunkName: "add-new-room-button" */'components/rooms/AddNewRoomButton'),
-    AddNewItemButton: () => import(/* webpackChunkName: "add-new-item-button" */'components/items/AddNewItemButton')
+    AddNewItemButton: () => import(/* webpackChunkName: "add-new-item-button" */'components/items/AddNewItemButton'),
+    HelpCard: () => import(/* webpackChunkName: "help-card" */'components/help/HelpCard'),
+    LayoutCenterPage: () => import(/* webpackChunkName: "layout-center" */'components/layout/LayoutCenterPage')
   }
 })
