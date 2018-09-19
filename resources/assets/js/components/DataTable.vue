@@ -56,6 +56,14 @@
         name="aboveTableRow" />
     </el-row>
 
+    <el-row>
+      <p class="table_meta">
+        Showing <strong>{{ paginationMeta.from }}</strong>
+        To <strong>{{ paginationMeta.from }}</strong>
+        Of <strong>{{ paginationMeta.total }}</strong>
+      </p>
+    </el-row>
+
     <el-table
       :data="tableData"
       class="mt-sm">
@@ -86,12 +94,6 @@
                   :class="btn.icon"/>
               </el-button>
             </a>
-            <el-button
-              size="mini"
-              type="danger"
-              class="action_btn delete_btn"
-              @click="deleteData(scope.row)">{{ __('Delete') }}
-            </el-button>
           </slot>
         </template>
       </el-table-column>
@@ -251,7 +253,9 @@ export default {
         perPage: 0,
         orderBy: 'id',
         ascending: 0,
-        currentPage: 1
+        currentPage: 1,
+        to: 0,
+        from: 0
       },
       search: null,
       filters: [],
@@ -354,6 +358,8 @@ export default {
           this.internalData = data.data
           this.paginationMeta = {
             total: data.meta.total,
+            to: data.meta.to,
+            from: data.meta.from,
             perPage: parseInt(data.meta.per_page),
             currentPage: data.meta.current_page
           }
@@ -425,10 +431,14 @@ export default {
 </script>
 
 <style lang="scss">
-.create_btn, .refresh_btn {
-  float: right;
-}
-.refresh_btn {
-  margin-right: 10px;
-}
+  .create_btn, .refresh_btn {
+    float: right;
+  }
+  .refresh_btn {
+    margin-right: 10px;
+  }
+  p.table_meta {
+      font-size: 12px;
+      margin-bottom: 0px;
+  }
 </style>

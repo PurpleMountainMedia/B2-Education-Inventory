@@ -128,6 +128,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
 
 var _api = __webpack_require__("./resources/assets/js/utils/api.js");
 
@@ -297,7 +299,9 @@ exports.default = {
         perPage: 0,
         orderBy: 'id',
         ascending: 0,
-        currentPage: 1
+        currentPage: 1,
+        to: 0,
+        from: 0
       },
       search: null,
       filters: [],
@@ -394,6 +398,8 @@ exports.default = {
         _this.internalData = data.data;
         _this.paginationMeta = {
           total: data.meta.total,
+          to: data.meta.to,
+          from: data.meta.from,
           perPage: parseInt(data.meta.per_page),
           currentPage: data.meta.current_page
         };
@@ -474,7 +480,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.create_btn, .refresh_btn {\n  float: right;\n}\n.refresh_btn {\n  margin-right: 10px;\n}\n", ""]);
+exports.push([module.i, "\n.create_btn, .refresh_btn {\n  float: right;\n}\n.refresh_btn {\n  margin-right: 10px;\n}\np.table_meta {\n  font-size: 12px;\n  margin-bottom: 0px;\n}\n", ""]);
 
 // exports
 
@@ -4765,6 +4771,17 @@ var render = function() {
       _vm._v(" "),
       _c("el-row", [_vm._t("aboveTableRow")], 2),
       _vm._v(" "),
+      _c("el-row", [
+        _c("p", { staticClass: "table_meta" }, [
+          _vm._v("\n      Showing "),
+          _c("strong", [_vm._v(_vm._s(_vm.paginationMeta.from))]),
+          _vm._v("\n      To "),
+          _c("strong", [_vm._v(_vm._s(_vm.paginationMeta.from))]),
+          _vm._v("\n      Of "),
+          _c("strong", [_vm._v(_vm._s(_vm.paginationMeta.total))])
+        ])
+      ]),
+      _vm._v(" "),
       _c(
         "el-table",
         { staticClass: "mt-sm", attrs: { data: _vm.tableData } },
@@ -4793,59 +4810,38 @@ var render = function() {
                       return [
                         _vm._t(
                           "actionButtons",
-                          [
-                            _vm._l(_vm.mergedOptions.actionLinks, function(
-                              btn,
-                              btnKey
-                            ) {
-                              return _c(
-                                "a",
-                                {
-                                  key: btnKey,
-                                  attrs: { href: btn.urlCallback(scope.row) }
-                                },
-                                [
-                                  _c(
-                                    "el-button",
-                                    {
-                                      staticClass: "action_btn view_btn",
-                                      attrs: {
-                                        size: btn.size ? btn.size : "mini"
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        _vm._s(btn.textCallback(scope.row)) +
-                                          " "
-                                      ),
-                                      btn.icon
-                                        ? _c("i", { class: btn.icon })
-                                        : _vm._e()
-                                    ]
-                                  )
-                                ],
-                                1
-                              )
-                            }),
-                            _vm._v(" "),
-                            _c(
-                              "el-button",
+                          _vm._l(_vm.mergedOptions.actionLinks, function(
+                            btn,
+                            btnKey
+                          ) {
+                            return _c(
+                              "a",
                               {
-                                staticClass: "action_btn delete_btn",
-                                attrs: { size: "mini", type: "danger" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.deleteData(scope.row)
-                                  }
-                                }
+                                key: btnKey,
+                                attrs: { href: btn.urlCallback(scope.row) }
                               },
                               [
-                                _vm._v(
-                                  _vm._s(_vm.__("Delete")) + "\n          "
+                                _c(
+                                  "el-button",
+                                  {
+                                    staticClass: "action_btn view_btn",
+                                    attrs: {
+                                      size: btn.size ? btn.size : "mini"
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      _vm._s(btn.textCallback(scope.row)) + " "
+                                    ),
+                                    btn.icon
+                                      ? _c("i", { class: btn.icon })
+                                      : _vm._e()
+                                  ]
                                 )
-                              ]
+                              ],
+                              1
                             )
-                          ],
+                          }),
                           { row: scope.row, delete: _vm.deleteData }
                         )
                       ]
