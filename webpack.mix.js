@@ -94,4 +94,5 @@ mix.setPublicPath('public')
    .sass('resources/assets/sass/theme.scss', 'public/css')
    .styles(['node_modules/normalize.css/normalize.css'], 'public/css/reset.css')
    .extract(['vue', 'element-ui', 'axios'])
+   .copy('storage/app/public/img', 'public/img')
    .version();
