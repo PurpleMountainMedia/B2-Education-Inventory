@@ -10,9 +10,15 @@
           <span>{{ Auth::User()->name }}</span>
         </el-tooltip>
       </h2>
+
       <p class="text-center text-white">@lang('dashboard.currently_editing')
-        <a class="change_school_link text-white" href="{{ route('web.session') }}"><strong>{{ session('school')['name'] ?? '' }}</strong></a>
+        @if (count(session('school')) >= 3)
+          <a class="change_school_link text-white" href="{{ route('web.session') }}"><strong>{{ session('school')['name'] ?? '' }}</strong></a>
+        @else
+          <strong>{{ session('school')['name'] ?? '' }}</strong>
+        @endif
       </p>
+
     </el-card>
   </layout-center-page>
 
