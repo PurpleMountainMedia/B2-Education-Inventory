@@ -4,41 +4,41 @@
 
             <template slot="logo" slot-scope="props">
                 <div class="main_menu_logo">
-                    <img src="./img/combined_logo.png">
+                    <img src="/img/combined_logo.png">
                 </div>
             </template>
 
             <template slot="links" slot-scope="props">
                 <ul :class="props.showNav ? 'main_menu_nav' : 'main_menu_nav --hide'">
                     <li class="main_nav_link @if(Request::url() === route('web.dashboard.index'))--active @endif">
-                        <a href="{{ route('web.dashboard.index') }}"><i class="fal fa-tachometer-alt"></i> <span>Dashboard</span></a>
+                        <a href="{{ route('web.dashboard.index') }}"><i class="fal fa-tachometer-alt fa-fw"></i> <span>Dashboard</span></a>
                     </li>
 
                     {{-- Buildings  --}}
                     @can ('list', App\Building::class)
                       <li class="main_nav_link @if(Request::url() === route('web.buildings.index'))--active @endif">
-                        <a href="{{ route('web.buildings.index') }}"><i class="fal fa-building"></i> <span>Buildings</span></a>
+                        <a href="{{ route('web.buildings.index') }}"><i class="fal fa-building fa-fw"></i> <span>Buildings</span></a>
                       </li>
                     @endcan
 
                     {{-- Rooms  --}}
                     @can ('list', App\Room::class)
                       <li class="main_nav_link @if(Request::url() === route('web.rooms.index'))--active @endif">
-                        <a href="{{ route('web.rooms.index') }}"><i class="fal fa-door-open"></i> <span>Rooms</span></a>
+                        <a href="{{ route('web.rooms.index') }}"><i class="fal fa-door-open fa-fw"></i> <span>Rooms</span></a>
                       </li>
                     @endcan
 
                     {{-- Items  --}}
                     @can ('list', App\Item::class)
                       <li class="main_nav_link @if(Request::url() === route('web.items.index'))--active @endif">
-                        <a href="{{ route('web.items.index') }}"><i class="fal fa-laptop"></i> <span>Items</span></a>
+                        <a href="{{ route('web.items.index') }}"><i class="fal fa-laptop fa-fw"></i> <span>Items</span></a>
                       </li>
                     @endcan
 
                     {{-- Reports  --}}
                     @can ('list', App\Report::class)
                       <li class="main_nav_link @if(Request::url() === route('web.reports.index'))--active @endif">
-                        <a href="{{ route('web.reports.index') }}"><i class="fal fa-chart-pie"></i> <span>Reports</span></a>
+                        <a href="{{ route('web.reports.index') }}"><i class="fal fa-chart-pie fa-fw"></i> <span>Reports</span></a>
                       </li>
                     @endcan
                 </ul>
